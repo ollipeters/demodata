@@ -1,0 +1,120 @@
+{
+  "provider": "whoscored",
+  "scrapedAt": "2026-01-01T16:37:27.397151+00:00",
+  "teams": {
+    "bayer-leverkusen": {
+      "fixturesUrl": "https://www.whoscored.com/teams/36/fixtures/germany-bayer-leverkusen",
+      "matchUrls": [
+        "https://www.whoscored.com/matches/1910601/live/germany-bundesliga-2025-2026-bayer-leverkusen-hoffenheim",
+        "https://www.whoscored.com/matches/1910608/live/germany-bundesliga-2025-2026-werder-bremen-bayer-leverkusen",
+        "https://www.whoscored.com/matches/1910616/live/germany-bundesliga-2025-2026-bayer-leverkusen-eintracht-frankfurt",
+        "https://www.whoscored.com/matches/1910624/live/germany-bundesliga-2025-2026-bayer-leverkusen-union-berlin",
+        "https://www.whoscored.com/matches/1910629/live/germany-bundesliga-2025-2026-bayer-leverkusen-borussia-m-gladbach",
+        "https://www.whoscored.com/matches/1910640/live/germany-bundesliga-2025-2026-bayer-leverkusen-fc-koln",
+        "https://www.whoscored.com/matches/1910657/live/germany-bundesliga-2025-2026-st-pauli-bayer-leverkusen",
+        "https://www.whoscored.com/matches/1910667/live/germany-bundesliga-2025-2026-rb-leipzig-bayer-leverkusen",
+        "https://www.whoscored.com/matches/1910679/live/germany-bundesliga-2025-2026-mainz-05-bayer-leverkusen",
+        "https://www.whoscored.com/matches/1910693/live/germany-bundesliga-2025-2026-bayer-leverkusen-freiburg",
+        "https://www.whoscored.com/matches/1910712/live/germany-bundesliga-2025-2026-bayern-munich-bayer-leverkusen",
+        "https://www.whoscored.com/matches/1910728/live/germany-bundesliga-2025-2026-bayer-leverkusen-fc-heidenheim",
+        "https://www.whoscored.com/matches/1910761/live/germany-bundesliga-2025-2026-wolfsburg-bayer-leverkusen",
+        "https://www.whoscored.com/matches/1910763/live/germany-bundesliga-2025-2026-bayer-leverkusen-borussia-dortmund",
+        "https://www.whoscored.com/matches/1910780/live/germany-bundesliga-2025-2026-augsburg-bayer-leverkusen"
+      ],
+      "savedFiles": [
+        "bayer-leverkusen/germany-bundesliga-2025-2026-bayer-leverkusen-hoffenheim.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-werder-bremen-bayer-leverkusen.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-bayer-leverkusen-eintracht-frankfurt.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-bayer-leverkusen-union-berlin.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-bayer-leverkusen-borussia-m-gladbach.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-bayer-leverkusen-fc-koln.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-st-pauli-bayer-leverkusen.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-rb-leipzig-bayer-leverkusen.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-mainz-05-bayer-leverkusen.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-bayer-leverkusen-freiburg.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-bayern-munich-bayer-leverkusen.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-bayer-leverkusen-fc-heidenheim.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-wolfsburg-bayer-leverkusen.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-bayer-leverkusen-borussia-dortmund.json",
+        "bayer-leverkusen/germany-bundesliga-2025-2026-augsburg-bayer-leverkusen.json"
+      ],
+      "failedUrls": []
+    },
+    "hamburger-sv": {
+      "fixturesUrl": "https://www.whoscored.com/teams/38/fixtures/germany-hamburger-sv",
+      "matchUrls": [
+        "https://www.whoscored.com/matches/1910602/live/germany-bundesliga-2025-2026-borussia-m-gladbach-hamburger-sv",
+        "https://www.whoscored.com/matches/1910614/live/germany-bundesliga-2025-2026-hamburger-sv-st-pauli",
+        "https://www.whoscored.com/matches/1910615/live/germany-bundesliga-2025-2026-bayern-munich-hamburger-sv",
+        "https://www.whoscored.com/matches/1910630/live/germany-bundesliga-2025-2026-hamburger-sv-mainz-05",
+        "https://www.whoscored.com/matches/1910635/live/germany-bundesliga-2025-2026-hamburger-sv-fc-heidenheim",
+        "https://www.whoscored.com/matches/1910650/live/germany-bundesliga-2025-2026-hoffenheim-hamburger-sv",
+        "https://www.whoscored.com/matches/1910659/live/germany-bundesliga-2025-2026-union-berlin-hamburger-sv",
+        "https://www.whoscored.com/matches/1910664/live/germany-bundesliga-2025-2026-hamburger-sv-eintracht-frankfurt",
+        "https://www.whoscored.com/matches/1910681/live/germany-bundesliga-2025-2026-rb-leipzig-hamburger-sv",
+        "https://www.whoscored.com/matches/1910702/live/germany-bundesliga-2025-2026-hamburger-sv-wolfsburg",
+        "https://www.whoscored.com/matches/1910714/live/germany-bundesliga-2025-2026-fc-koln-hamburger-sv",
+        "https://www.whoscored.com/matches/1910736/live/germany-bundesliga-2025-2026-hamburger-sv-borussia-dortmund",
+        "https://www.whoscored.com/matches/1910746/live/germany-bundesliga-2025-2026-augsburg-hamburger-sv",
+        "https://www.whoscored.com/matches/1910772/live/germany-bundesliga-2025-2026-hamburger-sv-vfb-stuttgart",
+        "https://www.whoscored.com/matches/1910786/live/germany-bundesliga-2025-2026-hamburger-sv-werder-bremen"
+      ],
+      "savedFiles": [
+        "hamburger-sv/germany-bundesliga-2025-2026-borussia-m-gladbach-hamburger-sv.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-hamburger-sv-st-pauli.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-bayern-munich-hamburger-sv.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-hamburger-sv-mainz-05.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-hamburger-sv-fc-heidenheim.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-hoffenheim-hamburger-sv.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-union-berlin-hamburger-sv.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-hamburger-sv-eintracht-frankfurt.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-rb-leipzig-hamburger-sv.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-hamburger-sv-wolfsburg.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-fc-koln-hamburger-sv.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-hamburger-sv-borussia-dortmund.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-augsburg-hamburger-sv.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-hamburger-sv-vfb-stuttgart.json",
+        "hamburger-sv/germany-bundesliga-2025-2026-hamburger-sv-werder-bremen.json"
+      ],
+      "failedUrls": []
+    },
+    "freiburg": {
+      "fixturesUrl": "https://www.whoscored.com/teams/50/fixtures/germany-freiburg",
+      "matchUrls": [
+        "https://www.whoscored.com/matches/1910605/live/germany-bundesliga-2025-2026-freiburg-augsburg",
+        "https://www.whoscored.com/matches/1910613/live/germany-bundesliga-2025-2026-fc-koln-freiburg",
+        "https://www.whoscored.com/matches/1910618/live/germany-bundesliga-2025-2026-freiburg-vfb-stuttgart",
+        "https://www.whoscored.com/matches/1910625/live/germany-bundesliga-2025-2026-borussia-m-gladbach-freiburg",
+        "https://www.whoscored.com/matches/1910643/live/germany-bundesliga-2025-2026-werder-bremen-freiburg",
+        "https://www.whoscored.com/matches/1910648/live/germany-bundesliga-2025-2026-freiburg-borussia-dortmund",
+        "https://www.whoscored.com/matches/1910651/live/germany-bundesliga-2025-2026-freiburg-hoffenheim",
+        "https://www.whoscored.com/matches/1910671/live/germany-bundesliga-2025-2026-wolfsburg-freiburg",
+        "https://www.whoscored.com/matches/1910675/live/germany-bundesliga-2025-2026-freiburg-eintracht-frankfurt",
+        "https://www.whoscored.com/matches/1910693/live/germany-bundesliga-2025-2026-bayer-leverkusen-freiburg",
+        "https://www.whoscored.com/matches/1910724/live/germany-bundesliga-2025-2026-union-berlin-freiburg",
+        "https://www.whoscored.com/matches/1910734/live/germany-bundesliga-2025-2026-freiburg-st-pauli",
+        "https://www.whoscored.com/matches/1910748/live/germany-bundesliga-2025-2026-bayern-munich-freiburg",
+        "https://www.whoscored.com/matches/1910771/live/germany-bundesliga-2025-2026-freiburg-mainz-05",
+        "https://www.whoscored.com/matches/1910788/live/germany-bundesliga-2025-2026-fc-heidenheim-freiburg"
+      ],
+      "savedFiles": [
+        "freiburg/germany-bundesliga-2025-2026-freiburg-augsburg.json",
+        "freiburg/germany-bundesliga-2025-2026-fc-koln-freiburg.json",
+        "freiburg/germany-bundesliga-2025-2026-freiburg-vfb-stuttgart.json",
+        "freiburg/germany-bundesliga-2025-2026-borussia-m-gladbach-freiburg.json",
+        "freiburg/germany-bundesliga-2025-2026-werder-bremen-freiburg.json",
+        "freiburg/germany-bundesliga-2025-2026-freiburg-borussia-dortmund.json",
+        "freiburg/germany-bundesliga-2025-2026-freiburg-hoffenheim.json",
+        "freiburg/germany-bundesliga-2025-2026-wolfsburg-freiburg.json",
+        "freiburg/germany-bundesliga-2025-2026-freiburg-eintracht-frankfurt.json",
+        "freiburg/germany-bundesliga-2025-2026-bayer-leverkusen-freiburg.json",
+        "freiburg/germany-bundesliga-2025-2026-union-berlin-freiburg.json",
+        "freiburg/germany-bundesliga-2025-2026-freiburg-st-pauli.json",
+        "freiburg/germany-bundesliga-2025-2026-bayern-munich-freiburg.json",
+        "freiburg/germany-bundesliga-2025-2026-freiburg-mainz-05.json",
+        "freiburg/germany-bundesliga-2025-2026-fc-heidenheim-freiburg.json"
+      ],
+      "failedUrls": []
+    }
+  }
+}

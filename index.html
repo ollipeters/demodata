@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-100 text-gray-800 overflow-hidden">
+  <main class="relative min-h-screen">
+    <img
+      src="Bilder_optik/Landing_jamoin.png"
+      alt="Ja Moin!"
+      class="absolute inset-0 w-full h-full object-cover"
+      draggable="false"
+    />
+    <div class="absolute inset-0 bg-black/0"></div>
+
+    <div class="relative z-10 min-h-screen">
+      <div class="absolute left-1/2 top-[68%] -translate-x-1/2 -translate-y-1/2 w-full px-4">
+        <div class="mx-auto w-full max-w-xs bg-white/30 backdrop-blur-xl border border-white/30 ring-1 ring-white/20 rounded-lg shadow-lg p-4">
+          <form id="login-form" class="flex flex-col gap-3">
+            <div>
+              <label for="password" class="sr-only">Passwort</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Passwort eingeben"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full rounded-md bg-[#0A3F86] px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
+            >
+              Login
+            </button>
+          </form>
+          <p id="login-error" class="mt-3 text-sm text-red-600 hidden">Falsches Passwort.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Hinweis: Client-side Check (nur als "Gate"/Convenience). Kann prinzipiell umgangen werden.
+    // Statt Klartext-Passwort wird hier nur ein SHA-256 Hash gespeichert.
+    const PASSWORD_SHA256_HEX = '3c27eb210163b4a9d26975aa631ca641707cfa9605780e4e815df246fa521fa3';
+
+    function normalizePassword(value) {
+      return (value || '').trim().normalize('NFC');
+    }
+
+    function utf8Bytes(str) {
+      if (typeof TextEncoder !== 'undefined') return new TextEncoder().encode(str);
+      const utf8 = unescape(encodeURIComponent(str));
+      const bytes = new Uint8Array(utf8.length);
+      for (let i = 0; i < utf8.length; i++) bytes[i] = utf8.charCodeAt(i);
+      return bytes;
+    }
+
+    function sha256HexFromBytes(messageBytes) {
+      const K = [
+        0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+        0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+        0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+        0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+        0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+        0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+        0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
+      ];
+
+      const H = [
+        0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+        0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19,
+      ];
+
+      const originalBitLen = messageBytes.length * 8;
+      let withOne = messageBytes.length + 1;
+      let padLen = (withOne % 64 <= 56) ? (56 - (withOne % 64)) : (56 + 64 - (withOne % 64));
+      const totalLen = withOne + padLen + 8;
+
+      const padded = new Uint8Array(totalLen);
+      padded.set(messageBytes, 0);
+      padded[messageBytes.length] = 0x80;
+
+      const view = new DataView(padded.buffer);
+      // Append length as 64-bit big-endian integer
+      const high = Math.floor(originalBitLen / 0x100000000);
+      const low = originalBitLen >>> 0;
+      view.setUint32(totalLen - 8, high, false);
+      view.setUint32(totalLen - 4, low, false);
+
+      function rotr(x, n) {
+        return (x >>> n) | (x << (32 - n));
+      }
+      function ch(x, y, z) {
+        return (x & y) ^ (~x & z);
+      }
+      function maj(x, y, z) {
+        return (x & y) ^ (x & z) ^ (y & z);
+      }
+      function sigma0(x) {
+        return rotr(x, 2) ^ rotr(x, 13) ^ rotr(x, 22);
+      }
+      function sigma1(x) {
+        return rotr(x, 6) ^ rotr(x, 11) ^ rotr(x, 25);
+      }
+      function gamma0(x) {
+        return rotr(x, 7) ^ rotr(x, 18) ^ (x >>> 3);
+      }
+      function gamma1(x) {
+        return rotr(x, 17) ^ rotr(x, 19) ^ (x >>> 10);
+      }
+
+      const w = new Uint32Array(64);
+      for (let offset = 0; offset < padded.length; offset += 64) {
+        for (let i = 0; i < 16; i++) {
+          w[i] = view.getUint32(offset + i * 4, false);
+        }
+        for (let i = 16; i < 64; i++) {
+          w[i] = (gamma1(w[i - 2]) + w[i - 7] + gamma0(w[i - 15]) + w[i - 16]) >>> 0;
+        }
+
+        let a = H[0], b = H[1], c = H[2], d = H[3], e = H[4], f = H[5], g = H[6], h = H[7];
+        for (let i = 0; i < 64; i++) {
+          const t1 = (h + sigma1(e) + ch(e, f, g) + K[i] + w[i]) >>> 0;
+          const t2 = (sigma0(a) + maj(a, b, c)) >>> 0;
+          h = g;
+          g = f;
+          f = e;
+          e = (d + t1) >>> 0;
+          d = c;
+          c = b;
+          b = a;
+          a = (t1 + t2) >>> 0;
+        }
+
+        H[0] = (H[0] + a) >>> 0;
+        H[1] = (H[1] + b) >>> 0;
+        H[2] = (H[2] + c) >>> 0;
+        H[3] = (H[3] + d) >>> 0;
+        H[4] = (H[4] + e) >>> 0;
+        H[5] = (H[5] + f) >>> 0;
+        H[6] = (H[6] + g) >>> 0;
+        H[7] = (H[7] + h) >>> 0;
+      }
+
+      let hex = '';
+      for (let i = 0; i < 8; i++) {
+        hex += H[i].toString(16).padStart(8, '0');
+      }
+      return hex;
+    }
+
+    function sha256HexFromString(str) {
+      return sha256HexFromBytes(utf8Bytes(str));
+    }
+
+    const form = document.getElementById('login-form');
+    const passwordInput = document.getElementById('password');
+    const errorEl = document.getElementById('login-error');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const pwd = normalizePassword(passwordInput.value);
+      const pwdHash = sha256HexFromString(pwd);
+      if (pwdHash === PASSWORD_SHA256_HEX) {
+        errorEl.classList.add('hidden');
+        window.location.href = 'navigation.html';
+        return;
+      }
+
+      errorEl.classList.remove('hidden');
+      passwordInput.focus();
+      passwordInput.select();
+    });
+  </script>
+</body>
+</html>

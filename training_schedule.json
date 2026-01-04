@@ -1,0 +1,3024 @@
+[
+  {
+    "date": "2025-08-20",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UB",
+      "match_date": "2025-08-24",
+      "matchday": 1,
+      "opponent": "Borussia Mönchengladbach",
+      "home_away": "A"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 116.01298,
+    "planned_total_distance_gross_km": 40.604543,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 1"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-21",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UB",
+      "match_date": "2025-08-24",
+      "matchday": 1,
+      "opponent": "Borussia Mönchengladbach",
+      "home_away": "A"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 116.01298,
+    "planned_total_distance_gross_km": 75.408437,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 2"
+      },
+      {
+        "type": "athletic",
+        "name": "Beschleunigungsläufe"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 9v9"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-22",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UB",
+      "match_date": "2025-08-24",
+      "matchday": 1,
+      "opponent": "Borussia Mönchengladbach",
+      "home_away": "A"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 116.01298,
+    "planned_total_distance_gross_km": 46.405192,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 3"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 6v6"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-23",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UB",
+      "match_date": "2025-08-24",
+      "matchday": 1,
+      "opponent": "Borussia Mönchengladbach",
+      "home_away": "A"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 116.01298,
+    "planned_total_distance_gross_km": 20.8823364,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 4"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-24",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UB",
+      "match_date": "2025-08-24",
+      "matchday": 1,
+      "opponent": "Borussia Mönchengladbach",
+      "home_away": "A"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 116.01298,
+    "planned_total_distance_gross_km": 116.01298,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 5"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-25",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UB",
+      "match_date": "2025-08-24",
+      "matchday": 1,
+      "opponent": "Borussia Mönchengladbach",
+      "home_away": "A"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 116.01298,
+    "planned_total_distance_gross_km": 14.5016225,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 6"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-26",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UB",
+      "match_date": "2025-08-24",
+      "matchday": 1,
+      "opponent": "Borussia Mönchengladbach",
+      "home_away": "A"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 116.01298,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 7"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-27",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UN",
+      "match_date": "2025-08-29",
+      "matchday": 2,
+      "opponent": "FC St. Pauli",
+      "home_away": "H"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 116.04327,
+    "planned_total_distance_gross_km": 46.417308000000006,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 8"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 7v7"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-28",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UN",
+      "match_date": "2025-08-29",
+      "matchday": 2,
+      "opponent": "FC St. Pauli",
+      "home_away": "H"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 116.04327,
+    "planned_total_distance_gross_km": 20.8877886,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 9"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-29",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UN",
+      "match_date": "2025-08-29",
+      "matchday": 2,
+      "opponent": "FC St. Pauli",
+      "home_away": "H"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 116.04327,
+    "planned_total_distance_gross_km": 116.04327,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 10"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-30",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UN",
+      "match_date": "2025-08-29",
+      "matchday": 2,
+      "opponent": "FC St. Pauli",
+      "home_away": "H"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 116.04327,
+    "planned_total_distance_gross_km": 14.50540875,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 11"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-08-31",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UN",
+      "match_date": "2025-08-29",
+      "matchday": 2,
+      "opponent": "FC St. Pauli",
+      "home_away": "H"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 116.04327,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 12"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-09",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UO",
+      "match_date": "2025-09-13",
+      "matchday": 3,
+      "opponent": "FC Bayern München",
+      "home_away": "A"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 113.11733,
+    "planned_total_distance_gross_km": 39.5910655,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 13"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-10",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UO",
+      "match_date": "2025-09-13",
+      "matchday": 3,
+      "opponent": "FC Bayern München",
+      "home_away": "A"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 113.11733,
+    "planned_total_distance_gross_km": 73.5262645,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 14"
+      },
+      {
+        "type": "athletic",
+        "name": "Beschleunigungsläufe"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 9v9"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-11",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UO",
+      "match_date": "2025-09-13",
+      "matchday": 3,
+      "opponent": "FC Bayern München",
+      "home_away": "A"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 113.11733,
+    "planned_total_distance_gross_km": 45.246932,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 15"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 6v6"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-12",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UO",
+      "match_date": "2025-09-13",
+      "matchday": 3,
+      "opponent": "FC Bayern München",
+      "home_away": "A"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 113.11733,
+    "planned_total_distance_gross_km": 20.3611194,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 16"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-13",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UO",
+      "match_date": "2025-09-13",
+      "matchday": 3,
+      "opponent": "FC Bayern München",
+      "home_away": "A"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 113.11733,
+    "planned_total_distance_gross_km": 113.11733,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 17"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-14",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UO",
+      "match_date": "2025-09-13",
+      "matchday": 3,
+      "opponent": "FC Bayern München",
+      "home_away": "A"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 113.11733,
+    "planned_total_distance_gross_km": 14.13966625,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 18"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-15",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041UO",
+      "match_date": "2025-09-13",
+      "matchday": 3,
+      "opponent": "FC Bayern München",
+      "home_away": "A"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 113.11733,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 19"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-16",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041V5",
+      "match_date": "2025-09-20",
+      "matchday": 4,
+      "opponent": "1. FC Heidenheim 1846",
+      "home_away": "H"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 113.99753,
+    "planned_total_distance_gross_km": 39.8991355,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 20"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-17",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041V5",
+      "match_date": "2025-09-20",
+      "matchday": 4,
+      "opponent": "1. FC Heidenheim 1846",
+      "home_away": "H"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 113.99753,
+    "planned_total_distance_gross_km": 74.0983945,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 21"
+      },
+      {
+        "type": "athletic",
+        "name": "RSA"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 8v8"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-18",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041V5",
+      "match_date": "2025-09-20",
+      "matchday": 4,
+      "opponent": "1. FC Heidenheim 1846",
+      "home_away": "H"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 113.99753,
+    "planned_total_distance_gross_km": 45.599012,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 22"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 7v7"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-19",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041V5",
+      "match_date": "2025-09-20",
+      "matchday": 4,
+      "opponent": "1. FC Heidenheim 1846",
+      "home_away": "H"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 113.99753,
+    "planned_total_distance_gross_km": 20.519555399999998,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 23"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-20",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041V5",
+      "match_date": "2025-09-20",
+      "matchday": 4,
+      "opponent": "1. FC Heidenheim 1846",
+      "home_away": "H"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 113.99753,
+    "planned_total_distance_gross_km": 113.99753,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 24"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-21",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041V5",
+      "match_date": "2025-09-20",
+      "matchday": 4,
+      "opponent": "1. FC Heidenheim 1846",
+      "home_away": "H"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 113.99753,
+    "planned_total_distance_gross_km": 14.24969125,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 25"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-22",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041V5",
+      "match_date": "2025-09-20",
+      "matchday": 4,
+      "opponent": "1. FC Heidenheim 1846",
+      "home_away": "H"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 113.99753,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 26"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-24",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VB",
+      "match_date": "2025-09-28",
+      "matchday": 5,
+      "opponent": "1. FC Union Berlin",
+      "home_away": "A"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 115.89436,
+    "planned_total_distance_gross_km": 40.563026,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 27"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-25",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VB",
+      "match_date": "2025-09-28",
+      "matchday": 5,
+      "opponent": "1. FC Union Berlin",
+      "home_away": "A"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 115.89436,
+    "planned_total_distance_gross_km": 75.33133400000001,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 28"
+      },
+      {
+        "type": "athletic",
+        "name": "RSA"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 9v9"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-26",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VB",
+      "match_date": "2025-09-28",
+      "matchday": 5,
+      "opponent": "1. FC Union Berlin",
+      "home_away": "A"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 115.89436,
+    "planned_total_distance_gross_km": 46.357744000000004,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 29"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 6v6"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-27",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VB",
+      "match_date": "2025-09-28",
+      "matchday": 5,
+      "opponent": "1. FC Union Berlin",
+      "home_away": "A"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 115.89436,
+    "planned_total_distance_gross_km": 20.8609848,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 30"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-28",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VB",
+      "match_date": "2025-09-28",
+      "matchday": 5,
+      "opponent": "1. FC Union Berlin",
+      "home_away": "A"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 115.89436,
+    "planned_total_distance_gross_km": 115.89436,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 31"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-29",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VB",
+      "match_date": "2025-09-28",
+      "matchday": 5,
+      "opponent": "1. FC Union Berlin",
+      "home_away": "A"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 115.89436,
+    "planned_total_distance_gross_km": 14.486795,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 32"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-09-30",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VB",
+      "match_date": "2025-09-28",
+      "matchday": 5,
+      "opponent": "1. FC Union Berlin",
+      "home_away": "A"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 115.89436,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 33"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-01",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VN",
+      "match_date": "2025-10-05",
+      "matchday": 6,
+      "opponent": "1. FSV Mainz 05",
+      "home_away": "H"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 117.03434,
+    "planned_total_distance_gross_km": 40.962019,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 34"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-02",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VN",
+      "match_date": "2025-10-05",
+      "matchday": 6,
+      "opponent": "1. FSV Mainz 05",
+      "home_away": "H"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 117.03434,
+    "planned_total_distance_gross_km": 76.072321,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 35"
+      },
+      {
+        "type": "athletic",
+        "name": "MaxSpeed"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 8v8"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-03",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VN",
+      "match_date": "2025-10-05",
+      "matchday": 6,
+      "opponent": "1. FSV Mainz 05",
+      "home_away": "H"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 117.03434,
+    "planned_total_distance_gross_km": 46.813736000000006,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 36"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 7v7"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-04",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VN",
+      "match_date": "2025-10-05",
+      "matchday": 6,
+      "opponent": "1. FSV Mainz 05",
+      "home_away": "H"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 117.03434,
+    "planned_total_distance_gross_km": 21.0661812,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 37"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-05",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VN",
+      "match_date": "2025-10-05",
+      "matchday": 6,
+      "opponent": "1. FSV Mainz 05",
+      "home_away": "H"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 117.03434,
+    "planned_total_distance_gross_km": 117.03434,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 38"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-06",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VN",
+      "match_date": "2025-10-05",
+      "matchday": 6,
+      "opponent": "1. FSV Mainz 05",
+      "home_away": "H"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 117.03434,
+    "planned_total_distance_gross_km": 14.6292925,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 39"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-07",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VN",
+      "match_date": "2025-10-05",
+      "matchday": 6,
+      "opponent": "1. FSV Mainz 05",
+      "home_away": "H"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 117.03434,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 40"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-14",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VR",
+      "match_date": "2025-10-18",
+      "matchday": 7,
+      "opponent": "RB Leipzig",
+      "home_away": "A"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 120.50582,
+    "planned_total_distance_gross_km": 42.177037,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 41"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-15",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VR",
+      "match_date": "2025-10-18",
+      "matchday": 7,
+      "opponent": "RB Leipzig",
+      "home_away": "A"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 120.50582,
+    "planned_total_distance_gross_km": 78.328783,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 42"
+      },
+      {
+        "type": "athletic",
+        "name": "MaxSpeed"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 9v9"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-16",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VR",
+      "match_date": "2025-10-18",
+      "matchday": 7,
+      "opponent": "RB Leipzig",
+      "home_away": "A"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 120.50582,
+    "planned_total_distance_gross_km": 48.202328,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 43"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 6v6"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-17",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VR",
+      "match_date": "2025-10-18",
+      "matchday": 7,
+      "opponent": "RB Leipzig",
+      "home_away": "A"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 120.50582,
+    "planned_total_distance_gross_km": 21.691047599999997,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 44"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-18",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VR",
+      "match_date": "2025-10-18",
+      "matchday": 7,
+      "opponent": "RB Leipzig",
+      "home_away": "A"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 120.50582,
+    "planned_total_distance_gross_km": 120.50582,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 45"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-19",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VR",
+      "match_date": "2025-10-18",
+      "matchday": 7,
+      "opponent": "RB Leipzig",
+      "home_away": "A"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 120.50582,
+    "planned_total_distance_gross_km": 15.0632275,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 46"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-20",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041VR",
+      "match_date": "2025-10-18",
+      "matchday": 7,
+      "opponent": "RB Leipzig",
+      "home_away": "A"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 120.50582,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 47"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-21",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041W5",
+      "match_date": "2025-10-25",
+      "matchday": 8,
+      "opponent": "VfL Wolfsburg",
+      "home_away": "H"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 121.19199,
+    "planned_total_distance_gross_km": 42.417196499999996,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 48"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-22",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041W5",
+      "match_date": "2025-10-25",
+      "matchday": 8,
+      "opponent": "VfL Wolfsburg",
+      "home_away": "H"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 121.19199,
+    "planned_total_distance_gross_km": 78.7747935,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 49"
+      },
+      {
+        "type": "athletic",
+        "name": "Beschleunigungsläufe"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 8v8"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-23",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041W5",
+      "match_date": "2025-10-25",
+      "matchday": 8,
+      "opponent": "VfL Wolfsburg",
+      "home_away": "H"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 121.19199,
+    "planned_total_distance_gross_km": 48.47679600000001,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 50"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 7v7"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-24",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041W5",
+      "match_date": "2025-10-25",
+      "matchday": 8,
+      "opponent": "VfL Wolfsburg",
+      "home_away": "H"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 121.19199,
+    "planned_total_distance_gross_km": 21.8145582,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 51"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-25",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041W5",
+      "match_date": "2025-10-25",
+      "matchday": 8,
+      "opponent": "VfL Wolfsburg",
+      "home_away": "H"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 121.19199,
+    "planned_total_distance_gross_km": 121.19199,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 52"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-26",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041W5",
+      "match_date": "2025-10-25",
+      "matchday": 8,
+      "opponent": "VfL Wolfsburg",
+      "home_away": "H"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 121.19199,
+    "planned_total_distance_gross_km": 15.14899875,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 53"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-27",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041W5",
+      "match_date": "2025-10-25",
+      "matchday": 8,
+      "opponent": "VfL Wolfsburg",
+      "home_away": "H"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 121.19199,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 54"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-29",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WE",
+      "match_date": "2025-11-02",
+      "matchday": 9,
+      "opponent": "1. FC Köln",
+      "home_away": "A"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 113.3142,
+    "planned_total_distance_gross_km": 39.659969999999994,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 55"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-30",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WE",
+      "match_date": "2025-11-02",
+      "matchday": 9,
+      "opponent": "1. FC Köln",
+      "home_away": "A"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 113.3142,
+    "planned_total_distance_gross_km": 73.65423,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 56"
+      },
+      {
+        "type": "athletic",
+        "name": "Beschleunigungsläufe"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 9v9"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-10-31",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WE",
+      "match_date": "2025-11-02",
+      "matchday": 9,
+      "opponent": "1. FC Köln",
+      "home_away": "A"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 113.3142,
+    "planned_total_distance_gross_km": 45.325680000000006,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 57"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 6v6"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-01",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WE",
+      "match_date": "2025-11-02",
+      "matchday": 9,
+      "opponent": "1. FC Köln",
+      "home_away": "A"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 113.3142,
+    "planned_total_distance_gross_km": 20.396556,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 58"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-02",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WE",
+      "match_date": "2025-11-02",
+      "matchday": 9,
+      "opponent": "1. FC Köln",
+      "home_away": "A"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 113.3142,
+    "planned_total_distance_gross_km": 113.3142,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 59"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-03",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WE",
+      "match_date": "2025-11-02",
+      "matchday": 9,
+      "opponent": "1. FC Köln",
+      "home_away": "A"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 113.3142,
+    "planned_total_distance_gross_km": 14.164275,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 60"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-04",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WE",
+      "match_date": "2025-11-02",
+      "matchday": 9,
+      "opponent": "1. FC Köln",
+      "home_away": "A"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 113.3142,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 61"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-05",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WN",
+      "match_date": "2025-11-08",
+      "matchday": 10,
+      "opponent": "Borussia Dortmund",
+      "home_away": "H"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 113.70411,
+    "planned_total_distance_gross_km": 73.9076715,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 62"
+      },
+      {
+        "type": "athletic",
+        "name": "RSA"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 9v9"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-06",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WN",
+      "match_date": "2025-11-08",
+      "matchday": 10,
+      "opponent": "Borussia Dortmund",
+      "home_away": "H"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 113.70411,
+    "planned_total_distance_gross_km": 45.481644,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 63"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 6v6"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-07",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WN",
+      "match_date": "2025-11-08",
+      "matchday": 10,
+      "opponent": "Borussia Dortmund",
+      "home_away": "H"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 113.70411,
+    "planned_total_distance_gross_km": 20.4667398,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 64"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-08",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WN",
+      "match_date": "2025-11-08",
+      "matchday": 10,
+      "opponent": "Borussia Dortmund",
+      "home_away": "H"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 113.70411,
+    "planned_total_distance_gross_km": 113.70411,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 65"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-09",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WN",
+      "match_date": "2025-11-08",
+      "matchday": 10,
+      "opponent": "Borussia Dortmund",
+      "home_away": "H"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 113.70411,
+    "planned_total_distance_gross_km": 14.21301375,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 66"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-10",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WN",
+      "match_date": "2025-11-08",
+      "matchday": 10,
+      "opponent": "Borussia Dortmund",
+      "home_away": "H"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 113.70411,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 67"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-18",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WT",
+      "match_date": "2025-11-22",
+      "matchday": 11,
+      "opponent": "FC Augsburg",
+      "home_away": "A"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 113.59421,
+    "planned_total_distance_gross_km": 39.7579735,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 68"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-19",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WT",
+      "match_date": "2025-11-22",
+      "matchday": 11,
+      "opponent": "FC Augsburg",
+      "home_away": "A"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 113.59421,
+    "planned_total_distance_gross_km": 73.8362365,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 69"
+      },
+      {
+        "type": "athletic",
+        "name": "RSA"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 8v8"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-20",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WT",
+      "match_date": "2025-11-22",
+      "matchday": 11,
+      "opponent": "FC Augsburg",
+      "home_away": "A"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 113.59421,
+    "planned_total_distance_gross_km": 45.437684000000004,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 70"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 7v7"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-21",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WT",
+      "match_date": "2025-11-22",
+      "matchday": 11,
+      "opponent": "FC Augsburg",
+      "home_away": "A"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 113.59421,
+    "planned_total_distance_gross_km": 20.4469578,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 71"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-22",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WT",
+      "match_date": "2025-11-22",
+      "matchday": 11,
+      "opponent": "FC Augsburg",
+      "home_away": "A"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 113.59421,
+    "planned_total_distance_gross_km": 113.59421,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 72"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-23",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WT",
+      "match_date": "2025-11-22",
+      "matchday": 11,
+      "opponent": "FC Augsburg",
+      "home_away": "A"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 113.59421,
+    "planned_total_distance_gross_km": 14.19927625,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 73"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-24",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041WT",
+      "match_date": "2025-11-22",
+      "matchday": 11,
+      "opponent": "FC Augsburg",
+      "home_away": "A"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 113.59421,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 74"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-26",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041X5",
+      "match_date": "2025-11-30",
+      "matchday": 12,
+      "opponent": "VfB Stuttgart",
+      "home_away": "H"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 114.8547,
+    "planned_total_distance_gross_km": 40.199144999999994,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 75"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-27",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041X5",
+      "match_date": "2025-11-30",
+      "matchday": 12,
+      "opponent": "VfB Stuttgart",
+      "home_away": "H"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 114.8547,
+    "planned_total_distance_gross_km": 74.65555499999999,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 76"
+      },
+      {
+        "type": "athletic",
+        "name": "MaxSpeed"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 9v9"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-28",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041X5",
+      "match_date": "2025-11-30",
+      "matchday": 12,
+      "opponent": "VfB Stuttgart",
+      "home_away": "H"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 114.8547,
+    "planned_total_distance_gross_km": 45.94188,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 77"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 6v6"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-29",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041X5",
+      "match_date": "2025-11-30",
+      "matchday": 12,
+      "opponent": "VfB Stuttgart",
+      "home_away": "H"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 114.8547,
+    "planned_total_distance_gross_km": 20.673845999999998,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 78"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-11-30",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041X5",
+      "match_date": "2025-11-30",
+      "matchday": 12,
+      "opponent": "VfB Stuttgart",
+      "home_away": "H"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 114.8547,
+    "planned_total_distance_gross_km": 114.8547,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 79"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-01",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041X5",
+      "match_date": "2025-11-30",
+      "matchday": 12,
+      "opponent": "VfB Stuttgart",
+      "home_away": "H"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 114.8547,
+    "planned_total_distance_gross_km": 14.3568375,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 80"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-02",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041X5",
+      "match_date": "2025-11-30",
+      "matchday": 12,
+      "opponent": "VfB Stuttgart",
+      "home_away": "H"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 114.8547,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 81"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-03",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XE",
+      "match_date": "2025-12-07",
+      "matchday": 13,
+      "opponent": "SV Werder Bremen",
+      "home_away": "H"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 114.55717,
+    "planned_total_distance_gross_km": 40.095009499999996,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 82"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-04",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XE",
+      "match_date": "2025-12-07",
+      "matchday": 13,
+      "opponent": "SV Werder Bremen",
+      "home_away": "H"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 114.55717,
+    "planned_total_distance_gross_km": 74.4621605,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 83"
+      },
+      {
+        "type": "athletic",
+        "name": "MaxSpeed"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 8v8"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-05",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XE",
+      "match_date": "2025-12-07",
+      "matchday": 13,
+      "opponent": "SV Werder Bremen",
+      "home_away": "H"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 114.55717,
+    "planned_total_distance_gross_km": 45.822868,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 84"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 7v7"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-06",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XE",
+      "match_date": "2025-12-07",
+      "matchday": 13,
+      "opponent": "SV Werder Bremen",
+      "home_away": "H"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 114.55717,
+    "planned_total_distance_gross_km": 20.6202906,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 85"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-07",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XE",
+      "match_date": "2025-12-07",
+      "matchday": 13,
+      "opponent": "SV Werder Bremen",
+      "home_away": "H"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 114.55717,
+    "planned_total_distance_gross_km": 114.55717,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 86"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-08",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XE",
+      "match_date": "2025-12-07",
+      "matchday": 13,
+      "opponent": "SV Werder Bremen",
+      "home_away": "H"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 114.55717,
+    "planned_total_distance_gross_km": 14.31964625,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 87"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-09",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XE",
+      "match_date": "2025-12-07",
+      "matchday": 13,
+      "opponent": "SV Werder Bremen",
+      "home_away": "H"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 114.55717,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 88"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-10",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XN",
+      "match_date": "2025-12-13",
+      "matchday": 14,
+      "opponent": "TSG Hoffenheim",
+      "home_away": "A"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 112.77814,
+    "planned_total_distance_gross_km": 73.305791,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 89"
+      },
+      {
+        "type": "athletic",
+        "name": "Beschleunigungsläufe"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 4"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 8v8"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-11",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XN",
+      "match_date": "2025-12-13",
+      "matchday": 14,
+      "opponent": "TSG Hoffenheim",
+      "home_away": "A"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 112.77814,
+    "planned_total_distance_gross_km": 45.111256,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 90"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 7v7"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-12",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XN",
+      "match_date": "2025-12-13",
+      "matchday": 14,
+      "opponent": "TSG Hoffenheim",
+      "home_away": "A"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 112.77814,
+    "planned_total_distance_gross_km": 20.3000652,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 91"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-13",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XN",
+      "match_date": "2025-12-13",
+      "matchday": 14,
+      "opponent": "TSG Hoffenheim",
+      "home_away": "A"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 112.77814,
+    "planned_total_distance_gross_km": 112.77814,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 92"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-14",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XN",
+      "match_date": "2025-12-13",
+      "matchday": 14,
+      "opponent": "TSG Hoffenheim",
+      "home_away": "A"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 112.77814,
+    "planned_total_distance_gross_km": 14.0972675,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 93"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-15",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XN",
+      "match_date": "2025-12-13",
+      "matchday": 14,
+      "opponent": "TSG Hoffenheim",
+      "home_away": "A"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 112.77814,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 94"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-16",
+    "label": "MD-4",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XW",
+      "match_date": "2025-12-20",
+      "matchday": 15,
+      "opponent": "Eintracht Frankfurt",
+      "home_away": "H"
+    },
+    "load_factor": 0.35,
+    "base_match_total_distance_gross_km": 122.32639,
+    "planned_total_distance_gross_km": 42.8142365,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 95"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 5"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Aufbau unter Druck"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-17",
+    "label": "MD-3",
+    "session_name": "Main Load",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XW",
+      "match_date": "2025-12-20",
+      "matchday": 15,
+      "opponent": "Eintracht Frankfurt",
+      "home_away": "H"
+    },
+    "load_factor": 0.65,
+    "base_match_total_distance_gross_km": 122.32639,
+    "planned_total_distance_gross_km": 79.51215350000001,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 96"
+      },
+      {
+        "type": "athletic",
+        "name": "Beschleunigungsläufe"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 1"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Gegenpressing"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 9v9"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-18",
+    "label": "MD-2",
+    "session_name": "Training",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XW",
+      "match_date": "2025-12-20",
+      "matchday": 15,
+      "opponent": "Eintracht Frankfurt",
+      "home_away": "H"
+    },
+    "load_factor": 0.4,
+    "base_match_total_distance_gross_km": 122.32639,
+    "planned_total_distance_gross_km": 48.930556,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 97"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 2"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spiel durchs Zentrum"
+      },
+      {
+        "type": "game",
+        "name": "Spiel 6v6"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-19",
+    "label": "MD-1",
+    "session_name": "Finishing",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XW",
+      "match_date": "2025-12-20",
+      "matchday": 15,
+      "opponent": "Eintracht Frankfurt",
+      "home_away": "H"
+    },
+    "load_factor": 0.18,
+    "base_match_total_distance_gross_km": 122.32639,
+    "planned_total_distance_gross_km": 22.0187502,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 98"
+      },
+      {
+        "type": "rondo",
+        "name": "Rondo 3"
+      },
+      {
+        "type": "tactical",
+        "name": "Übungsform Spielverlagerung"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-20",
+    "label": "MD",
+    "session_name": "Match",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XW",
+      "match_date": "2025-12-20",
+      "matchday": 15,
+      "opponent": "Eintracht Frankfurt",
+      "home_away": "H"
+    },
+    "load_factor": 1.0,
+    "base_match_total_distance_gross_km": 122.32639,
+    "planned_total_distance_gross_km": 122.32639,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 99"
+      },
+      {
+        "type": "match",
+        "name": "Match"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-21",
+    "label": "MD+1",
+    "session_name": "Regeneration",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XW",
+      "match_date": "2025-12-20",
+      "matchday": 15,
+      "opponent": "Eintracht Frankfurt",
+      "home_away": "H"
+    },
+    "load_factor": 0.125,
+    "base_match_total_distance_gross_km": 122.32639,
+    "planned_total_distance_gross_km": 15.29079875,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 100"
+      },
+      {
+        "type": "regeneration",
+        "name": "Regeneration"
+      }
+    ],
+    "notes": null
+  },
+  {
+    "date": "2025-12-22",
+    "label": "MD+2",
+    "session_name": "Off",
+    "base_match": {
+      "match_id": "DFL-MAT-J041XW",
+      "match_date": "2025-12-20",
+      "matchday": 15,
+      "opponent": "Eintracht Frankfurt",
+      "home_away": "H"
+    },
+    "load_factor": 0.0,
+    "base_match_total_distance_gross_km": 122.32639,
+    "planned_total_distance_gross_km": 0.0,
+    "contents": [
+      {
+        "type": "activation",
+        "name": "Aktivierung 101"
+      },
+      {
+        "type": "off",
+        "name": "Off"
+      }
+    ],
+    "notes": null
+  }
+]

@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spielfeld-Testumgebung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f3f4f6; /* bg-gray-100 */
+        }
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            padding-top: 154.4%; /* Seitenverhältnis für Hochkant: 105 (Höhe) / 68 (Breite) */
+            background-color: #f9fafb; /* bg-gray-50 */
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            cursor: crosshair;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <main class="w-full max-w-6xl p-8">
+        <h1 class="text-2xl font-bold text-center mb-6">Spielfeld-Testumgebung</h1>
+    <div class="flex items-start gap-8">
+      <div id="action-container" class="flex-1 min-w-0">
+                <div class="canvas-container">
+                    <canvas id="pitch-canvas"></canvas>
+                    <div id="roles18-center" class="hidden absolute inset-0 overflow-auto bg-white p-4">
+                      <!-- Spielertypen (18 Rollen) werden hier per JS eingefügt -->
+                    </div>
+                </div>
+                <div id="coords-display" class="text-center text-xs text-gray-500 mt-2 h-4"></div>
+                <div class="text-center text-[10px] text-gray-400 mt-1">Spielrichtung: unten → oben</div>
+
+                <!-- Field Tilt Chart (Zeitverlauf) -->
+                <div id="field-tilt-card" class="mt-4 bg-white border border-gray-200 rounded-lg shadow-sm p-3">
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="text-xs font-semibold text-gray-700">Field Tilt (Zeitverlauf)</div>
+                    <div id="field-tilt-summary" class="text-[11px] text-gray-600"></div>
+                  </div>
+                  <div class="relative w-full" style="height: 220px;">
+                    <canvas id="field-tilt-canvas" class="absolute inset-0 w-full h-full"></canvas>
+                  </div>
+                  <div class="mt-2 text-[10px] text-gray-400">10-Minuten Moving Average · Werte: Team% − Gegner% (−100…+100)</div>
+                </div>
+      </div>
+      <!-- Right controls panel -->
+      <div id="controls-box" class="w-52 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <h3 class="font-semibold text-sm mb-2 text-gray-800">Kennzahl-Auswahl</h3>
+        <div class="flex flex-col gap-3 text-xs">
+          <!-- Obere Ebene: Phasen mit dem Ball -->
+          <div class="flex flex-col gap-1 mb-1">
+            <div class="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Mit dem Ball</div>
+            <div class="grid grid-cols-1 gap-1">
+              <button id="btn-phase-aufbau" class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Spielaufbau</button>
+              <button id="btn-phase-kontrolle" class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Spielkontrolle</button>
+              <button id="btn-phase-zumtor" class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Zum Tor</button>
+              <button id="btn-phase-flanken" class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Flanken</button>
+            </div>
+          </div>
+
+          <!-- Bisherige Visualisierungen als Unterpunkte -->
+          <div class="border-t border-gray-200 pt-2 mt-1 flex flex-col gap-2">
+            <div class="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Visualisierungen</div>
+            <div class="flex flex-col gap-1">
+              <button id="btn-passnetz" class="px-3 py-1 rounded-md text-xs font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Passnetz</button>
+              <button id="btn-progressive" class="px-3 py-1 rounded-md text-xs font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Progressive Pässe</button>
+              <button id="btn-abstoesse" class="px-3 py-1 rounded-md text-xs font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Abstöße</button>
+              <button id="btn-patterns" class="px-3 py-1 rounded-md text-xs font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Mustererkennung</button>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-200 pt-2 mt-1 flex flex-col gap-2">
+            <div class="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Analyse</div>
+            <div class="flex flex-col gap-1">
+              <button id="btn-roles18" class="px-3 py-1 rounded-md text-xs font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Spielertypen (18 Rollen)</button>
+            </div>
+          </div>
+          <!-- Progressive mode switch -->
+          <div id="progressive-switch" class="hidden flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-gray-600">Anzeige:</span>
+              <div class="inline-flex rounded-md border border-gray-300 overflow-hidden">
+                <button id="btn-prog-zones" class="px-2 py-0.5 text-xs font-medium bg-white text-gray-700 hover:bg-gray-50">Zonen</button>
+                <button id="btn-prog-arrows" class="px-2 py-0.5 text-xs font-medium bg-white text-gray-700 hover:bg-gray-50 border-l border-gray-300">Pässe</button>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-gray-600">Eintritte:</span>
+              <div class="inline-flex rounded-md border border-gray-300 overflow-hidden">
+                <button id="btn-entry-outside" class="px-2 py-0.5 text-xs font-medium bg-white text-gray-700 hover:bg-gray-50">außerhalb</button>
+                <button id="btn-entry-all" class="px-2 py-0.5 text-xs font-medium bg-white text-gray-700 hover:bg-gray-50 border-l border-gray-300">alle</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-200 pt-2 mt-1 flex flex-col gap-2">
+            <div class="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Statistiken</div>
+
+            <!-- Field Tilt Controls -->
+            <div class="flex flex-col gap-2">
+              <label class="text-[10px] text-gray-500">Team (für Field Tilt)</label>
+              <select id="field-tilt-team" class="px-2 py-1 rounded-md border border-gray-300 text-xs text-gray-700 bg-white"></select>
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] text-gray-500">Spiele</span>
+                <div class="inline-flex rounded-md border border-gray-300 overflow-hidden">
+                  <button type="button" data-ft-games="1" class="ft-games-btn px-2 py-0.5 text-xs font-medium bg-white text-gray-700 hover:bg-gray-50">1S</button>
+                  <button type="button" data-ft-games="3" class="ft-games-btn px-2 py-0.5 text-xs font-medium bg-white text-gray-700 hover:bg-gray-50 border-l border-gray-300">3S</button>
+                  <button type="button" data-ft-games="5" class="ft-games-btn px-2 py-0.5 text-xs font-medium bg-white text-gray-700 hover:bg-gray-50 border-l border-gray-300">5S</button>
+                  <button type="button" data-ft-games="10" class="ft-games-btn px-2 py-0.5 text-xs font-medium bg-white text-gray-700 hover:bg-gray-50 border-l border-gray-300">10S</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="team-ballbesitz" class="text-[11px] text-gray-700"></div>
+            <div id="team-field-tilt" class="text-[11px] text-gray-700"></div>
+            <div id="stats-content" class="text-xs space-y-1 text-gray-600">Lädt...</div>
+          </div>
+        </div>
+      </div>
+        </div>
+    </main>
+
+  <script src="pitch_visualization.js?v=17"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const canvas = document.getElementById('pitch-canvas');
+      const roles18CenterEl = document.getElementById('roles18-center');
+      const coordsDisplay = document.getElementById('coords-display');
+      const statsContent = document.getElementById('stats-content');
+      const teamBallbesitzEl = document.getElementById('team-ballbesitz'); // <<< NEU
+
+      // >>> NEU: Field Tilt (Team) im Stats-Kasten
+      const teamFieldTiltEl = document.getElementById('team-field-tilt');
+      // <<< NEU
+
+      // Neue Phasen-Buttons
+      const btnPhaseAufbau = document.getElementById('btn-phase-aufbau');
+      const btnPhaseKontrolle = document.getElementById('btn-phase-kontrolle');
+      const btnPhaseZumTor = document.getElementById('btn-phase-zumtor');
+      const btnPhaseFlanken = document.getElementById('btn-phase-flanken');
+      // Bisherige Visualisierungs-Buttons
+      const btnPassnetz = document.getElementById('btn-passnetz');
+      const btnAbstoesse = document.getElementById('btn-abstoesse');
+      const btnProgressive = document.getElementById('btn-progressive');
+      const btnPatterns = document.getElementById('btn-patterns');
+      const btnRoles18 = document.getElementById('btn-roles18');
+      const progSwitch = document.getElementById('progressive-switch');
+      const btnProgZones = document.getElementById('btn-prog-zones');
+      const btnProgArrows = document.getElementById('btn-prog-arrows');
+      const btnEntryOutside = document.getElementById('btn-entry-outside');
+      const btnEntryAll = document.getElementById('btn-entry-all');
+      let instance = null;
+      let currentKpiPhase = null; // 'aufbau' | 'kontrolle' | 'zumtor' | 'flanken' | null
+
+      // Field Tilt State (nur für Chart/Stat)
+      let ftSelectedTeam = 'Hamburg';
+      let ftSelectedGames = 10;
+
+      function showPitchCanvas() {
+        canvas.classList.remove('hidden');
+        roles18CenterEl.classList.add('hidden');
+        const cc = canvas.closest('.canvas-container');
+        if (cc) cc.style.cursor = 'crosshair';
+      }
+
+      function showCenterRolesPanel() {
+        canvas.classList.add('hidden');
+        roles18CenterEl.classList.remove('hidden');
+        const cc = roles18CenterEl.closest('.canvas-container');
+        if (cc) cc.style.cursor = 'default';
+      }
+
+      function setActiveVisual(btn) {
+        [btnPassnetz, btnAbstoesse, btnProgressive, btnPatterns, btnRoles18].forEach(b => b.classList.remove('bg-[#0A3F86]', 'text-white', 'border-[#0A3F86]'));
+        if (btn) btn.classList.add('bg-[#0A3F86]', 'text-white', 'border-[#0A3F86]');
+      }
+
+      function setActivePhase(phase) {
+        currentKpiPhase = phase;
+        [btnPhaseAufbau, btnPhaseKontrolle, btnPhaseZumTor, btnPhaseFlanken].forEach(b => b.classList.remove('bg-[#0A3F86]', 'text-white', 'border-[#0A3F86]'));
+        if (phase === 'aufbau') btnPhaseAufbau.classList.add('bg-[#0A3F86]', 'text-white');
+        if (phase === 'kontrolle') btnPhaseKontrolle.classList.add('bg-[#0A3F86]', 'text-white');
+        if (phase === 'zumtor') btnPhaseZumTor.classList.add('bg-[#0A3F86]', 'text-white');
+        if (phase === 'flanken') btnPhaseFlanken.classList.add('bg-[#0A3F86]', 'text-white');
+      }
+
+      // --- Hilfsfunktionen für eigenes Canvas-Drawing (für KPIs) ---
+      function drawSimplePitch(ctx, w, h) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = '#6b7280';
+        ctx.lineWidth = Math.max(1, w * 0.005);
+        ctx.lineCap = 'round';
+        // Außenrahmen
+        ctx.strokeRect(0, 0, w, h);
+        // Mittellinie
+        ctx.beginPath();
+        ctx.moveTo(0, h/2);
+        ctx.lineTo(w, h/2);
+        ctx.stroke();
+      }
+
+      // --- Daten laden für eigene KPI-Berechnungen ---
+      let kpiAllEvents = null; // Events (alle Teams) nur einmal laden
+      let kpiEvents = null; // Hamburg-Events nur einmal laden
+      let kpiProcessed = null; // processed_data nur einmal laden
+      let kpiProcessedAll = null; // processed_data (alle Teams) nur einmal laden
+
+      // --- Zones of Control (Raumkontrolle) ---
+      // Definition: Heatmap der Ballkontakte pro Zone (Team-only, relativ innerhalb des Teams)
+      // Raster wie in gegneranalyse: 18 Hauptzonen (6×3) + je Zone 4×4 Unterzonen
+      // => Gesamt: 24×12 = 288 Zellen
+      const CONTROL_GRID = {
+        mainRows: 6,
+        mainCols: 3,
+        subRows: 4,
+        subCols: 4
+      };
+      const CONTROL_BALL_EVENTS = new Set(['Pass','TakeOn','BallTouch','Shot','Goal','BallRecovery','Clearance','SavedShot','MissedShots']);
+      let controlViewState = { active: false, lastData: null };
+
+      async function loadAllKpiEvents() {
+        if (kpiAllEvents) return kpiAllEvents;
+        const res = await fetch('events_data.json');
+        if (!res.ok) throw new Error('events_data.json konnte nicht geladen werden');
+        const all = await res.json();
+        kpiAllEvents = all;
+        return kpiAllEvents;
+      }
+
+      function getMatchIdsForTeam(rowsOrEvents, teamName) {
+        const mids = (rowsOrEvents || [])
+          .filter(r => r && r.team != null && String(r.team) === String(teamName) && r.match_id != null)
+          .map(r => String(r.match_id));
+        return Array.from(new Set(mids)).sort().reverse();
+      }
+
+      async function resolveMatchesForFieldTilt(teamName, nGames) {
+        try {
+          const procAll = await loadAllKpiProcessed();
+          const mids = getMatchIdsForTeam(procAll, teamName);
+          if (mids.length) return mids.slice(0, nGames);
+        } catch (_) {}
+        const all = await loadAllKpiEvents();
+        const mids2 = getMatchIdsForTeam(all, teamName);
+        return mids2.slice(0, nGames);
+      }
+
+      async function loadKpiEvents() {
+        if (kpiEvents) return kpiEvents;
+        const all = await loadAllKpiEvents();
+        kpiEvents = all.filter(e => e.team === 'Hamburg');
+        return kpiEvents;
+      }
+
+      async function loadKpiProcessed() {
+        if (kpiProcessed) return kpiProcessed;
+        const all = await loadAllKpiProcessed();
+        kpiProcessed = all.filter(r => r.team === 'Hamburg');
+        return kpiProcessed;
+      }
+
+      async function loadAllKpiProcessed() {
+        if (kpiProcessedAll) return kpiProcessedAll;
+        const res = await fetch('processed_data.json');
+        if (!res.ok) throw new Error('processed_data.json konnte nicht geladen werden');
+        const all = await res.json();
+        kpiProcessedAll = Array.isArray(all) ? all : [];
+        return kpiProcessedAll;
+      }
+
+      function uniq(arr) {
+        return Array.from(new Set(arr));
+      }
+
+      function safeNum(v, fallback = 0) {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : fallback;
+      }
+
+      function getCurrentMatchIdFromData(allEvents, allProcessed) {
+        const mid = allEvents?.find?.(e => e && e.match_id)?.match_id;
+        if (mid) return mid;
+        const pmid = allProcessed?.find?.(r => r && r.match_id)?.match_id;
+        return pmid || null;
+      }
+
+      function getOpponentTeamName({ baseTeam, allEvents, allProcessed, matchId }) {
+        const teamsFromEvents = uniq(
+          (allEvents || [])
+            .filter(e => !matchId || e.match_id === matchId)
+            .map(e => e.team)
+            .filter(Boolean)
+        );
+        const oppFromEvents = teamsFromEvents.find(t => t && t !== baseTeam);
+        if (oppFromEvents) return oppFromEvents;
+
+        const teamsFromProcessed = uniq(
+          (allProcessed || [])
+            .filter(r => (!matchId || r.match_id === matchId) && r.team)
+            .map(r => r.team)
+        );
+        const oppFromProcessed = teamsFromProcessed.find(t => t && t !== baseTeam);
+        if (oppFromProcessed) return oppFromProcessed;
+
+        const oppField = (allProcessed || []).find(r => r?.team === baseTeam && (!matchId || r.match_id === matchId))?.opponent;
+        return oppField || null;
+      }
+
+      function percentileRank(values, value) {
+        const nums = (values || []).map(v => safeNum(v, 0)).sort((a, b) => a - b);
+        if (!nums.length) return 0.5;
+        const n = nums.length;
+        let lt = 0;
+        for (let i = 0; i < n; i++) {
+          if (nums[i] < value) lt++;
+          else break;
+        }
+        const eq = nums.filter(v => v === value).length;
+        const rank = (lt + 0.5 * eq) / n;
+        return Math.max(0, Math.min(1, rank));
+      }
+
+      function getOutfieldOpponentPlayers({ allProcessed, matchId, opponentTeam }) {
+        const rows = (allProcessed || []).filter(r =>
+          (!matchId || r.match_id === matchId) &&
+          r.team === opponentTeam &&
+          safeNum(r.minutes_played, 0) > 0 &&
+          safeNum(r.half, 0) === 0
+        );
+
+        if (!rows.length) return { players: [], goalkeeper: null };
+
+        // Heuristic GK pick: high saves and/or goalkick distance.
+        let goalkeeper = null;
+        let bestGKScore = -Infinity;
+        for (const r of rows) {
+          const gkScore = (2.5 * safeNum(r.saves_total_p90, 0)) + (0.08 * safeNum(r.avg_goalkick_distance, 0));
+          if (gkScore > bestGKScore) {
+            bestGKScore = gkScore;
+            goalkeeper = r;
+          }
+        }
+
+        const outfield = rows
+          .filter(r => goalkeeper ? r.player !== goalkeeper.player : true)
+          .sort((a, b) => safeNum(b.minutes_played, 0) - safeNum(a.minutes_played, 0))
+          .slice(0, 10);
+
+        return { players: outfield, goalkeeper };
+      }
+
+      function buildRoleModel18() {
+        // Heuristic role model: scores are relative within the opponent outfield squad.
+        // Positive weight = high is good; negative weight = low is good.
+        return [
+          { key: 'cb_ballplaying', name: 'Ball Playing CB', weights: { passes_total_p90: 1.0, progressive_passes_p90: 1.2, switches_of_play_p90: 0.7, passes_into_final_third_p90: 0.6, touches_p90: 0.5 } },
+          { key: 'cb_nonnonsense', name: 'No-Nonsense CB', weights: { clearances_p90: 1.3, aerials_won_p90: 1.0, duels_won_p90: 0.7, progressive_passes_p90: -0.4 } },
+          { key: 'cb_aerial', name: 'Aerial Dominant CB', weights: { aerials_total_p90: 1.4, aerials_won_p90: 1.2, defensive_aerials_p90: 0.9, clearances_p90: 0.6 } },
+
+          { key: 'fb_overlapping', name: 'Overlapping FB', weights: { progressive_carries_p90: 1.0, passes_into_final_third_p90: 0.8, box_entries_total_p90: 0.8, key_passes_p90: 0.4, tackles_p90: 0.4 } },
+          { key: 'fb_inverted', name: 'Inverted FB', weights: { passes_total_p90: 0.9, progressive_passes_p90: 0.8, touches_p90: 0.7, interceptions_p90: 0.5, tackles_p90: 0.3 } },
+          { key: 'fb_defensive', name: 'Defensive FB', weights: { tackles_p90: 1.0, interceptions_p90: 0.9, clearances_p90: 0.7, progressive_carries_p90: -0.3, box_entries_total_p90: -0.2 } },
+
+          { key: 'dm_dlp', name: 'Deep-Lying Playmaker', weights: { passes_total_p90: 1.1, progressive_passes_p90: 0.9, switches_of_play_p90: 0.8, xt_p90: 0.6, key_passes_p90: 0.3 } },
+          { key: 'dm_ballwinner', name: 'Ball-Winning Midfielder', weights: { tackles_p90: 1.2, interceptions_p90: 1.0, pressure_regains_p90: 1.0, duels_won_p90: 0.6, dribbled_past_p90: -0.8 } },
+          { key: 'cm_boxtobox', name: 'Box-to-Box Midfielder', weights: { progressive_carries_p90: 0.9, progressive_passes_p90: 0.6, tackles_p90: 0.6, shots_p90: 0.4, box_entries_total_p90: 0.6 } },
+
+          { key: 'am_playmaker', name: 'Advanced Playmaker', weights: { key_passes_p90: 1.2, sca_p90: 1.0, xt_p90: 0.9, passes_into_area14_p90: 0.8, passes_into_zone11_p90: 0.6 } },
+          { key: 'wide_playmaker', name: 'Wide Playmaker', weights: { key_passes_p90: 0.9, xt_p90: 0.8, progressive_passes_p90: 0.6, progressive_carries_p90: 0.5, passes_into_final_third_p90: 0.4 } },
+
+          { key: 'winger_direct', name: 'Direct Winger', weights: { dribbles_attempted_p90: 1.2, dribbles_successful_p90: 1.0, progressive_carries_p90: 0.7, box_entries_total_p90: 0.7, dispossessed_p90: -0.3 } },
+          { key: 'winger_touchline', name: 'Touchline Winger', weights: { passes_into_area14_p90: 1.0, passes_into_zone11_p90: 0.8, key_passes_p90: 0.6, progressive_carries_p90: 0.4 } },
+          { key: 'inside_forward', name: 'Inside Forward', weights: { shots_p90: 0.9, xg_p90: 1.0, box_entries_total_p90: 0.7, dribbles_successful_p90: 0.5, key_passes_p90: 0.3 } },
+
+          { key: 'st_target', name: 'Target Man', weights: { aerials_won_p90: 1.3, offensive_aerials_p90: 1.0, xg_p90: 0.6, shots_p90: 0.6, passes_total_p90: -0.2 } },
+          { key: 'st_pressing', name: 'Pressing Forward', weights: { pressure_regains_p90: 1.2, tackles_p90: 0.6, shots_p90: 0.4, dispossessed_p90: -0.2 } },
+          { key: 'st_poacher', name: 'Poacher', weights: { xg_p90: 1.4, shots_p90: 1.0, key_passes_p90: -0.5, passes_total_p90: -0.3 } },
+          { key: 'st_false9', name: 'False 9 / Creator', weights: { key_passes_p90: 0.9, xt_p90: 0.8, passes_total_p90: 0.7, sca_p90: 0.6, shots_p90: 0.5 } },
+          { key: 'ss_runner', name: 'Second Striker / Runner', weights: { progressive_carries_p90: 0.9, shots_p90: 0.7, xg_p90: 0.6, key_passes_p90: 0.4, pressure_regains_p90: 0.4 } }
+        ];
+      }
+
+      function scoreRolesForPlayers(players) {
+        const roles = buildRoleModel18();
+
+        // Build lookup for percentiles per metric.
+        const allMetricKeys = uniq(
+          roles.flatMap(r => Object.keys(r.weights || {}))
+        );
+        const metricValues = {};
+        for (const mk of allMetricKeys) {
+          metricValues[mk] = players.map(p => safeNum(p[mk], 0));
+        }
+
+        const scored = players.map(p => {
+          const roleScores = roles.map(role => {
+            let total = 0;
+            const contrib = [];
+            for (const [mk, wRaw] of Object.entries(role.weights || {})) {
+              const w = safeNum(wRaw, 0);
+              const val = safeNum(p[mk], 0);
+              const pr = percentileRank(metricValues[mk], val);
+              const part = (w >= 0 ? pr : (1 - pr)) * Math.abs(w);
+              total += part;
+              contrib.push({ mk, w, pr, val, part });
+            }
+            contrib.sort((a, b) => b.part - a.part);
+            return { roleKey: role.key, roleName: role.name, score: total, contrib };
+          });
+          roleScores.sort((a, b) => b.score - a.score);
+          const best = roleScores[0];
+          const second = roleScores[1] || { score: 0 };
+          const confidence = best.score <= 0 ? 0 : Math.max(0, Math.min(1, (best.score - second.score) / best.score));
+          return { player: p, best, second, confidence, roleScores };
+        });
+
+        return { roles, scored };
+      }
+
+      function formatMetricShort(mk) {
+        return String(mk)
+          .replace(/_p90$/i, '')
+          .replaceAll('_', ' ');
+      }
+
+      function renderRoles18({ opponentTeam, matchId, outfieldPlayers, goalkeeper, results }) {
+        const rows = results.scored
+          .slice()
+          .sort((a, b) => safeNum(b.player.minutes_played, 0) - safeNum(a.player.minutes_played, 0));
+
+        // Left: compact summary
+        statsContent.innerHTML = `
+          <div class="text-[11px] leading-5 text-gray-800">
+            <div class="font-semibold text-gray-700">Spielertypen</div>
+            <div class="text-gray-500">Gegner: <span class="font-medium text-gray-700">${opponentTeam || '—'}</span></div>
+            <div class="text-gray-500">Match: <span class="font-medium text-gray-700">${matchId || '—'}</span></div>
+            <div class="text-[10px] text-gray-500 mt-1">Ergebnisse in der Mitte.</div>
+            ${goalkeeper ? `<div class="mt-2 text-[10px] text-gray-500">GK (heuristisch ausgeschlossen): ${goalkeeper.player}</div>` : ''}
+          </div>
+        `;
+
+        // Center: readable table
+        roles18CenterEl.innerHTML = `
+          <div class="text-xs text-gray-800">
+            <div class="font-semibold text-gray-800 text-sm">Spielertypen (18 Rollen)</div>
+            <div class="text-[11px] text-gray-500">Gegner: <span class="font-medium text-gray-700">${opponentTeam || '—'}</span> · Match: <span class="font-medium text-gray-700">${matchId || '—'}</span></div>
+            <div class="text-[10px] text-gray-500 mt-1">Heuristik auf Basis von p90-Werten (relativ innerhalb des Gegners).</div>
+            <div class="mt-3 overflow-x-auto">
+              <table class="w-full text-[12px] border-collapse">
+                <thead>
+                  <tr class="text-[11px] text-gray-500 border-b border-gray-200">
+                    <th class="text-left font-semibold py-2 pr-2">Spieler</th>
+                    <th class="text-right font-semibold py-2 px-2">Min</th>
+                    <th class="text-left font-semibold py-2 px-2">Rolle</th>
+                    <th class="text-right font-semibold py-2 px-2">Conf</th>
+                    <th class="text-left font-semibold py-2 pl-2">Treiber (Top 3)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${rows.map(r => {
+                    const top = (r.best?.contrib || []).slice(0, 3);
+                    const confPct = Math.round((r.confidence || 0) * 100);
+                    const mins = safeNum(r.player.minutes_played, 0);
+                    const drivers = top.map(t => `${formatMetricShort(t.mk)} ${safeNum(t.val, 0).toFixed(2)}`).join(' · ') || '—';
+                    return `
+                      <tr class="border-b border-gray-100 align-top">
+                        <td class="py-2 pr-2 font-medium text-gray-900 whitespace-nowrap">${r.player.player}</td>
+                        <td class="py-2 px-2 text-right text-gray-600">${mins}</td>
+                        <td class="py-2 px-2 text-gray-800 whitespace-nowrap">${r.best?.roleName || '—'}</td>
+                        <td class="py-2 px-2 text-right text-gray-600">${confPct}%</td>
+                        <td class="py-2 pl-2 text-gray-600">${drivers}</td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+            ${goalkeeper ? `<div class="mt-2 text-[10px] text-gray-500">GK (heuristisch ausgeschlossen): ${goalkeeper.player}</div>` : ''}
+          </div>
+        `;
+      }
+
+      async function showRoles18() {
+        showCenterRolesPanel();
+        if (instance) { try { instance.destroy(); } catch(e) {} instance = null; }
+        setActivePhase(null);
+        setActiveVisual(btnRoles18);
+        progSwitch.classList.add('hidden');
+        document.body.dataset.currentView = 'roles18';
+
+        statsContent.textContent = 'Lade Spielertypen...';
+        try {
+          const baseTeam = 'Hamburg';
+          const [allEvents, allProcessed] = await Promise.all([loadAllKpiEvents(), loadAllKpiProcessed()]);
+          const matchId = getCurrentMatchIdFromData(allEvents, allProcessed);
+          const opponentTeam = getOpponentTeamName({ baseTeam, allEvents, allProcessed, matchId });
+          const { players: outfieldPlayers, goalkeeper } = getOutfieldOpponentPlayers({ allProcessed, matchId, opponentTeam });
+
+          if (!outfieldPlayers.length) {
+            statsContent.innerHTML = `<div class="text-[11px] text-gray-700">Keine Gegner-Spieler gefunden (Team: ${opponentTeam || '—'}).</div>`;
+            roles18CenterEl.innerHTML = `<div class="text-xs text-gray-700">Keine Gegner-Spieler gefunden (Team: ${opponentTeam || '—'}).</div>`;
+            return;
+          }
+
+          const results = scoreRolesForPlayers(outfieldPlayers);
+          renderRoles18({ opponentTeam, matchId, outfieldPlayers, goalkeeper, results });
+        } catch (err) {
+          statsContent.textContent = err.message || String(err);
+          roles18CenterEl.textContent = err.message || String(err);
+        }
+      }
+
+      function clampInt(v, min, max) {
+        return Math.min(max, Math.max(min, v | 0));
+      }
+
+      function toGridCell(xCoord, yCoord, rows, cols) {
+        const xRaw = Number(xCoord);
+        const yRaw = Number(yCoord);
+        if (!Number.isFinite(xRaw) || !Number.isFinite(yRaw)) return null;
+
+        // Exakt wie in gegneranalyse (mapTo18Zone): 0..99.999 clampen, dann rowFromBottom/col berechnen.
+        const x = Math.max(0, Math.min(99.999, xRaw));
+        const y = Math.max(0, Math.min(99.999, yRaw));
+        const rowFromBottom = Math.floor((x / 100) * rows); // 0 (unten) .. rows-1 (oben)
+        const col = Math.floor((y / 100) * cols);           // 0 (links) .. cols-1 (rechts)
+        const rowFromTop = (rows - 1) - rowFromBottom;
+        return {
+          row: clampInt(rowFromTop, 0, rows - 1),
+          col: clampInt(col, 0, cols - 1)
+        };
+      }
+
+      function computeZonesOfControl(allEvents, teamName = 'Hamburg', opts = CONTROL_GRID) {
+        const mainRows = Number(opts.mainRows || 6);
+        const mainCols = Number(opts.mainCols || 3);
+        const subRows = Number(opts.subRows || 4);
+        const subCols = Number(opts.subCols || 4);
+        const rows = mainRows * subRows;
+        const cols = mainCols * subCols;
+
+        const teamMatchIds = new Set(
+          (allEvents || []).filter(e => String(e.team || '') === teamName && e.match_id != null).map(e => String(e.match_id))
+        );
+
+        const evs = (allEvents || [])
+          .filter(e => e && e.match_id != null && teamMatchIds.has(String(e.match_id)))
+          .filter(e => CONTROL_BALL_EVENTS.has(String(e.event_type || e.type || '')))
+          .map(e => ({
+            match_id: String(e.match_id),
+            team: String(e.team || ''),
+            player: String(e.player_name || e.player || e.name || ''),
+            x: Number(e.x_coord),
+            y: Number(e.y_coord)
+          }))
+          .filter(e => Number.isFinite(e.x) && Number.isFinite(e.y) && e.team);
+
+        const total = Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0));
+        const ours = Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0));
+
+        for (const e of evs) {
+          const cell = toGridCell(e.x, e.y, rows, cols);
+          if (!cell) continue;
+          total[cell.row][cell.col] += 1;
+          if (e.team === teamName) {
+            ours[cell.row][cell.col] += 1;
+          }
+        }
+
+        const share = Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0));
+        const oursShare = Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0));
+        let totalOurs = 0;
+        let maxOursShare = 0;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const t = total[r][c];
+            const o = ours[r][c];
+            const s = t > 0 ? (o / t) : 0;
+            share[r][c] = s;
+            totalOurs += o;
+          }
+        }
+
+        // Anteil der Team-Ballkontakte je Zone (Summe = 1.0)
+        const denom = Math.max(1, totalOurs);
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const p = ours[r][c] / denom;
+            oursShare[r][c] = p;
+            if (p > maxOursShare) maxOursShare = p;
+          }
+        }
+
+        return {
+          teamName,
+          rows,
+          cols,
+          mainRows,
+          mainCols,
+          subRows,
+          subCols,
+          total,
+          ours,
+          share,
+          oursShare,
+          totalOurs,
+          maxOursShare
+        };
+      }
+
+      function renderZonesOfControlOnCanvas(data) {
+        const ctx = canvas.getContext('2d');
+        const parent = canvas.parentElement;
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
+        const w = canvas.width, h = canvas.height;
+
+        // Pitch-Grundlinien (wie gegneranalyse) + 18-Zonen-Raster (6x3)
+        drawSimplePitch(ctx, w, h);
+
+        // Strafräume/Boxen für gleichen visuellen Aufbau wie gegneranalyse
+        ctx.save();
+        ctx.strokeStyle = '#6b7280';
+        ctx.lineWidth = Math.max(1, w * 0.005);
+        ctx.lineCap = 'round';
+        // Mittelkreis (optional, dezent)
+        ctx.beginPath();
+        ctx.arc(w / 2, h / 2, w * 0.2, 0, 2 * Math.PI);
+        ctx.stroke();
+        // Mittelpunkt
+        ctx.beginPath();
+        ctx.arc(w / 2, h / 2, w * 0.01, 0, 2 * Math.PI);
+        ctx.fillStyle = '#6b7280';
+        ctx.fill();
+        // Strafraum (Penalty Box)
+        const penaltyBoxHeight = h * (16.5 / 105);
+        const penaltyBoxWidth = w * (40.3 / 68);
+        const penaltyBoxX = (w - penaltyBoxWidth) / 2;
+        ctx.strokeRect(penaltyBoxX, 0, penaltyBoxWidth, penaltyBoxHeight);
+        ctx.strokeRect(penaltyBoxX, h - penaltyBoxHeight, penaltyBoxWidth, penaltyBoxHeight);
+        // Fünfmeterraum (Goal Box)
+        const goalBoxHeight = h * (5.5 / 105);
+        const goalBoxWidth = w * (18.32 / 68);
+        const goalBoxX = (w - goalBoxWidth) / 2;
+        ctx.strokeRect(goalBoxX, 0, goalBoxWidth, goalBoxHeight);
+        ctx.strokeRect(goalBoxX, h - goalBoxHeight, goalBoxWidth, goalBoxHeight);
+        ctx.restore();
+
+        const cellW = w / data.cols;
+        const cellH = h / data.rows;
+
+        // 24×12 Raster – ausschließlich (keine sichtbaren 18-Hauptzonen)
+        // Stil an gegneranalyse „Zum Tor → Abschlüsse“ angelehnt: subtil gestrichelt
+        ctx.save();
+        ctx.strokeStyle = 'rgba(156,163,175,0.35)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        for (let r = 1; r < data.rows; r++) {
+          const y = r * cellH;
+          ctx.moveTo(0, y);
+          ctx.lineTo(w, y);
+        }
+        for (let c = 1; c < data.cols; c++) {
+          const x = c * cellW;
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, h);
+        }
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      async function showZonesOfControlFromBallbesitzClick() {
+        if (instance) { try { instance.destroy(); } catch(e) {} instance = null; }
+        setActiveVisual(null);
+        progSwitch.classList.add('hidden');
+        document.body.dataset.currentView = 'kpi-ballbesitz-control';
+
+        // Immer sofort zeichnen (ohne Einfärbung, ohne Daten-Abhängigkeit),
+        // damit keine alte 18-Zonen/Heatmap-Ansicht stehen bleibt.
+        renderZonesOfControlOnCanvas({
+          rows: CONTROL_GRID.mainRows * CONTROL_GRID.subRows,
+          cols: CONTROL_GRID.mainCols * CONTROL_GRID.subCols
+        });
+
+        statsContent.textContent = 'Lade Zones of Control...';
+        try {
+          const all = await loadAllKpiEvents();
+          const data = computeZonesOfControl(all, 'Hamburg', CONTROL_GRID);
+          controlViewState.active = true;
+          controlViewState.lastData = data;
+
+          // Team-only Info
+          const cellsTotal = data.rows * data.cols;
+          const nonEmptyCells = data.ours.flat().filter(v => Number(v) > 0).length;
+          const maxPct = data.maxOursShare ? (data.maxOursShare * 100) : 0;
+          statsContent.innerHTML = `
+            <div class="text-[11px] leading-5 text-gray-800 space-y-2">
+              <div>
+                <div class="font-semibold text-gray-700">Ballkontakte-Heatmap (Team)</div>
+                <div class="text-gray-600">24×12 Raster (288 Zellen) · ohne Einfärbung</div>
+              </div>
+              <div class="flex justify-between"><span>Zonen mit Ballkontakten</span><span class="font-medium">${nonEmptyCells} / ${cellsTotal}</span></div>
+              <div class="flex justify-between"><span>Max. Zonenanteil</span><span class="font-medium">${maxPct.toFixed(1)}%</span></div>
+            </div>
+          `;
+        } catch (err) {
+          statsContent.textContent = err.message || String(err);
+        }
+      }
+
+      // >>> NEU: Team-Ballbesitz oben im Stats-Kasten anzeigen
+      function renderTeamBallbesitz(rows) {
+        if (!teamBallbesitzEl) return;
+
+        // processed_data.json enthält die Kennzahl "ballbesitz" (pro Spieler, in %).
+        // Für Team-Ballbesitz: pro match_id alle Spieler-% aufsummieren.
+        const valid = (rows || []).filter(r => r.ballbesitz != null && !Number.isNaN(Number(r.ballbesitz)));
+        if (!valid.length) { teamBallbesitzEl.textContent = ''; return; }
+
+        const sumByMatch = new Map();
+        for (const r of valid) {
+          const mid = String(r.match_id ?? '');
+          const v = Number(r.ballbesitz);
+          sumByMatch.set(mid, (sumByMatch.get(mid) || 0) + v);
+        }
+        const arr = Array.from(sumByMatch.values());
+        const bzAvg = arr.reduce((a, x) => a + x, 0) / (arr.length || 1);
+
+        teamBallbesitzEl.innerHTML = `
+          <div class="font-semibold text-gray-700">Ballbesitz (Team)</div>
+          <div class="flex justify-between"><span>Hamburg</span><span class="font-medium">${bzAvg.toFixed(1)}%</span></div>
+        `;
+
+        // Klick: Zones of Control in der Mittel-Grafik anzeigen
+        teamBallbesitzEl.style.cursor = 'pointer';
+        teamBallbesitzEl.title = 'Klicken: Ballkontakte-Heatmap (24×12 Raster) anzeigen';
+        if (!teamBallbesitzEl.dataset.boundControlClick) {
+          teamBallbesitzEl.dataset.boundControlClick = '1';
+          teamBallbesitzEl.addEventListener('click', () => {
+            showZonesOfControlFromBallbesitzClick();
+          });
+        }
+      }
+      // <<< NEU
+
+      // >>> NEU: Field Tilt (Team) oben im Stats-Kasten anzeigen
+      // Definition: Anteil der Aktionen im Angriffsdrittel (x_coord > 66.6) an allen Angriffsdrittel-Aktionen beider Teams.
+      function computeTeamFieldTiltFromEvents(allEvents, teamName = 'Hamburg', matchIds = null) {
+        const matchSet = matchIds && matchIds.length ? new Set(matchIds.map(String)) : null;
+        const evs = (allEvents || [])
+          .filter(e => e && e.match_id != null && e.team != null && e.x_coord != null)
+          .filter(e => !matchSet || matchSet.has(String(e.match_id)))
+          .map(e => ({
+            match_id: String(e.match_id),
+            team: String(e.team),
+            x: Number(e.x_coord)
+          }))
+          .filter(e => Number.isFinite(e.x));
+
+        if (!evs.length) return null;
+
+        // pro match_id Field Tilt berechnen, dann Mittelwert
+        const byMatch = new Map();
+        for (const e of evs) {
+          if (!byMatch.has(e.match_id)) byMatch.set(e.match_id, []);
+          byMatch.get(e.match_id).push(e);
+        }
+
+        const perMatch = [];
+        for (const [mid, rows] of byMatch.entries()) {
+          const attThird = rows.filter(r => r.x > 66.6);
+          if (!attThird.length) continue;
+          const counts = new Map();
+          for (const r of attThird) counts.set(r.team, (counts.get(r.team) || 0) + 1);
+          const teamCount = counts.get(teamName) || 0;
+          const total = Array.from(counts.values()).reduce((a, v) => a + v, 0) || 0;
+          if (!total) continue;
+          perMatch.push((teamCount / total) * 100);
+        }
+
+        if (!perMatch.length) return null;
+        const avg = perMatch.reduce((a, v) => a + v, 0) / perMatch.length;
+        return Math.round(avg * 10) / 10;
+      }
+
+      function renderTeamFieldTilt(allEvents, teamName, matchIds) {
+        if (!teamFieldTiltEl) return;
+        const ft = computeTeamFieldTiltFromEvents(allEvents, teamName, matchIds);
+        if (ft == null) { teamFieldTiltEl.textContent = ''; return; }
+        teamFieldTiltEl.innerHTML = `
+          <div class="font-semibold text-gray-700">Field Tilt (Team)</div>
+          <div class="flex justify-between"><span>${teamName}</span><span class="font-medium">${ft.toFixed(1)}%</span></div>
+        `;
+      }
+      // <<< NEU
+
+      // --- Field Tilt: Zeitverlauf-Chart (wie Screenshot) ---
+      const fieldTiltCanvas = document.getElementById('field-tilt-canvas');
+      const fieldTiltSummary = document.getElementById('field-tilt-summary');
+
+      const FIELD_TILT_TOUCH_EVENTS = new Set(['Pass','TakeOn','BallTouch','Shot','Goal','SavedShot','MissedShots','Carry','Dribble']);
+
+      function eventTimeMinute(e) {
+        const m = Number(e.minute);
+        const s = Number(e.second);
+        const per = String(e.period || '');
+        if (!Number.isFinite(m)) return null;
+        const sec = Number.isFinite(s) ? s : 0;
+        // SecondHalf beginnt i.d.R. bei Minute 45 in den Daten.
+        // Wir nehmen die Datenminute direkt als Timeline-Minute.
+        return m + (sec / 60);
+      }
+
+      function trailingMovingAverage(values, windowSize = 10) {
+        const out = new Array(values.length).fill(0);
+        for (let i = 0; i < values.length; i++) {
+          let sum = 0;
+          let cnt = 0;
+          const start = Math.max(0, i - windowSize + 1);
+          for (let j = start; j <= i; j++) {
+            const v = values[j];
+            if (!Number.isFinite(v)) continue;
+            sum += v;
+            cnt += 1;
+          }
+          out[i] = cnt ? (sum / cnt) : 0;
+        }
+        return out;
+      }
+
+      function quantile(values, q) {
+        const arr = (values || []).filter(v => Number.isFinite(v)).sort((a, b) => a - b);
+        if (!arr.length) return 0;
+        if (arr.length === 1) return arr[0];
+        const pos = (arr.length - 1) * q;
+        const base = Math.floor(pos);
+        const rest = pos - base;
+        const a = arr[base];
+        const b = arr[Math.min(base + 1, arr.length - 1)];
+        return a + rest * (b - a);
+      }
+
+      function computeFieldTiltSeries(allEvents, teamName, matchIds, { maxMinutes = 95 } = {}) {
+        const matchSet = new Set((matchIds || []).map(String));
+        const evs = (allEvents || [])
+          .filter(e => e && e.match_id != null && matchSet.has(String(e.match_id)))
+          .filter(e => e.team != null && e.x_coord != null && e.y_coord != null)
+          .filter(e => FIELD_TILT_TOUCH_EVENTS.has(String(e.event_type || '')))
+          .map(e => ({
+            match_id: String(e.match_id),
+            team: String(e.team),
+            x: Number(e.x_coord),
+            tmin: eventTimeMinute(e)
+          }))
+          .filter(e => Number.isFinite(e.x) && Number.isFinite(e.tmin));
+
+        const byMatch = new Map();
+        for (const e of evs) {
+          if (!byMatch.has(e.match_id)) byMatch.set(e.match_id, []);
+          byMatch.get(e.match_id).push(e);
+        }
+
+        const minutes = Array.from({ length: maxMinutes + 1 }, (_, i) => i); // 0..max
+        const matchMaSeries = [];
+        const perMatchShares = [];
+
+        for (const [mid, rows] of byMatch.entries()) {
+          const teamCounts = new Array(maxMinutes + 1).fill(0);
+          const oppCounts = new Array(maxMinutes + 1).fill(0);
+          let teamTotal = 0;
+          let oppTotal = 0;
+
+          for (const r of rows) {
+            if (!(r.x > 66.6)) continue; // Angriffsdrittel (team-orientiert)
+            const mi = Math.max(0, Math.min(maxMinutes, Math.floor(r.tmin)));
+            if (r.team === teamName) {
+              teamCounts[mi] += 1;
+              teamTotal += 1;
+            } else {
+              oppCounts[mi] += 1;
+              oppTotal += 1;
+            }
+          }
+
+          const denomTotal = teamTotal + oppTotal;
+          if (denomTotal > 0) {
+            const teamPct = (teamTotal / denomTotal) * 100;
+            perMatchShares.push(teamPct);
+          }
+
+          const diffPerMinute = new Array(maxMinutes + 1).fill(0);
+          for (let i = 0; i < minutes.length; i++) {
+            const denom = teamCounts[i] + oppCounts[i];
+            // diff in [-100..100] = team% - opp% = 2*team% - 100
+            diffPerMinute[i] = denom ? (2 * ((teamCounts[i] / denom) * 100) - 100) : 0;
+          }
+          matchMaSeries.push(trailingMovingAverage(diffPerMinute, 10));
+        }
+
+        const q25 = minutes.map((_, i) => quantile(matchMaSeries.map(s => s[i]), 0.25));
+        const q50 = minutes.map((_, i) => quantile(matchMaSeries.map(s => s[i]), 0.50));
+        const q75 = minutes.map((_, i) => quantile(matchMaSeries.map(s => s[i]), 0.75));
+
+        const teamPctAvg = perMatchShares.length ? (perMatchShares.reduce((a, v) => a + v, 0) / perMatchShares.length) : null;
+        const oppPctAvg = teamPctAvg != null ? (100 - teamPctAvg) : null;
+
+        return { minutes, q25, q50, q75, teamPctAvg, oppPctAvg, nMatches: matchMaSeries.length };
+      }
+
+      function drawFieldTiltChart(canvas, series, { teamName } = {}) {
+        if (!canvas || !series) return;
+        const parent = canvas.parentElement;
+        const w = parent.clientWidth;
+        const h = parent.clientHeight;
+        canvas.width = w;
+        canvas.height = h;
+
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, w, h);
+
+        const padL = 34;
+        const padR = 10;
+        const padT = 10;
+        const padB = 22;
+        const iw = Math.max(1, w - padL - padR);
+        const ih = Math.max(1, h - padT - padB);
+
+        const yToPx = (v) => {
+          const vv = Math.max(-100, Math.min(100, v));
+          const t = (100 - vv) / 200; // 100->0, -100->1
+          return padT + t * ih;
+        };
+        const xToPx = (min) => {
+          const t = series.minutes.length > 1 ? (min / (series.minutes[series.minutes.length - 1] || 1)) : 0;
+          return padL + t * iw;
+        };
+
+        // Grid lines
+        ctx.save();
+        ctx.strokeStyle = 'rgba(156,163,175,0.35)';
+        ctx.lineWidth = 1;
+        const yTicks = [-100, -50, 0, 50, 100];
+        for (const yt of yTicks) {
+          const y = yToPx(yt);
+          ctx.beginPath();
+          ctx.moveTo(padL, y);
+          ctx.lineTo(padL + iw, y);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // 0-line dashed
+        const y0 = yToPx(0);
+        ctx.save();
+        ctx.strokeStyle = 'rgba(17,24,39,0.9)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        ctx.moveTo(padL, y0);
+        ctx.lineTo(padL + iw, y0);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        // Y-axis labels
+        ctx.save();
+        ctx.fillStyle = 'rgba(107,114,128,0.9)';
+        ctx.font = '10px Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        for (const yt of yTicks) {
+          ctx.fillText(String(yt), padL - 6, yToPx(yt));
+        }
+        ctx.restore();
+
+        const q25 = series.q25 || [];
+        const q50 = series.q50 || [];
+        const q75 = series.q75 || [];
+
+        const HSV_BLUE = '#0A3F86';
+        const RED = '#ef4444';
+        const POS_FILL_A = 0.20;
+        const NEG_FILL_A = 0.22;
+        const POS_BAND_A = 0.14;
+        const NEG_BAND_A = 0.14;
+
+        const hasSpread = (() => {
+          if (!q25.length || !q75.length) return false;
+          for (let i = 0; i < q25.length; i++) {
+            if (Math.abs(q75[i] - q25[i]) > 0.01) return true;
+          }
+          return false;
+        })();
+
+        // Sign-based band (25–75%): blue when median>=0, else red
+        if ((series.nMatches || 0) >= 2 && hasSpread && q25.length && q50.length && q75.length) {
+          for (let sign = 0; sign < 2; sign++) {
+            const wantPos = sign === 0;
+            ctx.save();
+            ctx.fillStyle = wantPos ? HSV_BLUE : RED;
+            ctx.globalAlpha = wantPos ? POS_BAND_A : NEG_BAND_A;
+            ctx.beginPath();
+            let started = false;
+            // upper
+            for (let i = 0; i < series.minutes.length; i++) {
+              const isPos = q50[i] >= 0;
+              if (isPos !== wantPos) {
+                if (started) break;
+                continue;
+              }
+              const x = xToPx(series.minutes[i]);
+              const y = yToPx(q75[i]);
+              if (!started) { ctx.moveTo(x, y); started = true; }
+              else ctx.lineTo(x, y);
+            }
+            if (started) {
+              // lower (walk back)
+              for (let i = series.minutes.length - 1; i >= 0; i--) {
+                const isPos = q50[i] >= 0;
+                if (isPos !== wantPos) continue;
+                const x = xToPx(series.minutes[i]);
+                const y = yToPx(q25[i]);
+                ctx.lineTo(x, y);
+              }
+              ctx.closePath();
+              ctx.fill();
+            }
+            ctx.restore();
+          }
+        }
+
+        // Fallback (n=1 or no spread): fill area between median and 0-line (blue/red)
+        if (q50.length) {
+          for (let sign = 0; sign < 2; sign++) {
+            const wantPos = sign === 0;
+            ctx.save();
+            ctx.fillStyle = wantPos ? HSV_BLUE : RED;
+            ctx.globalAlpha = wantPos ? POS_FILL_A : NEG_FILL_A;
+            ctx.beginPath();
+            ctx.moveTo(xToPx(series.minutes[0]), y0);
+            for (let i = 0; i < q50.length; i++) {
+              const isPos = q50[i] >= 0;
+              const v = wantPos ? Math.max(0, q50[i]) : Math.min(0, q50[i]);
+              const x = xToPx(series.minutes[i]);
+              const y = yToPx(v);
+              if (isPos !== wantPos) {
+                ctx.lineTo(x, y0);
+              } else {
+                ctx.lineTo(x, y);
+              }
+            }
+            ctx.lineTo(xToPx(series.minutes[q50.length - 1]), y0);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+          }
+
+          // Median line (always)
+          ctx.save();
+          ctx.strokeStyle = 'rgba(17,24,39,0.95)';
+          ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          for (let i = 0; i < q50.length; i++) {
+            const x = xToPx(series.minutes[i]);
+            const y = yToPx(q50[i]);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // X-axis labels (every 15 min)
+        ctx.save();
+        ctx.fillStyle = 'rgba(107,114,128,0.9)';
+        ctx.font = '10px Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        for (let m = 0; m <= series.minutes[series.minutes.length - 1]; m += 15) {
+          const x = xToPx(m);
+          ctx.fillText(String(m), x, padT + ih + 4);
+        }
+        ctx.restore();
+
+        if (fieldTiltSummary) {
+          if (series.teamPctAvg != null && series.oppPctAvg != null) {
+            const nTxt = (series.nMatches != null) ? ` · n=${series.nMatches}` : '';
+            fieldTiltSummary.textContent = `${teamName}: ${series.teamPctAvg.toFixed(1)}% · Gegner: ${series.oppPctAvg.toFixed(1)}%${nTxt}`;
+          } else {
+            fieldTiltSummary.textContent = '';
+          }
+        }
+      }
+
+      async function renderFieldTiltTimeSeries() {
+        const all = await loadAllKpiEvents();
+        const matchIds = await resolveMatchesForFieldTilt(ftSelectedTeam, ftSelectedGames);
+        renderTeamFieldTilt(all, ftSelectedTeam, matchIds);
+        if (!fieldTiltCanvas) return;
+        const series = computeFieldTiltSeries(all, ftSelectedTeam, matchIds, { maxMinutes: 95 });
+        drawFieldTiltChart(fieldTiltCanvas, series, { teamName: ftSelectedTeam });
+      }
+
+      // --- Spielaufbau-KPIs ---
+      function computeAufbauKpis(events) {
+        const isPass = e => e.event_type === 'Pass' && e.x_coord != null && e.end_x != null;
+        const passes = events.filter(isPass);
+
+        // Ballbesitz-Phasen grob: Sequenzen eigener Events zwischen Team-Wechseln
+        const evs = events
+          .filter(e => e.minute != null && e.second != null)
+          .map((e, idx) => ({
+            idx,
+            team: e.team,
+            type: e.event_type,
+            minute: Number(e.minute || 0),
+            second: Number(e.second || 0)
+          }))
+          .sort((a,b) => (a.minute - b.minute) || (a.second - b.second) || (a.idx - b.idx));
+
+        const possessions = [];
+        let currentTeam = null;
+        let ourPassesInAufbau = 0;
+        let inOurPoss = false;
+        for (const ev of evs) {
+          if (currentTeam === null) {
+            currentTeam = ev.team;
+            inOurPoss = (ev.team === 'Hamburg');
+            ourPassesInAufbau = 0;
+          } else if (ev.team !== currentTeam) {
+            if (inOurPoss) possessions.push(ourPassesInAufbau);
+            currentTeam = ev.team;
+            inOurPoss = (ev.team === 'Hamburg');
+            ourPassesInAufbau = 0;
+          }
+          if (!inOurPoss) continue;
+          if (ev.type === 'Pass') {
+            const orig = events[ev.idx];
+            const x0 = Number(orig.x_coord || 0);
+            const x1 = Number(orig.end_x || 0);
+            // Aufbau: solange der Ball in den ersten 2 Dritteln bleibt
+            if (x0 < 66.6 && x1 < 66.6) ourPassesInAufbau++;
+          }
+        }
+        if (inOurPoss) possessions.push(ourPassesInAufbau);
+
+        const possValid = possessions.filter(v => v > 0);
+        const avgPassesAufbau = possValid.length
+          ? Math.round((possValid.reduce((a,b) => a+b, 0) / possValid.length) * 10) / 10
+          : 0;
+
+        // Kurz vs. lang im Aufbau (Pässe, die im 1. oder 2. Drittel starten)
+        const aufbauPasses = passes.filter(p => Number(p.x_coord || 0) < 66.6);
+        const shortLimit = 20; // Meter-Schwelle (Feldlänge ~105m, Feld-x 0..100)
+        const shortCount = aufbauPasses.filter(p => Number(p.pass_length || 0) <= shortLimit).length;
+        const longCount = aufbauPasses.filter(p => Number(p.pass_length || 0) > shortLimit).length;
+        const totalAufbau = Math.max(1, aufbauPasses.length);
+        const shortPct = Math.round((shortCount / totalAufbau) * 100);
+        const longPct = Math.round((longCount / totalAufbau) * 100);
+
+        // Torwart-Risiko (vereinfachte Kennzahl)
+        const keeperName = 'Daniel Heuer Fernandes';
+        const keeperPasses = passes.filter(p => p.player_name === keeperName);
+        const kpTotal = keeperPasses.length;
+        const kpSucc = keeperPasses.filter(p => p.outcome === 'Successful').length;
+        const kpInFirstThird = keeperPasses.filter(p => Number(p.x_coord || 0) < 33.3);
+        const kpFirstTotal = kpInFirstThird.length;
+        const kpFirstFail = kpInFirstThird.filter(p => p.outcome !== 'Successful').length;
+        const kpLong = keeperPasses.filter(p => Number(p.pass_length || 0) > shortLimit).length;
+
+        // Grundaufbau-Zonen: erste Pässe im 1. Drittel nach links/zentral/rechts
+        const firstThirdPasses = passes.filter(p => Number(p.x_coord || 0) < 33.3);
+        const zones = { left: 0, center: 0, right: 0 };
+        firstThirdPasses.forEach(p => {
+          const y = Number(p.end_y || 0);
+          if (y < 33.3) zones.left++; else if (y < 66.6) zones.center++; else zones.right++;
+        });
+        const zTot = Math.max(1, firstThirdPasses.length);
+        const zonesPct = {
+          left: Math.round((zones.left / zTot) * 100),
+          center: Math.round((zones.center / zTot) * 100),
+          right: Math.round((zones.right / zTot) * 100)
+        };
+
+        return {
+          avgPassesAufbau,
+          shortPct,
+          longPct,
+          keeper: {
+            name: keeperName,
+            total: kpTotal,
+            succPct: kpTotal ? Math.round((kpSucc / kpTotal) * 100) : 0,
+            longShare: kpTotal ? Math.round((kpLong / kpTotal) * 100) : 0,
+            firstThirdFails: kpFirstFail,
+            firstThirdTotal: kpFirstTotal
+          },
+          zonesPct
+        };
+      }
+
+      function renderAufbauKpis(kpis) {
+        statsContent.innerHTML = `
+            <div class="text-[11px] leading-5 text-gray-800 space-y-3">
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Passfrequenz im Aufbau</div>
+                <div class="flex justify-between"><span>Ø Pässe im Aufbau pro Ballbesitz</span><span class="font-medium">${kpis.avgPassesAufbau}</span></div>
+                <div class="flex justify-between"><span>Aufbaupässe kurz</span><span class="font-medium">${kpis.shortPct}%</span></div>
+                <div class="flex justify-between"><span>Aufbaupässe lang</span><span class="font-medium">${kpis.longPct}%</span></div>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Risiko-Indikator Torhüter</div>
+                <div class="flex justify-between"><span>Pässe gesamt</span><span class="font-medium">${kpis.keeper.total}</span></div>
+                <div class="flex justify-between"><span>Passquote gesamt</span><span class="font-medium">${kpis.keeper.succPct}%</span></div>
+                <div class="flex justify-between"><span>Anteil lange Bälle</span><span class="font-medium">${kpis.keeper.longShare}%</span></div>
+                <div class="flex justify-between"><span>Fehlpässe im 1. Drittel</span><span class="font-medium">${kpis.keeper.firstThirdFails} / ${kpis.keeper.firstThirdTotal}</span></div>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Grundaufbau-Zonen (1. Drittel)</div>
+                <div class="grid grid-cols-3 gap-2">
+                  <div><span class="text-gray-500">Links:</span> <span class="font-medium text-gray-900">${kpis.zonesPct.left}%</span></div>
+                  <div><span class="text-gray-500">Zentrum:</span> <span class="font-medium text-gray-900">${kpis.zonesPct.center}%</span></div>
+                  <div><span class="text-gray-500">Rechts:</span> <span class="font-medium text-gray-900">${kpis.zonesPct.right}%</span></div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Einfache Visualisierung: Heatmap der Grundaufbau-Zonen im 1. Drittel
+          const ctx = canvas.getContext('2d');
+          const parent = canvas.parentElement;
+          canvas.width = parent.clientWidth;
+          canvas.height = parent.clientHeight;
+          const w = canvas.width, h = canvas.height;
+          drawSimplePitch(ctx, w, h);
+          const colors = {
+            left: 'rgba(37,99,235,0.18)',
+            center: 'rgba(37,99,235,0.28)',
+            right: 'rgba(37,99,235,0.18)'
+          };
+          const baseY = (2*h)/3; // erstes Drittel unten in dieser Orientierung
+          const thirdH = h/3;
+          const colW = w/3;
+          const maxPct = Math.max(1, kpis.zonesPct.left, kpis.zonesPct.center, kpis.zonesPct.right);
+          const fillFor = (pct) => 0.08 + 0.4 * (pct / maxPct);
+          ctx.save();
+          ctx.globalAlpha = fillFor(kpis.zonesPct.left);
+          ctx.fillStyle = colors.left;
+          ctx.fillRect(0, baseY, colW, thirdH);
+          ctx.globalAlpha = fillFor(kpis.zonesPct.center);
+          ctx.fillStyle = colors.center;
+          ctx.fillRect(colW, baseY, colW, thirdH);
+          ctx.globalAlpha = fillFor(kpis.zonesPct.right);
+          ctx.fillStyle = colors.right;
+          ctx.fillRect(2*colW, baseY, colW, thirdH);
+          ctx.restore();
+        }
+
+        // --- Spielkontrolle-KPIs (Pässe/Ballbesitz, PPD, Zentralität) ---
+        function computeKontrolleKpis(events) {
+          const isPass = e => e.event_type === 'Pass' && e.team === 'Hamburg';
+          const passes = events.filter(isPass);
+
+          // Pässe pro Ballbesitzphase (ähnlich computePassesPerPossession)
+          const evs = events
+            .filter(e => e.minute != null && e.second != null)
+            .map((e, idx) => ({
+              idx,
+              team: e.team,
+              type: e.event_type,
+              minute: Number(e.minute || 0),
+              second: Number(e.second || 0)
+            }))
+            .sort((a,b) => (a.minute - b.minute) || (a.second - b.second) || (a.idx - b.idx));
+
+          const possPassCounts = [];
+          let currentTeam = null;
+          let ourPasses = 0;
+          let inOurPoss = false;
+          for (const ev of evs) {
+            if (currentTeam === null) {
+              currentTeam = ev.team;
+              inOurPoss = (ev.team === 'Hamburg');
+              ourPasses = 0;
+            } else if (ev.team !== currentTeam) {
+              if (inOurPoss) possPassCounts.push(ourPasses);
+              currentTeam = ev.team;
+              inOurPoss = (ev.team === 'Hamburg');
+              ourPasses = 0;
+            }
+            if (!inOurPoss) continue;
+            if (ev.type === 'Pass') ourPasses++;
+          }
+          if (inOurPoss) possPassCounts.push(ourPasses);
+          const possValid = possPassCounts.filter(v => v > 0);
+          const avgPassesPerPoss = possValid.length
+            ? Math.round((possValid.reduce((a,b) => a+b, 0) / possValid.length) * 10) / 10
+            : 0;
+
+          // PPD: Progressive Passing Distance pro 90
+          const progressive = passes.filter(p => p.end_x != null && p.x_coord != null && Number(p.end_x) > Number(p.x_coord));
+          const totalGainX = progressive.reduce((acc, p) => acc + (Number(p.end_x) - Number(p.x_coord)), 0); // in Feld-Prozentpunkten
+          // Spielfeldlänge 105m, x von 0..100 => 1 x-Punkt ~ 1.05m
+          const totalGainMeters = totalGainX * 1.05;
+          // Spielzeit grob: Max-Min Minute der Hamburg-Events
+          const mins = events.filter(e => e.minute != null).map(e => Number(e.minute));
+          const durMinutes = mins.length ? (Math.max(...mins) - Math.min(...mins) + 1) : 90;
+          const ppdPer90 = durMinutes > 0
+            ? Math.round((totalGainMeters / durMinutes * 90) * 10) / 10
+            : 0;
+
+          // Zentralität: Verteilung Pässe nach Y-Korridoren (Startposition)
+          const zones = { left: 0, center: 0, right: 0 };
+          passes.forEach(p => {
+            const y = Number(p.y_coord || 0);
+            if (y < 33.3) zones.left++; else if (y < 66.6) zones.center++; else zones.right++;
+          });
+          const zTot = Math.max(1, passes.length);
+          const centralPct = Math.round((zones.center / zTot) * 100);
+          const wingPct = Math.round(((zones.left + zones.right) / zTot) * 100);
+          const zonesPct = {
+            left: Math.round((zones.left / zTot) * 100),
+            center: centralPct,
+            right: Math.round((zones.right / zTot) * 100)
+          };
+
+          return {
+            avgPassesPerPoss,
+            ppdPer90,
+            zonesPct,
+            centralPct,
+            wingPct
+          };
+        }
+
+        // >>> NEU: Final Third Entries (Spieler-Ebene)
+        function computeFinalThirdEntriesByPlayer(events) {
+          const byPlayer = new Map();
+          const add = (name) => byPlayer.set(name, (byPlayer.get(name) || 0) + 1);
+
+          (events || []).forEach(e => {
+            if (!e || e.team !== 'Hamburg') return;
+            const name = e.player_name || e.player || e.name;
+            if (!name) return;
+            const x0 = Number(e.x_coord);
+            const x1 = Number(e.end_x);
+            if (!Number.isFinite(x0) || !Number.isFinite(x1)) return;
+            if (x0 <= 66.6 && x1 > 66.6) add(String(name));
+          });
+
+          return Array.from(byPlayer.entries())
+            .map(([name, count]) => ({ name, count }))
+            .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+            .slice(0, 5);
+        }
+        // <<< NEU
+
+        async function renderKontrolleKpis(kpis) {
+          // Team-Field-Tilt aus ALLEN Events (beide Teams), Spieler-Entries aus Hamburg-Events
+          let fieldTilt = null;
+          let topEntries = [];
+          try {
+            const all = await loadAllKpiEvents();
+            fieldTilt = computeTeamFieldTiltFromEvents(all, 'Hamburg');
+          } catch (_) {}
+          try {
+            const evs = await loadKpiEvents();
+            topEntries = computeFinalThirdEntriesByPlayer(evs);
+          } catch (_) {}
+
+          statsContent.innerHTML = `
+            <div class="text-[11px] leading-5 text-gray-800 space-y-3">
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Pässe pro Ballbesitzphase</div>
+                <div class="flex justify-between"><span>Ø Pässe/Ballbesitz</span><span class="font-medium">${kpis.avgPassesPerPoss}</span></div>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Field Tilt</div>
+                <div class="flex justify-between"><span>Aktionen im Angriffsdrittel</span><span class="font-medium">${fieldTilt != null ? `${fieldTilt.toFixed(1)}%` : '-'}</span></div>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Final Third Entries (Spieler)</div>
+                ${topEntries && topEntries.length ? topEntries.map(r => `
+                  <div class="flex justify-between"><span>${r.name}</span><span class="font-medium">${r.count}</span></div>
+                `).join('') : `<div class="text-gray-500">Keine Daten</div>`}
+              </div>
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Progressive Passing Distance</div>
+                <div class="flex justify-between"><span>PPD (Meter pro 90)</span><span class="font-medium">${kpis.ppdPer90}</span></div>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Zentralität des Spiels</div>
+                <div class="flex justify-between"><span>Pässe über Zentrum</span><span class="font-medium">${kpis.centralPct}%</span></div>
+                <div class="flex justify-between"><span>Pässe über Flügel</span><span class="font-medium">${kpis.wingPct}%</span></div>
+                <div class="grid grid-cols-3 gap-2 mt-1">
+                  <div><span class="text-gray-500">Links:</span> <span class="font-medium text-gray-900">${kpis.zonesPct.left}%</span></div>
+                  <div><span class="text-gray-500">Zentrum:</span> <span class="font-medium text-gray-900">${kpis.zonesPct.center}%</span></div>
+                  <div><span class="text-gray-500">Rechts:</span> <span class="font-medium text-gray-900">${kpis.zonesPct.right}%</span></div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Visualisierung: horizontale Bänder für Zentrum vs. Flügel
+          const ctx = canvas.getContext('2d');
+          const parent = canvas.parentElement;
+          canvas.width = parent.clientWidth;
+          canvas.height = parent.clientHeight;
+          const w = canvas.width, h = canvas.height;
+          drawSimplePitch(ctx, w, h);
+
+          const topBandH = h/3;
+          const midBandY = topBandH;
+          const midBandH = h/3;
+          const bottomBandY = 2*topBandH;
+
+          const maxPct = Math.max(1, kpis.zonesPct.left + kpis.zonesPct.right, kpis.zonesPct.center);
+          const alphaCenter = 0.1 + 0.45 * (kpis.zonesPct.center / maxPct);
+          const alphaWing = 0.1 + 0.45 * ((kpis.zonesPct.left + kpis.zonesPct.right) / maxPct);
+
+          ctx.save();
+          // Flügel (oben und unten leicht eingefärbt)
+          ctx.fillStyle = `rgba(59,130,246,${alphaWing.toFixed(3)})`;
+          ctx.globalAlpha = 1;
+          ctx.fillRect(0, 0, w, topBandH * 0.8);
+          ctx.fillRect(0, bottomBandY + topBandH * 0.2, w, topBandH * 0.8);
+          // Zentrum (mittleres Band)
+          ctx.fillStyle = `rgba(16,185,129,${alphaCenter.toFixed(3)})`;
+          ctx.fillRect(0, midBandY, w, midBandH);
+          ctx.restore();
+        }
+
+        // --- Zum Tor-KPIs (Vorbereiter, Abschlusszonen, Flanken/Kopfball) ---
+        function computeZumTorKpis(events, processed) {
+          function mapTo18Zone(x, y) {
+            const cell = toGridCell(x, y, 6, 3);
+            if (!cell) return null;
+            return cell.row * 3 + cell.col + 1; // konsistent mit gegneranalyse (Zone 1..18)
+          }
+
+          function topNFromMap(map, n = 3) {
+            return [...map.entries()]
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, n)
+              .map(([key, count]) => ({ key, count }));
+          }
+
+          const isShotEv = e => {
+            const t = e.event_type || e.type;
+            const shotTypes = ['Shot','Goal','SavedShot','MissedShots'];
+            return (e.isShot === true) || (e.isGoal === true) || (t && shotTypes.includes(t));
+          };
+
+          // Key-Pass/Vorbereiter (vereinfachte Variante aus processed_data)
+          const byPlayer = new Map();
+          processed.forEach(r => {
+            const name = r.player;
+            if (!byPlayer.has(name)) byPlayer.set(name, { key_passes: 0, xt: 0, minutes: 0 });
+            const agg = byPlayer.get(name);
+            agg.key_passes += Number(r.key_passes || 0);
+            agg.xt += Number(r.xt || 0);
+            agg.minutes += Number(r.minutes_played || 0);
+          });
+          const preparers = Array.from(byPlayer.entries())
+            .map(([name, v]) => ({
+              name,
+              key_passes: v.key_passes,
+              kp90: v.minutes ? (v.key_passes / v.minutes * 90) : 0,
+              xt: v.xt
+            }))
+            .filter(p => p.key_passes > 0 || p.xt > 0)
+            .sort((a,b) => b.key_passes - a.key_passes || b.xt - a.xt)
+            .slice(0, 5);
+
+          // Abschlusszonen
+          const shots = events.filter(e => isShotEv(e) && e.x_coord != null && e.y_coord != null);
+          const shotZones = { centralBox: 0, leftHalfspace: 0, rightHalfspace: 0, outsideBox: 0 };
+          shots.forEach(s => {
+            const x = Number(s.x_coord || 0);
+            const y = Number(s.y_coord || 0);
+            const inBox = x >= 80; // grob: letzter Fünftel als Boxnähe
+            if (inBox && y >= 33.3 && y <= 66.6) shotZones.centralBox++;
+            else if (inBox && y < 33.3) shotZones.leftHalfspace++;
+            else if (inBox && y > 66.6) shotZones.rightHalfspace++;
+            else shotZones.outsideBox++;
+          });
+          const shotTot = Math.max(1, shots.length);
+          const shotPct = {
+            centralBox: Math.round((shotZones.centralBox / shotTot) * 100),
+            leftHalfspace: Math.round((shotZones.leftHalfspace / shotTot) * 100),
+            rightHalfspace: Math.round((shotZones.rightHalfspace / shotTot) * 100),
+            outsideBox: Math.round((shotZones.outsideBox / shotTot) * 100)
+          };
+
+          // Flanken & Kopfballgefahr
+          const crosses = events.filter(e => e.is_cross === true && e.event_type === 'Pass' && e.is_corner !== true);
+          const crossesTotal = crosses.length;
+          const crossesSucc = crosses.filter(c => c.outcome === 'Successful').length;
+
+          // Aus welchen Zonen im letzten Drittel? (Startzone, 18er Raster; Starts im letzten Drittel)
+          const startZoneCounts = new Map();
+          const lastThirdCrosses = crosses.filter(c => Number(c.x_coord) >= 66.6);
+          const startZoneCounts18 = Array.from({ length: 19 }, () => 0); // Index 1..18
+          for (const c of lastThirdCrosses) {
+            const sz = mapTo18Zone(c.x_coord, c.y_coord);
+            if (sz == null) continue;
+            startZoneCounts.set(sz, (startZoneCounts.get(sz) || 0) + 1);
+            startZoneCounts18[sz] += 1;
+          }
+          const topStartZones = topNFromMap(startZoneCounts, 5);
+
+          const aerialByPlayer = new Map();
+          processed.forEach(r => {
+            const name = r.player;
+            if (!aerialByPlayer.has(name)) aerialByPlayer.set(name, { aerials_total: 0, aerials_won: 0, offensive: 0 });
+            const agg = aerialByPlayer.get(name);
+            agg.aerials_total += Number(r.aerials_total || 0);
+            agg.aerials_won += Number(r.aerials_won || 0);
+            agg.offensive += Number(r.offensive_aerials || 0);
+          });
+          const aerialTop = Array.from(aerialByPlayer.entries())
+            .map(([name, v]) => ({
+              name,
+              total: v.aerials_total,
+              won: v.aerials_won,
+              offensive: v.offensive,
+              winRate: v.aerials_total ? (v.aerials_won / v.aerials_total * 100) : 0
+            }))
+            .filter(p => p.total > 0)
+            .sort((a,b) => b.offensive - a.offensive || b.winRate - a.winRate)
+            .slice(0, 3);
+
+          return {
+            preparers,
+            shotPct,
+            crosses: {
+              total: crossesTotal,
+              succ: crossesSucc,
+              succPct: crossesTotal ? Math.round((crossesSucc / crossesTotal) * 100) : 0,
+              detail: {
+                fromLastThird: lastThirdCrosses.length,
+                topStartZones,
+                startZoneCounts18
+              }
+            },
+            aerialTop,
+            shots
+          };
+        }
+
+        function draw18ZoneGrid(ctx, w, h) {
+          const rows = 6;
+          const cols = 3;
+          ctx.save();
+          ctx.strokeStyle = '#9ca3af';
+          ctx.lineWidth = Math.max(1, w * 0.003);
+          ctx.setLineDash([6, 6]);
+          for (let r = 1; r < rows; r++) {
+            const y = (h / rows) * r;
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(w, y);
+            ctx.stroke();
+          }
+          for (let c = 1; c < cols; c++) {
+            const x = (w / cols) * c;
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, h);
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+        function mapTo18ZoneGlobal(x, y) {
+          const cell = toGridCell(x, y, 6, 3);
+          if (!cell) return null;
+          return cell.row * 3 + cell.col + 1;
+        }
+
+        function renderFlankenLinesToZone17Viz(events) {
+          const ctx = canvas.getContext('2d');
+          const parent = canvas.parentElement;
+          canvas.width = parent.clientWidth;
+          canvas.height = parent.clientHeight;
+          const w = canvas.width, h = canvas.height;
+
+          drawSimplePitch(ctx, w, h);
+          draw18ZoneGrid(ctx, w, h);
+
+          const crosses = (events || [])
+            .filter(e => e && e.is_cross === true && (e.event_type === 'Pass' || e.type === 'Pass') && e.is_corner !== true)
+            .filter(e => e.end_x != null && e.end_y != null && e.x_coord != null && e.y_coord != null);
+
+          if (!crosses.length) {
+            ctx.save();
+            ctx.fillStyle = '#6b7280';
+            ctx.font = '600 12px system-ui, -apple-system, Segoe UI, Roboto, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Keine Flanken', w / 2, h / 2);
+            ctx.restore();
+            return;
+          }
+
+          // Koordinaten: y_coord -> canvasX, x_coord -> canvasY (Spielrichtung unten→oben)
+          const toCanvas = (xCoord, yCoord) => {
+            const x = Number(xCoord);
+            const y = Number(yCoord);
+            return {
+              x: (y / 100) * w,
+              y: h - (x / 100) * h
+            };
+          };
+
+          ctx.save();
+          ctx.lineWidth = Math.max(1.5, Math.min(3.5, w * 0.006));
+          ctx.lineCap = 'round';
+          ctx.globalAlpha = 0.75;
+
+          // Erst erfolglose rot, dann erfolgreiche grün oben drauf (bessere Lesbarkeit)
+          const drawGroup = (arr, stroke) => {
+            ctx.strokeStyle = stroke;
+            for (const c of arr) {
+              const s = toCanvas(c.x_coord, c.y_coord);
+              const e = toCanvas(c.end_x, c.end_y);
+              ctx.beginPath();
+              ctx.moveTo(s.x, s.y);
+              ctx.lineTo(e.x, e.y);
+              ctx.stroke();
+            }
+          };
+
+          const succ = crosses.filter(c => c.outcome === 'Successful');
+          const fail = crosses.filter(c => c.outcome !== 'Successful');
+          drawGroup(fail, 'rgba(239,68,68,0.85)');
+          drawGroup(succ, 'rgba(34,197,94,0.85)');
+
+          ctx.restore();
+        }
+
+        function renderCrossesStartZonesViz(kpis) {
+          const ctx = canvas.getContext('2d');
+          const parent = canvas.parentElement;
+          canvas.width = parent.clientWidth;
+          canvas.height = parent.clientHeight;
+          const w = canvas.width, h = canvas.height;
+          drawSimplePitch(ctx, w, h);
+          draw18ZoneGrid(ctx, w, h);
+
+          const counts = (kpis && kpis.crosses && kpis.crosses.detail && kpis.crosses.detail.startZoneCounts18) ? kpis.crosses.detail.startZoneCounts18 : null;
+          if (!counts) return;
+
+          // Nur Startzonen im letzten Drittel (x>=66.6) => bei 6 Reihen sind das die oberen 2 Reihen
+          const rows = 6, cols = 3;
+          const cellW = w / cols;
+          const cellH = h / rows;
+          const lastThirdRowsFromTop = [0, 1];
+
+          // Max für Schriftgewicht (ohne Farbfüllung)
+          let maxVal = 0;
+          for (let z = 1; z <= 18; z++) maxVal = Math.max(maxVal, Number(counts[z] || 0));
+          maxVal = Math.max(1, maxVal);
+
+          ctx.save();
+          ctx.fillStyle = '#111827';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+
+          for (let row = 0; row < rows; row++) {
+            if (!lastThirdRowsFromTop.includes(row)) continue;
+            for (let col = 0; col < cols; col++) {
+              const zoneId = row * 3 + col + 1;
+              const val = Number(counts[zoneId] || 0);
+              if (!val) continue;
+              const cx = col * cellW + cellW / 2;
+              const cy = row * cellH + cellH / 2;
+              const fontSize = Math.round(Math.max(10, Math.min(18, 10 + 8 * (val / maxVal))));
+              ctx.font = `600 ${fontSize}px system-ui, -apple-system, Segoe UI, Roboto, sans-serif`;
+              ctx.fillText(String(val), cx, cy);
+              ctx.font = `500 10px system-ui, -apple-system, Segoe UI, Roboto, sans-serif`;
+              ctx.fillText(`Z${zoneId}`, cx, cy + Math.round(cellH * 0.22));
+            }
+          }
+          ctx.restore();
+        }
+
+        function renderZumTorKpis(kpis) {
+          statsContent.innerHTML = `
+            <div class="text-[11px] leading-5 text-gray-800 space-y-3">
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Vorbereiter & kreative Spieler</div>
+                ${kpis.preparers.length ? kpis.preparers.map((p, i) => `
+                  <div>${i+1}. <span class="font-medium">${p.name}</span> – Key Passes: ${p.key_passes}, KP/90: ${p.kp90.toFixed(2)}, xT: ${p.xt.toFixed(2)}</div>
+                `).join('') : '<div class="text-gray-500">Keine Daten.</div>'}
+              </div>
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Abschlusszonen</div>
+                <div class="grid grid-cols-2 gap-1">
+                  <div><span class="text-gray-500">Zentrum Box:</span> <span class="font-medium text-gray-900">${kpis.shotPct.centralBox}%</span></div>
+                  <div><span class="text-gray-500">Halbraum links:</span> <span class="font-medium text-gray-900">${kpis.shotPct.leftHalfspace}%</span></div>
+                  <div><span class="text-gray-500">Halbraum rechts:</span> <span class="font-medium text-gray-900">${kpis.shotPct.rightHalfspace}%</span></div>
+                  <div><span class="text-gray-500">Außerhalb Box:</span> <span class="font-medium text-gray-900">${kpis.shotPct.outsideBox}%</span></div>
+                </div>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Flanken & Kopfballgefahr</div>
+                <div class="flex justify-between"><span>Flanken gesamt</span><span class="font-medium">${kpis.crosses.total}</span></div>
+                <div class="flex justify-between"><span>Flanken erfolgreich</span><span class="font-medium">${kpis.crosses.succ} (${kpis.crosses.succPct}%)</span></div>
+                <div data-flanken-click class="mt-2 cursor-pointer rounded-md p-2 -m-2 hover:bg-gray-50">
+                  <div class="text-xs text-gray-600 mb-0.5">Klick: Startzonen der Flanken anzeigen</div>
+                  <div class="flex justify-between"><span>Start im letzten Drittel</span><span class="font-medium">${kpis.crosses.detail.fromLastThird}</span></div>
+                  <div class="mt-1">
+                    <div class="text-xs text-gray-600 mb-0.5">Startzonen im letzten Drittel (Top)</div>
+                    ${kpis.crosses.detail.topStartZones && kpis.crosses.detail.topStartZones.length ? kpis.crosses.detail.topStartZones.map((z, i) => {
+                      const denom = Math.max(1, kpis.crosses.detail.fromLastThird);
+                      const pct = Math.round((z.count / denom) * 100);
+                      return `<div>${i+1}. <span class="font-medium">Zone ${z.key}</span> – ${z.count} (${pct}%)</div>`;
+                    }).join('') : '<div class="text-gray-500">Keine Daten.</div>'}
+                  </div>
+                </div>
+                <div class="mt-1">
+                  <div class="text-xs text-gray-600 mb-0.5">Kopfballstarke Spieler (Offensiv)</div>
+                  ${kpis.aerialTop.length ? kpis.aerialTop.map((p, i) => `
+                    <div>${i+1}. <span class="font-medium">${p.name}</span> – Off. Luftduelle: ${p.offensive}, Quote: ${p.winRate.toFixed(1)}%</div>
+                  `).join('') : '<div class="text-gray-500">Keine Daten.</div>'}
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Visualisierung: Schusszonen auf dem Feld markieren
+          const ctx = canvas.getContext('2d');
+          const parent = canvas.parentElement;
+          canvas.width = parent.clientWidth;
+          canvas.height = parent.clientHeight;
+          const w = canvas.width, h = canvas.height;
+          drawSimplePitch(ctx, w, h);
+
+          const boxX = (80/100) * h; // x>=80 -> Nähe Tor oben
+          const boxHeight = h - boxX;
+          const thirdW = w / 3;
+          ctx.save();
+          // Zentralbox
+          const maxShot = Math.max(1, kpis.shotPct.centralBox, kpis.shotPct.leftHalfspace, kpis.shotPct.rightHalfspace, kpis.shotPct.outsideBox);
+          const alphaCenter = 0.1 + 0.5 * (kpis.shotPct.centralBox / maxShot);
+          const alphaHalfL = 0.1 + 0.5 * (kpis.shotPct.leftHalfspace / maxShot);
+          const alphaHalfR = 0.1 + 0.5 * (kpis.shotPct.rightHalfspace / maxShot);
+          ctx.fillStyle = `rgba(239,68,68,${alphaHalfL.toFixed(3)})`;
+          ctx.fillRect(0, 0, thirdW, boxX);
+          ctx.fillStyle = `rgba(34,197,94,${alphaCenter.toFixed(3)})`;
+          ctx.fillRect(thirdW, 0, thirdW, boxX);
+          ctx.fillStyle = `rgba(59,130,246,${alphaHalfR.toFixed(3)})`;
+          ctx.fillRect(2*thirdW, 0, thirdW, boxX);
+          ctx.restore();
+
+          // Klick: Flanken-Startzonen-Viz
+          const flankenClickable = statsContent.querySelector('[data-flanken-click]');
+          if (flankenClickable) {
+            flankenClickable.addEventListener('click', () => {
+              renderCrossesStartZonesViz(kpis);
+            }, { once: false });
+          }
+        }
+
+        function setProgModeActive(which) {
+          [btnProgZones, btnProgArrows].forEach(b => b.classList.remove('bg-[#0A3F86]', 'text-white'));
+          if (which === 'zones') btnProgZones.classList.add('bg-[#0A3F86]', 'text-white');
+          else btnProgArrows.classList.add('bg-[#0A3F86]', 'text-white');
+        }
+
+        function setEntryFilterActive(which) {
+          [btnEntryOutside, btnEntryAll].forEach(b => b.classList.remove('bg-[#0A3F86]', 'text-white'));
+          if (which === 'outside') btnEntryOutside.classList.add('bg-[#0A3F86]', 'text-white');
+          else btnEntryAll.classList.add('bg-[#0A3F86]', 'text-white');
+        }
+
+        async function showPassnetz() {
+          showPitchCanvas();
+          if (instance) { try { instance.destroy(); } catch(e) {} instance = null; }
+          setActiveVisual(btnPassnetz);
+          document.body.dataset.currentView = 'other';
+          progSwitch.classList.add('hidden');
+          instance = await PitchViz.renderAveragePositionsAndNetwork({
+            canvas,
+            coordsEl: coordsDisplay,
+            statsEl: statsContent,
+            teamName: 'Hamburg',
+            eventsPath: 'events_data.json',
+            formationsPath: 'Data/germany-bundesliga-2025-2026-hamburger-sv-fc-heidenheim_formations.csv',
+            passNetwork: { enabled: true },
+            label: { lastName: true, color: '#111827', weight: 600 }
+          });
+        }
+
+        async function showAbstoesse() {
+          showPitchCanvas();
+          if (instance) { try { instance.destroy(); } catch(e) {} instance = null; }
+          setActiveVisual(btnAbstoesse);
+          progSwitch.classList.add('hidden');
+          document.body.dataset.currentView = 'other';
+          instance = await PitchViz.renderGoalKicksMap({
+            canvas,
+            coordsEl: coordsDisplay,
+            statsEl: statsContent,
+            teamName: 'Hamburg',
+            eventsPath: 'events_data.json'
+          });
+        }
+
+        async function showProgressive() {
+          showPitchCanvas();
+          if (instance) { try { instance.destroy(); } catch(e) {} instance = null; }
+          setActiveVisual(btnProgressive);
+          progSwitch.classList.remove('hidden');
+          document.body.dataset.currentView = 'progressive';
+          instance = await PitchViz.renderProgressivePassesMap({
+            canvas,
+            coordsEl: coordsDisplay,
+            statsEl: statsContent,
+            teamName: 'Hamburg',
+            eventsPath: 'events_data.json',
+            minGainM: 10,
+            minLengthM: 5,
+            viewMode: 'zones'
+          });
+          setProgModeActive('zones');
+        }
+
+        function renderFlankenKpis(kpis) {
+          const c = kpis?.crosses?.detail;
+          const topStarts = c?.topStartZones || [];
+          statsContent.innerHTML = `
+            <div class="text-[11px] leading-5 text-gray-800 space-y-3">
+              <div>
+                <div class="font-semibold text-gray-700 mb-1">Flanken & Kopfballgefahr</div>
+                <div class="flex justify-between"><span>Flanken gesamt</span><span class="font-medium">${kpis.crosses.total}</span></div>
+                <div class="flex justify-between"><span>Flanken erfolgreich</span><span class="font-medium">${kpis.crosses.succ} (${kpis.crosses.succPct}%)</span></div>
+                <div class="mt-2">
+                  <div class="flex justify-between"><span>Start im letzten Drittel</span><span class="font-medium">${c ? c.fromLastThird : 0}</span></div>
+                  <div class="mt-1">
+                    <div class="text-xs text-gray-600 mb-0.5">Startzonen im letzten Drittel (Top)</div>
+                    ${topStarts.length ? topStarts.map((z, i) => {
+                      const denom = Math.max(1, c.fromLastThird);
+                      const pct = Math.round((z.count / denom) * 100);
+                      return `<div>${i+1}. <span class=\"font-medium\">Zone ${z.key}</span> – ${z.count} (${pct}%)</div>`;
+                    }).join('') : '<div class="text-gray-500">Keine Daten.</div>'}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="text-xs text-gray-600 mb-0.5">Kopfballstarke Spieler (Offensiv)</div>
+                ${kpis.aerialTop.length ? kpis.aerialTop.map((p, i) => `
+                  <div>${i+1}. <span class="font-medium">${p.name}</span> – Off. Luftduelle: ${p.offensive}, Quote: ${p.winRate.toFixed(1)}%</div>
+                `).join('') : '<div class="text-gray-500">Keine Daten.</div>'}
+              </div>
+            </div>
+          `;
+        }
+
+        async function showFlanken() {
+          showPitchCanvas();
+          if (instance) { try { instance.destroy(); } catch(e) {} instance = null; }
+          setActivePhase('flanken');
+          setActiveVisual(null);
+          progSwitch.classList.add('hidden');
+          document.body.dataset.currentView = 'flanken';
+          statsContent.textContent = 'Lade Flanken...';
+          try {
+            const [evs, proc] = await Promise.all([loadKpiEvents(), loadKpiProcessed()]);
+            const kpis = computeZumTorKpis(evs, proc);
+            renderFlankenKpis(kpis);
+            renderFlankenLinesToZone17Viz(evs);
+          } catch (err) {
+            statsContent.textContent = err.message || String(err);
+          }
+        }
+
+        // --- Mustererkennung ---
+        function splitCsvLine(line) {
+          const out = [];
+          let buf = '';
+          let bracket = 0;
+          let inQuotes = false;
+          for (let i = 0; i < line.length; i++) {
+            const ch = line[i];
+            if (ch === '"') inQuotes = !inQuotes;
+            if (!inQuotes) {
+              if (ch === '[') bracket++;
+              if (ch === ']') bracket = Math.max(0, bracket - 1);
+            }
+            if (ch === ',' && bracket === 0 && !inQuotes) {
+              out.push(buf);
+              buf = '';
+            } else {
+              buf += ch;
+            }
+          }
+          if (buf.length) out.push(buf);
+          return out.map(s => s.replace(/^\"|\"$/g, ''));
+        }
+
+        function describeFineZone(row, col, rows = 8, cols = 12) {
+          // Menschlich lesbare Bezeichnung für 12x8 Raster im letzten Drittel
+          const r = Math.min(rows - 1, Math.max(0, row)) + 1; // 1..rows (von oben nach unten im letzten Drittel)
+          const c = Math.min(cols - 1, Math.max(0, col)) + 1; // 1..cols (von links nach rechts)
+          return `Letztes Drittel · Reihe ${r}/${rows}, Spalte ${c}/${cols}`;
+        }
+
+        async function showPatterns() {
+          showPitchCanvas();
+          if (instance) { try { instance.destroy(); } catch(e) {} instance = null; }
+          setActiveVisual(btnPatterns);
+          progSwitch.classList.remove('hidden');
+          document.body.dataset.currentView = 'patterns';
+          // Load events and formations
+          const teamName = 'Hamburg';
+          const [eventsRes, formsRes] = await Promise.all([
+            fetch('events_data.json'),
+            fetch('Data/germany-bundesliga-2025-2026-hamburger-sv-fc-heidenheim_formations.csv')
+          ]);
+          if (!eventsRes.ok) throw new Error('events_data.json konnte nicht geladen werden');
+          const allEvents = await eventsRes.json();
+          const teamEvents = allEvents.filter(e => e.team === teamName);
+          const passEvents = teamEvents.filter(e => e.event_type === 'Pass' && e.end_x != null && e.end_y != null);
+          const rows = 8, cols = 12;
+
+          // Parse formations to extract 4-3-3 windows and pre-filtered team events for that phase
+          let eventsVs433 = null;
+          if (formsRes.ok) {
+            const csv = await formsRes.text();
+            const lines = csv.trim().split(/\r?\n/);
+            const header = lines[0].split(',');
+            const idxTeam = header.indexOf('team_name');
+            const idxFormation = header.indexOf('formationName');
+            const idxPeriod = header.indexOf('period');
+            const idxStart = header.indexOf('startMinuteExpanded');
+            const idxEnd = header.indexOf('endMinuteExpanded');
+            const oppWindows = [];
+            for (let i=1;i<lines.length;i++) {
+              const parts = splitCsvLine(lines[i]);
+              const team = parts[idxTeam];
+              const fname = parts[idxFormation];
+              if (team && team !== teamName && fname && fname.replaceAll(' ', '').includes('433')) {
+                const period = parts[idxPeriod];
+                const start = Number(parts[idxStart] || 0);
+                const end = Number(parts[idxEnd] || 90);
+                oppWindows.push({ period, start, end });
+              }
+            }
+            if (oppWindows.length) {
+              eventsVs433 = teamEvents.filter(e => {
+                const per = String(e.period || '');
+                const min = Number(e.minute || 0);
+                return oppWindows.some(w => String(w.period) === per && min >= w.start && min < w.end);
+              });
+            }
+          }
+
+          // State for view and entry-filter
+          let patternViewMode = 'arrows';
+          let patternIncludeInside = false; // default: start outside only
+
+          function computeStats(includeInsideStarts) {
+            const isEntry = (p) => Number(p.end_x) >= 66.6 && (includeInsideStarts ? true : Number(p.x_coord) < 66.6);
+            const entries = passEvents.filter(isEntry);
+            // side distribution
+            const sc = { left:0, center:0, right:0 };
+            entries.forEach(p => {
+              const y = Number(p.end_y);
+              if (y < 33.3) sc.left++; else if (y < 66.6) sc.center++; else sc.right++;
+            });
+            const tot = Math.max(1, entries.length);
+            const sidePct = {
+              left: Math.round((sc.left / tot) * 100),
+              center: Math.round((sc.center / tot) * 100),
+              right: Math.round((sc.right / tot) * 100)
+            };
+            // counts grid using ENDPOINTS only
+            const counts = Array.from({ length: rows }, () => Array(cols).fill(0));
+            entries.forEach(p => {
+              const ex = Number(p.end_x), ey = Number(p.end_y);
+              const fracX = (ex - 66.6) / (100 - 66.6);
+              const base = Math.min(rows - 1, Math.max(0, Math.floor(fracX * rows)));
+              const r = (rows - 1) - base;
+              let c = Math.floor((ey / 100) * cols); c = Math.min(cols - 1, Math.max(0, c));
+              counts[r][c]++;
+            });
+            const zoneList = [];
+            for (let r=0;r<rows;r++) for (let c=0;c<cols;c++) zoneList.push({ r, c, v: counts[r][c] });
+            zoneList.sort((a,b) => b.v - a.v);
+            const topZones = zoneList.slice(0, 3);
+            // vs 4-3-3 percentages
+            let vs433 = null;
+            if (eventsVs433) {
+              const pe = eventsVs433.filter(e => e.event_type === 'Pass' && e.end_x != null && e.end_y != null);
+              const entries433 = pe.filter(isEntry);
+              const s = { left:0, center:0, right:0 };
+              entries433.forEach(p => { const y = Number(p.end_y); if (y < 33.3) s.left++; else if (y < 66.6) s.center++; else s.right++; });
+              const t = Math.max(1, entries433.length);
+              vs433 = { left: Math.round((s.left/t)*100), center: Math.round((s.center/t)*100), right: Math.round((s.right/t)*100) };
+            }
+            return { entries, sidePct, counts, topZones, vs433 };
+          }
+
+          function renderStats(stats) {
+            const label = patternIncludeInside ? 'Angriffsseite (Eintritte ins letzte Drittel, alle Starts)'
+                                              : 'Angriffsseite (Eintritte ins letzte Drittel, Start außerhalb)';
+            statsContent.innerHTML = `
+              <div class="text-[11px] leading-5">
+                <div class="font-semibold text-gray-700 mb-1">Mustererkennung</div>
+                <div class="mt-2">
+                  <div class="text-xs text-gray-600">${label}</div>
+                  <div class="grid grid-cols-3 gap-2 mt-1">
+                    <div><span class="text-gray-500">Links:</span> <span class="font-medium text-gray-900">${stats.sidePct.left}%</span></div>
+                    <div><span class="text-gray-500">Zentrum:</span> <span class="font-medium text-gray-900">${stats.sidePct.center}%</span></div>
+                    <div><span class="text-gray-500">Rechts:</span> <span class="font-medium text-gray-900">${stats.sidePct.right}%</span></div>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <div class="text-xs text-gray-600">Gesuchte Räume (Top 3, letztes Drittel, Raster 12×8)</div>
+                  ${stats.topZones.map((z, i) => `<div>${i+1}. ${describeFineZone(z.r, z.c, 8, 12)} <span class="text-gray-500">(${z.v})</span></div>`).join('')}
+                </div>
+                <div class="mt-3">
+                  <div class="text-xs text-gray-600">Gegen 4-3-3 (falls vorhanden)</div>
+                  ${stats.vs433 ? `
+                    <div class="grid grid-cols-3 gap-2 mt-1">
+                      <div><span class="text-gray-500">Links:</span> <span class="font-medium text-gray-900">${stats.vs433.left}%</span></div>
+                      <div><span class="text-gray-500">Zentrum:</span> <span class="font-medium text-gray-900">${stats.vs433.center}%</span></div>
+                      <div><span class="text-gray-500">Rechts:</span> <span class="font-medium text-gray-900">${stats.vs433.right}%</span></div>
+                    </div>
+                  ` : `<div class="text-gray-500 text-xs">Keine 4-3-3-Phasen erkannt.</div>`}
+                </div>
+              </div>
+            `;
+          }
+
+          // --- Visualisierung auf dem Feld: Eintritte ins letzte Drittel ---
+          const parent = canvas.parentElement;
+          const ctx = canvas.getContext('2d');
+          const toCanvas = (x, y, w = canvas.width, h = canvas.height) => ({ cx: Number(y) * (w/100), cy: (100 - Number(x)) * (h/100) });
+
+          function drawPitch(ctx, w, h) {
+            ctx.clearRect(0, 0, w, h);
+            ctx.strokeStyle = '#6b7280';
+            ctx.lineWidth = Math.max(1, w * 0.005);
+            ctx.lineCap = 'round';
+            // Außenrahmen
+            ctx.strokeRect(0, 0, w, h);
+            // Mittellinie
+            ctx.beginPath();
+            ctx.moveTo(0, h/2);
+            ctx.lineTo(w, h/2);
+            ctx.stroke();
+            // Mittelkreis
+            ctx.beginPath();
+            ctx.arc(w/2, h/2, w*0.2, 0, 2*Math.PI);
+            ctx.stroke();
+            // Strafräume
+            const pbH = h*(16.5/105), pbW = w*(40.3/68), pbX = (w-pbW)/2;
+            ctx.strokeRect(pbX, 0, pbW, pbH); // oben
+            ctx.strokeRect(pbX, h-pbH, pbW, pbH); // unten
+            // Letztes Drittel soft highlight
+            const topH = ((100 - 66.6)/100)*h;
+            ctx.fillStyle = 'rgba(10,63,134,0.06)';
+            ctx.fillRect(0, 0, w, topH);
+            // 12x8 Raster im letzten Drittel
+            ctx.save();
+            ctx.strokeStyle = 'rgba(156,163,175,0.35)';
+            ctx.setLineDash([4,4]);
+            const rws = 8, cls = 12;
+            const cellH = topH / rws;
+            const cellW = w / cls;
+            for (let i=1; i<rws; i++) { ctx.beginPath(); ctx.moveTo(0, i*cellH); ctx.lineTo(w, i*cellH); ctx.stroke(); }
+            ctx.beginPath(); ctx.rect(0, 0, w, topH); ctx.clip();
+            for (let j=1; j<cls; j++) { ctx.beginPath(); ctx.moveTo(j*cellW, 0); ctx.lineTo(j*cellW, topH); ctx.stroke(); }
+            ctx.restore();
+          }
+
+          function renderPattern(viewMode = 'arrows', stats = null) {
+            // Canvas sizing on each render
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientHeight;
+            const w = canvas.width, h = canvas.height;
+            drawPitch(ctx, w, h);
+
+            // entries to draw
+            const entries = stats ? stats.entries : [];
+
+            // draw arrows first
+            ctx.lineCap = 'round';
+            if (viewMode === 'zones') {
+              ctx.globalAlpha = 0.8;
+              const grey = 'rgba(107,114,128,0.35)';
+              entries.forEach(p => {
+                const { cx: sx, cy: sy } = toCanvas(p.x_coord, p.y_coord, w, h);
+                const { cx: ex, cy: ey } = toCanvas(p.end_x, p.end_y, w, h);
+                const dx = ex - sx, dy = ey - sy; const L = Math.max(1, Math.hypot(dx, dy));
+                const lw = Math.min(Math.max(1.5, L * 0.004), 4);
+                ctx.strokeStyle = grey; ctx.lineWidth = lw;
+                ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+                const ang = Math.atan2(ey - sy, ex - sx); const ah = 8;
+                ctx.beginPath();
+                ctx.moveTo(ex, ey);
+                ctx.lineTo(ex - ah * Math.cos(ang - Math.PI/6), ey - ah * Math.sin(ang - Math.PI/6));
+                ctx.lineTo(ex - ah * Math.cos(ang + Math.PI/6), ey - ah * Math.sin(ang + Math.PI/6));
+                ctx.closePath(); ctx.fillStyle = grey; ctx.fill();
+              });
+            } else {
+              const colorForSide = (y) => y < 33.3 ? 'rgba(16,185,129,0.8)' : (y < 66.6 ? 'rgba(10,63,134,0.85)' : 'rgba(249,115,22,0.85)');
+              entries.forEach(p => {
+                const { cx: sx, cy: sy } = toCanvas(p.x_coord, p.y_coord, w, h);
+                const { cx: ex, cy: ey } = toCanvas(p.end_x, p.end_y, w, h);
+                const col = colorForSide(Number(p.end_y));
+                const dx = ex - sx, dy = ey - sy; const L = Math.max(1, Math.hypot(dx, dy));
+                const lw = Math.min(Math.max(1.5, L * 0.004), 4);
+                ctx.strokeStyle = col; ctx.lineWidth = lw; ctx.globalAlpha = 0.8;
+                ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+                const ang = Math.atan2(ey - sy, ex - sx); const ah = 8;
+                ctx.beginPath();
+                ctx.moveTo(ex, ey);
+                ctx.lineTo(ex - ah * Math.cos(ang - Math.PI/6), ey - ah * Math.sin(ang - Math.PI/6));
+                ctx.lineTo(ex - ah * Math.cos(ang + Math.PI/6), ey - ah * Math.sin(ang + Math.PI/6));
+                ctx.closePath(); ctx.fillStyle = col; ctx.fill();
+                ctx.beginPath(); ctx.arc(ex, ey, 2.5, 0, 2*Math.PI); ctx.fillStyle = col; ctx.fill();
+              });
+            }
+
+            // if zones mode, overlay heatmap in last third
+            if (viewMode === 'zones' && stats) {
+              const maxV = Math.max(1, ...stats.counts.map(row => Math.max(0, ...row)));
+              const topH = ((100 - 66.6)/100)*h;
+              const cellH = topH / rows;
+              const cellW = w / cols;
+              for (let r=0; r<rows; r++) {
+                for (let c=0; c<cols; c++) {
+                  const v = stats.counts[r][c];
+                  if (v <= 0) continue;
+                  const t = v / maxV; // 0..1
+                  const alpha = 0.08 + 0.55 * t; // more blue when higher
+                  ctx.fillStyle = `rgba(10,63,134,${alpha.toFixed(3)})`;
+                  ctx.fillRect(c*cellW, r*cellH, cellW, cellH);
+                }
+              }
+            }
+
+            // Legende
+            ctx.save();
+            ctx.globalAlpha = 0.95; ctx.font = '10px Inter, sans-serif'; ctx.textBaseline = 'top';
+            const pads = 6; let ly = canvas.height - 48; const lx = pads;
+            const items = [ ['Links', 'rgba(16,185,129,0.9)'], ['Zentrum', 'rgba(10,63,134,0.95)'], ['Rechts', 'rgba(249,115,22,0.95)'] ];
+            items.forEach(([label, col]) => {
+              ctx.fillStyle = col; ctx.fillRect(lx, ly + 3, 10, 3);
+              ctx.fillStyle = '#111827'; ctx.fillText(label, lx + 16, ly);
+              ly += 14;
+            });
+            ctx.restore();
+          }
+
+          // Show switch and default to 'Pässe' + 'außerhalb'
+          setProgModeActive('arrows');
+          setEntryFilterActive('outside');
+          function rerender() {
+            const stats = computeStats(patternIncludeInside);
+            renderStats(stats);
+            renderPattern(patternViewMode, stats);
+          }
+          rerender();
+          // Bind switches for Mustererkennung (guard by currentView)
+          btnProgZones.onclick = () => { if (document.body.dataset.currentView !== 'patterns') return; patternViewMode = 'zones'; setProgModeActive('zones'); rerender(); };
+          btnProgArrows.onclick = () => { if (document.body.dataset.currentView !== 'patterns') return; patternViewMode = 'arrows'; setProgModeActive('arrows'); rerender(); };
+          btnEntryOutside.onclick = () => { if (document.body.dataset.currentView !== 'patterns') return; patternIncludeInside = false; setEntryFilterActive('outside'); rerender(); };
+          btnEntryAll.onclick = () => { if (document.body.dataset.currentView !== 'patterns') return; patternIncludeInside = true; setEntryFilterActive('all'); rerender(); };
+        }
+
+        // KPI-Phasen-Handler (Stats + einfache Visualisierung)
+        btnPhaseAufbau.addEventListener('click', async () => {
+          showPitchCanvas();
+          setActivePhase('aufbau');
+          setActiveVisual(null);
+          progSwitch.classList.add('hidden');
+          document.body.dataset.currentView = 'kpi-aufbau';
+          statsContent.textContent = 'Lade Spielaufbau-Kennzahlen...';
+          try {
+            const evs = await loadKpiEvents();
+            const kpis = computeAufbauKpis(evs);
+            renderAufbauKpis(kpis);
+          } catch (err) {
+            statsContent.textContent = err.message || String(err);
+          }
+        });
+
+        btnPhaseKontrolle.addEventListener('click', async () => {
+          showPitchCanvas();
+          setActivePhase('kontrolle');
+          setActiveVisual(null);
+          progSwitch.classList.add('hidden');
+          document.body.dataset.currentView = 'kpi-kontrolle';
+          statsContent.textContent = 'Lade Kennzahlen Spielkontrolle...';
+          try {
+            const evs = await loadKpiEvents();
+            const kpis = computeKontrolleKpis(evs);
+            await renderKontrolleKpis(kpis);
+          } catch (err) {
+            statsContent.textContent = err.message || String(err);
+          }
+        });
+
+        btnPhaseZumTor.addEventListener('click', () => {
+          showPitchCanvas();
+          setActivePhase('zumtor');
+          setActiveVisual(null);
+          progSwitch.classList.add('hidden');
+          document.body.dataset.currentView = 'kpi-zumtor';
+          statsContent.textContent = 'Lade Kennzahlen Zum Tor...';
+          Promise.all([loadKpiEvents(), loadKpiProcessed()])
+            .then(([evs, proc]) => {
+              const kpis = computeZumTorKpis(evs, proc);
+              renderZumTorKpis(kpis);
+            })
+            .catch(err => {
+              statsContent.textContent = err.message || String(err);
+            });
+        });
+
+        btnPhaseFlanken.addEventListener('click', showFlanken);
+
+        // Visualisierungs-Handler
+        btnPassnetz.addEventListener('click', showPassnetz);
+        btnAbstoesse.addEventListener('click', showAbstoesse);
+        btnProgressive.addEventListener('click', showProgressive);
+        btnPatterns.addEventListener('click', showPatterns);
+          btnRoles18.addEventListener('click', showRoles18);
+  btnProgZones.addEventListener('click', () => { if (instance?.setViewMode) { instance.setViewMode('zones'); setProgModeActive('zones'); } });
+  btnProgArrows.addEventListener('click', () => { if (instance?.setViewMode) { instance.setViewMode('arrows'); setProgModeActive('arrows'); } });
+
+        try {
+          // Team-Ballbesitz sofort laden/anzeigen (unabhängig von der aktuellen Visualisierung)
+          loadKpiProcessed().then(renderTeamBallbesitz).catch(() => {});
+
+          // Field Tilt sofort laden/anzeigen (unabhängig von der aktuellen Visualisierung)
+          renderFieldTiltTimeSeries().catch(() => {});
+
+          // Controls initialisieren
+          const ftTeamSelect = document.getElementById('field-tilt-team');
+          const ftGameBtns = Array.from(document.querySelectorAll('.ft-games-btn'));
+          if (ftTeamSelect) {
+            const all = await loadAllKpiEvents();
+            const teams = Array.from(new Set((all || []).map(e => String(e.team || '')).filter(Boolean))).sort();
+            ftTeamSelect.innerHTML = teams.map(t => `<option value="${t}">${t}</option>`).join('');
+            if (teams.includes(ftSelectedTeam)) ftTeamSelect.value = ftSelectedTeam;
+            else if (teams.length) { ftSelectedTeam = teams[0]; ftTeamSelect.value = ftSelectedTeam; }
+            ftTeamSelect.addEventListener('change', () => {
+              ftSelectedTeam = ftTeamSelect.value;
+              renderFieldTiltTimeSeries().catch(() => {});
+            });
+          }
+          const setFtGamesActive = () => {
+            ftGameBtns.forEach(b => b.classList.remove('bg-[#0A3F86]', 'text-white'));
+            const active = ftGameBtns.find(b => Number(b.dataset.ftGames) === Number(ftSelectedGames));
+            if (active) active.classList.add('bg-[#0A3F86]', 'text-white');
+          };
+          setFtGamesActive();
+          ftGameBtns.forEach(b => b.addEventListener('click', () => {
+            ftSelectedGames = Number(b.dataset.ftGames);
+            setFtGamesActive();
+            renderFieldTiltTimeSeries().catch(() => {});
+          }));
+
+          // Resize: Chart neu zeichnen
+          const ftCard = document.getElementById('field-tilt-card');
+          if (ftCard && fieldTiltCanvas) {
+            let ftResizeDebounce = null;
+            new ResizeObserver(() => {
+              if (ftResizeDebounce) clearTimeout(ftResizeDebounce);
+              ftResizeDebounce = setTimeout(() => { renderFieldTiltTimeSeries().catch(() => {}); }, 100);
+            }).observe(ftCard);
+          }
+
+          await showPassnetz(); // Standardansicht
+        } catch (err) {
+          coordsDisplay.textContent = err.message || String(err);
+          console.error(err);
+        }
+      });
+    </script>
+
+</body>
+</html>

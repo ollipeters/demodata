@@ -1,0 +1,2596 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Steuerung</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    #dashboard-nav { position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 100; }
+    html.in-iframe { font-size: 11px; }
+
+    thead th { position: sticky; top: 0; background-color: #f9fafb; z-index: 10; }
+    .parent-row .chevron { transition: transform 0.2s ease-in-out; }
+    .parent-row.expanded .chevron { transform: rotate(90deg); }
+    .chevron {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 4px;
+    }
+
+    /* Phase selection buttons (match Gegneranalyse) */
+    .phase-btn {
+      background-color: transparent;
+      color: #4b5563; /* text-gray-600 */
+      border: 1px solid #d1d5db; /* border-gray-300 */
+      transition: all 0.2s ease;
+    }
+    .phase-btn:hover {
+      background-color: #f9fafb; /* bg-gray-50 */
+      border-color: #9ca3af; /* border-gray-400 */
+    }
+    .phase-btn.active {
+      background-color: #0A3F86;
+      color: #ffffff;
+      border-color: #0A3F86;
+    }
+
+    /* Zeitraum-Auswahl (minimalistisch) */
+    .range-filter-btn.active {
+      color: #2563eb; /* text-blue-600 */
+      font-weight: 600;
+    }
+
+    /* Monitoring KPI-Auswahl: uses the same look as .phase-btn */
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <script>
+    if (new URLSearchParams(window.location.search).get('view') === 'iframe') {
+      document.documentElement.classList.add('in-iframe');
+    }
+  </script>
+
+  <!-- Navbar (matching Gegneranalyse look) -->
+  <nav id="dashboard-nav" class="mt-4 bg-white/80 backdrop-blur-lg rounded-full shadow-lg border border-gray-200/80">
+    <div class="px-6 py-2 flex items-center space-x-8">
+      <a href="dashboard.html" class="text-sm font-medium text-gray-500 hover:text-blue-600">KPI</a>
+      <a href="spielanalyse.html" class="text-sm font-medium text-gray-500 hover:text-blue-600">Spielanalyse</a>
+      <a href="gegneranalyse.html" class="text-sm font-medium text-gray-500 hover:text-blue-600">Gegneranalyse</a>
+      <a href="steuerung.html" class="text-sm font-semibold text-[#0A3F86] transition-colors">Steuerung</a>
+      <a href="datalab.html" class="text-sm font-medium text-gray-500 hover:text-blue-600">DataLab</a>
+    </div>
+  </nav>
+
+  <!-- Zentrierter Hauptinhalt (matching Gegneranalyse look) -->
+  <div class="h-screen overflow-hidden flex justify-center pt-24 pb-6">
+    <main class="w-full max-w-screen-2xl p-6 h-full box-border">
+      <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 w-full h-full flex flex-col" id="main-content-container">
+
+        <!-- Titelzeile (simple, same spacing as Gegneranalyse) -->
+        <div class="mb-6 grid grid-cols-3 items-center gap-4">
+          <div class="text-left">
+            <h2 class="text-xl font-semibold">Steuerung</h2>
+          </div>
+
+          <!-- Phase-Auswahl (wie Gegneranalyse) -->
+          <div id="phase-button-container" class="flex justify-center space-x-2 rounded-lg">
+            <button id="btn-mit-ball" class="phase-btn active px-5 py-1 rounded-md text-xs font-medium">Monitoring</button>
+            <button id="btn-standards" class="phase-btn px-5 py-1 rounded-md text-xs font-medium">Übungsdatenbank</button>
+            <button id="btn-physisch" class="phase-btn px-5 py-1 rounded-md text-xs font-medium">Trainingsgestaltung</button>
+          </div>
+
+          <!-- Zeitraum-Auswahl (rechts) -->
+          <div id="range-button-container" class="flex justify-end items-center space-x-2">
+            <button class="range-filter-btn px-2 py-0.5 rounded-md text-xs font-medium text-gray-600 hover:text-blue-600" data-days="7">Last7</button>
+            <button class="range-filter-btn px-2 py-0.5 rounded-md text-xs font-medium text-gray-600 hover:text-blue-600" data-days="14">Last14</button>
+            <button class="range-filter-btn active px-2 py-0.5 rounded-md text-xs font-medium text-gray-600" data-days="28">Last28</button>
+          </div>
+        </div>
+
+        <div class="flex-1 min-h-0 flex flex-col gap-6">
+
+          <!-- Übungsdatenbank (Liste der Übungen) -->
+          <div id="exercise-db-panel" class="flex-1 min-h-0 hidden">
+            <div class="grid grid-cols-2 gap-6 h-full" style="min-height: 260px;">
+
+              <!-- Links: Übungsliste -->
+              <div class="border rounded-lg overflow-hidden min-h-0 flex flex-col" style="min-width: 0;">
+                <div class="px-3 py-2 bg-gray-50 border-b text-xs font-semibold text-gray-700">Übungen</div>
+                <div id="exercise-db-list" class="p-3 flex flex-col gap-2 overflow-y-auto flex-1 min-h-0"></div>
+              </div>
+
+              <!-- Rechts: Visualisierung + Kennzahlen -->
+              <div class="min-h-0 flex flex-col gap-6 h-full" style="min-width: 0;">
+
+                <div class="border rounded-lg overflow-hidden flex flex-col w-full h-1/2" style="min-width: 0;">
+                  <div class="px-3 py-2 bg-gray-50 border-b text-xs font-semibold text-gray-700">Übungsvisualisierung</div>
+                  <div class="p-4 flex-1 min-h-0 flex items-center justify-center text-sm text-gray-500">
+                    Platzhalter für Übungsvisualisierung oder Video
+                  </div>
+                </div>
+
+                <div class="border rounded-lg overflow-hidden min-h-0 flex flex-col flex-1" style="min-width: 0;">
+                  <div class="px-3 py-2 bg-gray-50 border-b text-xs font-semibold text-gray-700">Kennzahlen (Ø pro Übung, pro Minute)</div>
+                  <div id="exercise-db-kpis" class="p-3 text-sm text-gray-700"></div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Trainingsgestaltung (Training planen) -->
+          <div id="training-design-panel" class="flex-1 min-h-0 hidden">
+            <div class="flex flex-col gap-6 h-full" style="min-height: 260px;">
+
+              <!-- Oben: Timeline (Tage auf X-Achse) -->
+              <div style="min-width: 0;">
+                <div id="training-design-timeline" class="p-0" style="min-width: 0;"></div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-6 flex-1 min-h-0" style="min-height: 0;">
+
+              <!-- Links: Slots -->
+              <div class="border rounded-lg overflow-hidden min-h-0 flex flex-col" style="min-width: 0;">
+                <div class="px-3 py-2 bg-gray-50 border-b text-xs font-semibold text-gray-700">Trainingsplanung</div>
+                <div id="training-design-slots" class="p-3 flex flex-col gap-2 overflow-y-auto flex-1 min-h-0"></div>
+              </div>
+
+              <!-- Rechts: Zeitlauf + Plan -->
+              <div class="min-h-0 flex flex-col gap-6 h-full" style="min-width: 0;">
+
+                <div class="border rounded-lg overflow-hidden min-h-0 flex flex-col" style="min-width: 0;">
+                  <div class="px-3 py-2 bg-gray-50 border-b text-xs font-semibold text-gray-700">Übungen</div>
+                  <div id="training-design-exercise-library" class="p-3 flex flex-col gap-2 overflow-y-auto flex-1 min-h-0"></div>
+                </div>
+
+              </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Monitoring View (Chart + Tabellen) -->
+          <div id="monitoring-view" class="flex-1 min-h-0 flex flex-col gap-6">
+
+          <!-- Monitoring (Balkendiagramm) -->
+          <div id="monitoring-panel" class="border rounded-lg overflow-hidden flex-1 min-h-0">
+            <div class="px-4 py-3 bg-gray-50 border-b flex items-center justify-between">
+              <div class="text-sm font-semibold text-gray-700">Monitoring</div>
+              <div id="monitoring-metric-buttons" class="flex flex-wrap items-center justify-end gap-2">
+                <button class="metric-btn phase-btn active px-3 py-0.5 rounded-md text-xs font-medium" data-metric="total_distance">Gesamtlaufdistanz</button>
+                <button class="metric-btn phase-btn px-3 py-0.5 rounded-md text-xs font-medium" data-metric="hsr">HSR</button>
+                <button class="metric-btn phase-btn px-3 py-0.5 rounded-md text-xs font-medium" data-metric="vhsr">VHSR</button>
+                <button class="metric-btn phase-btn px-3 py-0.5 rounded-md text-xs font-medium" data-metric="sprint">Sprintdistanz</button>
+                <button class="metric-btn phase-btn px-3 py-0.5 rounded-md text-xs font-medium" data-metric="accdcc">Acc/Dcc</button>
+              </div>
+            </div>
+            <div class="p-4 h-full">
+              <div class="relative w-full h-full" style="min-height: 260px;">
+                <canvas id="monitoring-bar-chart" class="absolute inset-0 w-full h-full"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fake GPS Tabellen (nebeneinander) -->
+          <div class="grid grid-cols-2 gap-6 flex-1 min-h-0">
+
+            <!-- Links: Durchschnitt (Datum -> Übung -> Spieler) -->
+            <div class="border rounded-lg overflow-hidden min-h-0 flex flex-col" style="min-width: 0;">
+              <div class="px-4 py-3 bg-gray-50 border-b">
+                <div class="text-sm font-semibold text-gray-700">GPS-Daten nach Datum - Inhalt - Spieler</div>
+              </div>
+              <div class="overflow-x-auto flex-1 min-h-0">
+                <table class="min-w-full text-xs">
+                  <thead class="bg-gray-50 text-gray-600">
+                    <tr>
+                      <th class="text-left font-semibold px-3 py-2">Datum / Übung / Spieler</th>
+                      <th class="text-right font-semibold px-3 py-2">Distanz (m)</th>
+                      <th class="text-right font-semibold px-3 py-2">m/min</th>
+                      <th class="text-right font-semibold px-3 py-2">Acc</th>
+                      <th class="text-right font-semibold px-3 py-2">Dcc</th>
+                      <th class="text-right font-semibold px-3 py-2">Sprintdistanz (m)</th>
+                      <th class="text-right font-semibold px-3 py-2">Max Speed</th>
+                      <th class="text-right font-semibold px-3 py-2">MetabolicPower (m)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fakegps-body-avg" class="divide-y divide-gray-100"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Rechts: Spieler-Summen (nur Spieler-Zeilen zeigen Werte) -->
+            <div class="border rounded-lg overflow-hidden min-h-0 flex flex-col" style="min-width: 0;">
+              <div class="px-4 py-3 bg-gray-50 border-b">
+                <div class="text-sm font-semibold text-gray-700">GPS-Daten nach Spieler</div>
+              </div>
+              <div class="overflow-x-auto flex-1 min-h-0">
+                <table class="min-w-full text-xs">
+                  <thead class="bg-gray-50 text-gray-600">
+                    <tr>
+                      <th class="text-left font-semibold px-3 py-2">Spieler</th>
+                      <th class="text-right font-semibold px-3 py-2">Distanz (m)</th>
+                      <th class="text-right font-semibold px-3 py-2">m/min</th>
+                      <th class="text-right font-semibold px-3 py-2">Acc</th>
+                      <th class="text-right font-semibold px-3 py-2">Dcc</th>
+                      <th class="text-right font-semibold px-3 py-2">Sprintdistanz (m)</th>
+                      <th class="text-right font-semibold px-3 py-2">Max Speed</th>
+                      <th class="text-right font-semibold px-3 py-2">MetabolicPower (m)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fakegps-body-sum" class="divide-y divide-gray-100"></tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let allFakeGpsRows = [];
+    let trainingScheduleRows = [];
+    let scheduleByDateIso = new Map();
+
+    const MANUAL_FIXED_MATCHES = [
+      { match_date: '2026-01-10', opponent: 'Freiburg', home_away: 'A' },
+      { match_date: '2026-01-13', opponent: 'Leverkusen', home_away: 'H' },
+      { match_date: '2026-01-17', opponent: 'Gladbach', home_away: 'H' },
+      { match_date: '2026-01-23', opponent: 'St Pauli', home_away: 'A' },
+      { match_date: '2026-01-31', opponent: 'Bayern München', home_away: 'H' },
+    ];
+    let currentRangeDays = 28;
+    let currentMonitoringMetric = 'total_distance';
+    let selectedDateIso = null;
+    let selectedExerciseName = null;
+    let activePhaseId = 'btn-mit-ball';
+    let expandedExerciseCategories = new Set();
+
+    // Trainingsgestaltung state
+    let expandedTrainingCategories = new Set();
+    let selectedTrainingLibraryCategory = 'Aktivierung';
+    let selectedTrainingDateIso = null;
+    let trainingPlansByDateIso = {}; // { [dateIso]: { slots: [null|{exerciseName, minutes}], updatedAt } }
+    let exerciseAvgRateCache = new Map();
+
+    // Slot detail planning modal
+    let slotDetailModal = null; // { overlay, seriesInput, pausesInput, titleEl, saveBtn, cancelBtn }
+    let slotDetailCtx = null; // { dateIso, slotIdx }
+
+    const TRAINING_PLANS_STORAGE_KEY = 'trainingDesignPlans.v1';
+    const DEFAULT_TRAINING_SLOTS = 4;
+    const MAX_TRAINING_SLOTS = 10;
+
+    function safeJsonParse(s) {
+      try { return JSON.parse(s); } catch { return null; }
+    }
+
+    function loadTrainingPlansFromStorage() {
+      const raw = localStorage.getItem(TRAINING_PLANS_STORAGE_KEY);
+      const parsed = safeJsonParse(raw);
+      if (!parsed || typeof parsed !== 'object') {
+        trainingPlansByDateIso = {};
+        return;
+      }
+      trainingPlansByDateIso = parsed;
+    }
+
+    function saveTrainingPlansToStorage() {
+      try {
+        localStorage.setItem(TRAINING_PLANS_STORAGE_KEY, JSON.stringify(trainingPlansByDateIso));
+      } catch (e) {
+        console.warn('Could not save training plans to localStorage', e);
+      }
+    }
+
+    function ensurePlanForDate(dateIso) {
+      const d = String(dateIso || '').trim();
+      if (!d) return;
+
+      // Create if missing
+      if (!trainingPlansByDateIso[d]) {
+        trainingPlansByDateIso[d] = { slots: Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null), updatedAt: new Date().toISOString() };
+        saveTrainingPlansToStorage();
+        return;
+      }
+
+      // Normalize legacy shapes
+      const plan = trainingPlansByDateIso[d];
+      if (plan && Array.isArray(plan.slots)) {
+        let slots = plan.slots
+          .slice(0, MAX_TRAINING_SLOTS)
+          .map(s => {
+            if (!s) return null;
+            const name = String(s.exerciseName || '').trim();
+            if (!name) return null;
+            const minutes = Number(s.minutes) || 10;
+            const series = Number.isFinite(Number(s.series)) ? Number(s.series) : undefined;
+            const pauses = Number.isFinite(Number(s.pauses)) ? Number(s.pauses) : undefined;
+            const seriesDurationSec = Number.isFinite(Number(s.seriesDurationSec)) ? Number(s.seriesDurationSec) : undefined;
+            return {
+              exerciseName: name,
+              minutes,
+              ...(series !== undefined ? { series } : {}),
+              ...(pauses !== undefined ? { pauses } : {}),
+              ...(seriesDurationSec !== undefined ? { seriesDurationSec } : {}),
+            };
+          });
+
+        if (!slots.length) slots = Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null);
+        trainingPlansByDateIso[d] = { slots, updatedAt: plan.updatedAt || new Date().toISOString() };
+        saveTrainingPlansToStorage();
+        return;
+      }
+
+      // Legacy: items[] -> slots[] (first 5 items)
+      if (plan && Array.isArray(plan.items)) {
+        const slots = Array.from({ length: DEFAULT_TRAINING_SLOTS }, (_, i) => {
+          const it = plan.items[i];
+          if (!it) return null;
+          const name = String(it.exerciseName || '').trim();
+          if (!name) return null;
+          return { exerciseName: name, minutes: Number(it.minutes) || 10 };
+        });
+        trainingPlansByDateIso[d] = { slots, updatedAt: plan.updatedAt || new Date().toISOString() };
+        saveTrainingPlansToStorage();
+        return;
+      }
+
+      // Fallback
+      trainingPlansByDateIso[d] = { slots: Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null), updatedAt: new Date().toISOString() };
+      saveTrainingPlansToStorage();
+    }
+
+    // Phase-Auswahl: nur UI-Status (active) wie in Gegneranalyse
+    (function initPhaseButtons() {
+      const buttonIds = ['btn-mit-ball', 'btn-standards', 'btn-physisch'];
+      const buttons = buttonIds
+        .map(id => document.getElementById(id))
+        .filter(Boolean);
+
+      const panels = {
+        monitoring: document.getElementById('monitoring-panel'),
+        monitoringView: document.getElementById('monitoring-view'),
+        exerciseDb: document.getElementById('exercise-db-panel'),
+        trainingDesign: document.getElementById('training-design-panel'),
+        rangeButtons: document.getElementById('range-button-container'),
+      };
+
+      function setRangeMode(mode) {
+        const container = panels.rangeButtons;
+        if (!container) return;
+
+        const prefix = mode === 'future' ? 'Next' : 'Last';
+        container.querySelectorAll('.range-filter-btn').forEach(btn => {
+          const days = Number(btn.dataset.days);
+          if (!Number.isFinite(days)) return;
+          btn.textContent = `${prefix}${days}`;
+        });
+      }
+
+      function rerenderActive() {
+        if (!Array.isArray(allFakeGpsRows) || !allFakeGpsRows.length) return;
+
+        if (activePhaseId === 'btn-physisch') {
+          renderTrainingDesign(allFakeGpsRows);
+          return;
+        }
+
+        if (activePhaseId === 'btn-standards') {
+          renderExerciseDb(allFakeGpsRows);
+          renderExerciseKpis(allFakeGpsRows);
+          return;
+        }
+
+        // Monitoring default
+        renderFromRows(allFakeGpsRows);
+      }
+
+      function updatePanels(activeId) {
+        const isExerciseDb = activeId === 'btn-standards';
+        const isTrainingDesign = activeId === 'btn-physisch';
+        const isMonitoring = activeId === 'btn-mit-ball';
+
+        if (panels.monitoringView) panels.monitoringView.classList.toggle('hidden', !isMonitoring);
+        if (panels.exerciseDb) panels.exerciseDb.classList.toggle('hidden', !isExerciseDb);
+        if (panels.trainingDesign) panels.trainingDesign.classList.toggle('hidden', !isTrainingDesign);
+
+        // Range buttons: hidden for Übungsdatenbank; shown for Monitoring + Trainingsgestaltung
+        if (panels.rangeButtons) panels.rangeButtons.classList.toggle('hidden', isExerciseDb);
+
+        // Label mode
+        if (isTrainingDesign) setRangeMode('future');
+        else setRangeMode('past');
+      }
+
+      function setActive(activeId) {
+        activePhaseId = activeId;
+        buttons.forEach(btn => {
+          if (btn.id === activeId) btn.classList.add('active');
+          else btn.classList.remove('active');
+        });
+
+        updatePanels(activeId);
+        rerenderActive();
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => setActive(btn.id));
+      });
+
+      // Initial state
+      setActive('btn-mit-ball');
+    })();
+
+    function renderExerciseDb(rows) {
+      const listEl = document.getElementById('exercise-db-list');
+      if (!listEl) return;
+
+      const CATEGORY_ORDER = ['Aktivierung', 'Übungsform', 'Rondos', 'Taktik', 'Spielform'];
+
+      // Ensure state contains only known categories
+      expandedExerciseCategories = new Set(
+        Array.from(expandedExerciseCategories).filter(c => CATEGORY_ORDER.includes(c))
+      );
+
+      function norm(s) {
+        return String(s || '').trim().toLowerCase();
+      }
+
+      function categoryFromContentTypeOrName(contentType, exerciseName) {
+        const ct = norm(contentType);
+        const ex = norm(exerciseName);
+
+        if (ct === 'aktivierung' || ex.includes('aktiv')) return 'Aktivierung';
+        if (ct === 'taktik' || ex.includes('taktik')) return 'Taktik';
+        if (ct === 'spielform' || ex.includes('spielform') || ex.includes('spiel')) return 'Spielform';
+
+        // Handle singular/plural + common variations
+        if (ct === 'rondo' || ct === 'rondos' || ex.includes('rondo')) return 'Rondos';
+
+        // Default bucket
+        if (ct === 'übungsform' || ct === 'uebungsform') return 'Übungsform';
+        return 'Übungsform';
+      }
+
+      // Build a stable category per exercise (period_name) via majority vote across rows
+      const exerciseCategoryCounts = new Map(); // ex -> Map(category -> count)
+      for (const r of (Array.isArray(rows) ? rows : [])) {
+        const ex = String(r.period_name || '').trim();
+        if (!ex) continue;
+        const cat = categoryFromContentTypeOrName(r.content_type, ex);
+        if (!exerciseCategoryCounts.has(ex)) exerciseCategoryCounts.set(ex, new Map());
+        const m = exerciseCategoryCounts.get(ex);
+        m.set(cat, (m.get(cat) || 0) + 1);
+      }
+
+      const grouped = new Map(CATEGORY_ORDER.map(c => [c, []]));
+      for (const [ex, counts] of exerciseCategoryCounts.entries()) {
+        let bestCat = 'Übungsform';
+        let bestCount = -1;
+        for (const c of CATEGORY_ORDER) {
+          const n = counts.get(c) || 0;
+          if (n > bestCount) {
+            bestCount = n;
+            bestCat = c;
+          }
+        }
+        grouped.get(bestCat).push(ex);
+      }
+
+      // Sort exercises per category
+      for (const c of CATEGORY_ORDER) {
+        grouped.get(c).sort((a, b) => a.localeCompare(b, 'de'));
+      }
+
+      listEl.innerHTML = '';
+
+      for (const c of CATEGORY_ORDER) {
+        const items = grouped.get(c);
+        if (!items || !items.length) continue;
+
+        const section = document.createElement('div');
+        section.className = 'flex flex-col gap-2';
+
+        const headerBtn = document.createElement('button');
+        headerBtn.type = 'button';
+        headerBtn.className = 'w-full flex items-center justify-between text-[11px] font-semibold text-gray-500 uppercase tracking-wide mt-2';
+        headerBtn.setAttribute('aria-expanded', expandedExerciseCategories.has(c) ? 'true' : 'false');
+        headerBtn.innerHTML = `
+          <span>${escapeHtml(c)}</span>
+          <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin-right: 0; transform: rotate(${expandedExerciseCategories.has(c) ? 90 : 0}deg);">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        `;
+
+        const itemsWrap = document.createElement('div');
+        itemsWrap.className = 'flex flex-col gap-2';
+        if (!expandedExerciseCategories.has(c)) itemsWrap.classList.add('hidden');
+
+        headerBtn.addEventListener('click', () => {
+          if (expandedExerciseCategories.has(c)) expandedExerciseCategories.delete(c);
+          else expandedExerciseCategories.add(c);
+          renderExerciseDb(allFakeGpsRows);
+        });
+
+        section.appendChild(headerBtn);
+
+        for (const ex of items) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `phase-btn px-3 py-1 rounded-md text-xs font-medium text-left ${selectedExerciseName === ex ? 'active' : ''}`;
+          btn.textContent = ex;
+          btn.addEventListener('click', () => {
+            selectedExerciseName = (selectedExerciseName === ex) ? null : ex;
+            renderExerciseDb(allFakeGpsRows);
+            renderExerciseKpis(allFakeGpsRows);
+          });
+          itemsWrap.appendChild(btn);
+        }
+
+        section.appendChild(itemsWrap);
+        listEl.appendChild(section);
+      }
+    }
+
+    function renderExerciseKpis(rows) {
+      const host = document.getElementById('exercise-db-kpis');
+      if (!host) return;
+
+      if (!selectedExerciseName) {
+        host.innerHTML = '<div class="text-gray-500">Wähle links eine Übung aus.</div>';
+        return;
+      }
+
+      const scoped = (Array.isArray(rows) ? rows : [])
+        .filter(r => String(r.period_name || '').trim() === selectedExerciseName);
+
+      if (!scoped.length) {
+        host.innerHTML = '<div class="text-gray-500">Keine Daten im gewählten Zeitraum.</div>';
+        return;
+      }
+
+      const BASE_KEYS = [
+        'total_duration',
+        'total_distance',
+        'velocity_band4_total_distance',
+        'velocity_band5_total_distance',
+        'velocity_band6_total_distance',
+        'acceleration_band1_total_effort_count',
+        'acceleration_band2_total_effort_count',
+        'acceleration_band3_total_effort_count',
+        'acceleration_band4_total_effort_count',
+        'acceleration_band5_total_effort_count',
+        'deceleration_band1_total_effort_count',
+        'deceleration_band2_total_effort_count',
+        'deceleration_band3_total_effort_count',
+        'deceleration_band4_total_effort_count',
+        'deceleration_band5_total_effort_count',
+        'metabolic_power_band1_total_distance',
+        'metabolic_power_band2_total_distance',
+        'metabolic_power_band3_total_distance',
+        'metabolic_power_band4_total_distance',
+        'metabolic_power_band5_total_distance',
+      ];
+
+      function emptyAgg() {
+        const obj = {};
+        BASE_KEYS.forEach(k => (obj[k] = 0));
+        return obj;
+      }
+
+      function addToAgg(agg, rowObj) {
+        BASE_KEYS.forEach(k => {
+          const v = toNumber(rowObj[k]);
+          if (!Number.isFinite(v)) return;
+          agg[k] += v;
+        });
+      }
+
+      function perMinuteRates(agg) {
+        const minutes = Number.isFinite(agg.total_duration) && agg.total_duration > 0 ? (agg.total_duration / 60.0) : NaN;
+        if (!Number.isFinite(minutes) || minutes <= 0) {
+          return {
+            m_per_min: NaN,
+            hsr_per_min: NaN,
+            acc_per_min: NaN,
+            dcc_per_min: NaN,
+            mp_per_min: NaN,
+          };
+        }
+
+        const v4 = toNumber(agg.velocity_band4_total_distance);
+        const v5 = toNumber(agg.velocity_band5_total_distance);
+        const v6 = toNumber(agg.velocity_band6_total_distance);
+        const z4 = Number.isFinite(v4) ? v4 : 0;
+        const z5 = Number.isFinite(v5) ? v5 : 0;
+        const z6 = Number.isFinite(v6) ? v6 : 0;
+        const hsrDist = z4 + z5 + z6;
+
+        const accCount =
+          (agg.acceleration_band1_total_effort_count || 0) +
+          (agg.acceleration_band2_total_effort_count || 0) +
+          (agg.acceleration_band3_total_effort_count || 0) +
+          (agg.acceleration_band4_total_effort_count || 0) +
+          (agg.acceleration_band5_total_effort_count || 0);
+
+        const decCount =
+          (agg.deceleration_band1_total_effort_count || 0) +
+          (agg.deceleration_band2_total_effort_count || 0) +
+          (agg.deceleration_band3_total_effort_count || 0) +
+          (agg.deceleration_band4_total_effort_count || 0) +
+          (agg.deceleration_band5_total_effort_count || 0);
+
+        const mpTotal =
+          (agg.metabolic_power_band1_total_distance || 0) +
+          (agg.metabolic_power_band2_total_distance || 0) +
+          (agg.metabolic_power_band3_total_distance || 0) +
+          (agg.metabolic_power_band4_total_distance || 0) +
+          (agg.metabolic_power_band5_total_distance || 0);
+
+        return {
+          m_per_min: agg.total_distance / minutes,
+          hsr_per_min: hsrDist / minutes,
+          acc_per_min: accCount / minutes,
+          dcc_per_min: decCount / minutes,
+          mp_per_min: mpTotal / minutes,
+        };
+      }
+
+      const byPlayer = new Map();
+      for (const r of scoped) {
+        const athlete = String(r.athlete_name || '').trim();
+        if (!athlete) continue;
+        if (!byPlayer.has(athlete)) byPlayer.set(athlete, emptyAgg());
+        addToAgg(byPlayer.get(athlete), r);
+      }
+
+      const playerRates = Array.from(byPlayer.values()).map(perMinuteRates);
+
+      function avgOf(key) {
+        const vals = playerRates.map(p => p[key]).filter(Number.isFinite);
+        return vals.length ? (vals.reduce((a, b) => a + b, 0) / vals.length) : NaN;
+      }
+
+      const kpis = [
+        { label: 'm/min', value: avgOf('m_per_min') },
+        { label: 'hsr/min', value: avgOf('hsr_per_min') },
+        { label: 'Acc/min', value: avgOf('acc_per_min') },
+        { label: 'Dcc/min', value: avgOf('dcc_per_min') },
+        { label: 'Metabolic Power/min', value: avgOf('mp_per_min') },
+      ];
+
+      host.innerHTML = `
+        <div class="text-xs text-gray-500 mb-2">Übung: <span class="text-gray-700 font-semibold">${escapeHtml(selectedExerciseName)}</span></div>
+        <div class="grid grid-cols-1 gap-2">
+          ${kpis.map(k => `
+            <div class="flex items-center justify-between">
+              <div class="text-sm text-gray-600">${escapeHtml(k.label)}</div>
+              <div class="text-sm font-semibold text-gray-800">${fmt(k.value)}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function categoryFromContentTypeOrName(contentType, exerciseName) {
+      const ct = String(contentType || '').trim().toLowerCase();
+      const ex = String(exerciseName || '').trim().toLowerCase();
+
+      if (ct === 'aktivierung' || ex.includes('aktiv')) return 'Aktivierung';
+      if (ct === 'taktik' || ct === 'tactical' || ex.includes('taktik')) return 'Taktik';
+      if (ct === 'spielform' || ct === 'game' || ex.includes('spielform') || ex.includes('spiel')) return 'Spielform';
+      if (ct === 'rondo' || ct === 'rondos' || ex.includes('rondo')) return 'Rondos';
+      return 'Übungsform';
+    }
+
+    function computeExerciseAvgRates(exerciseName, rowsAll) {
+      const key = String(exerciseName || '').trim();
+      if (!key) return null;
+      if (exerciseAvgRateCache.has(key)) return exerciseAvgRateCache.get(key);
+
+      const scoped = (Array.isArray(rowsAll) ? rowsAll : [])
+        .filter(r => String(r.period_name || '').trim() === key);
+
+      if (!scoped.length) {
+        exerciseAvgRateCache.set(key, null);
+        return null;
+      }
+
+      const BASE_KEYS = [
+        'total_duration',
+        'total_distance',
+        'velocity_band4_total_distance',
+        'velocity_band5_total_distance',
+        'velocity_band6_total_distance',
+        'acceleration_band1_total_effort_count',
+        'acceleration_band2_total_effort_count',
+        'acceleration_band3_total_effort_count',
+        'acceleration_band4_total_effort_count',
+        'acceleration_band5_total_effort_count',
+        'deceleration_band1_total_effort_count',
+        'deceleration_band2_total_effort_count',
+        'deceleration_band3_total_effort_count',
+        'deceleration_band4_total_effort_count',
+        'deceleration_band5_total_effort_count',
+        'metabolic_power_band1_total_distance',
+        'metabolic_power_band2_total_distance',
+        'metabolic_power_band3_total_distance',
+        'metabolic_power_band4_total_distance',
+        'metabolic_power_band5_total_distance',
+      ];
+
+      function emptyAgg() {
+        const obj = {};
+        BASE_KEYS.forEach(k => (obj[k] = 0));
+        return obj;
+      }
+
+      function addToAgg(agg, rowObj) {
+        BASE_KEYS.forEach(k => {
+          const v = toNumber(rowObj[k]);
+          if (!Number.isFinite(v)) return;
+          agg[k] += v;
+        });
+      }
+
+      function perMinuteRates(agg) {
+        const minutes = Number.isFinite(agg.total_duration) && agg.total_duration > 0 ? (agg.total_duration / 60.0) : NaN;
+        if (!Number.isFinite(minutes) || minutes <= 0) {
+          return {
+            m_per_min: NaN,
+            hsr_per_min: NaN,
+            acc_per_min: NaN,
+            dcc_per_min: NaN,
+            mp_per_min: NaN,
+          };
+        }
+
+        const v4 = toNumber(agg.velocity_band4_total_distance);
+        const v5 = toNumber(agg.velocity_band5_total_distance);
+        const v6 = toNumber(agg.velocity_band6_total_distance);
+        const z4 = Number.isFinite(v4) ? v4 : 0;
+        const z5 = Number.isFinite(v5) ? v5 : 0;
+        const z6 = Number.isFinite(v6) ? v6 : 0;
+        const hsrDist = z4 + z5 + z6;
+
+        const accCount =
+          (agg.acceleration_band1_total_effort_count || 0) +
+          (agg.acceleration_band2_total_effort_count || 0) +
+          (agg.acceleration_band3_total_effort_count || 0) +
+          (agg.acceleration_band4_total_effort_count || 0) +
+          (agg.acceleration_band5_total_effort_count || 0);
+
+        const decCount =
+          (agg.deceleration_band1_total_effort_count || 0) +
+          (agg.deceleration_band2_total_effort_count || 0) +
+          (agg.deceleration_band3_total_effort_count || 0) +
+          (agg.deceleration_band4_total_effort_count || 0) +
+          (agg.deceleration_band5_total_effort_count || 0);
+
+        const mpTotal =
+          (agg.metabolic_power_band1_total_distance || 0) +
+          (agg.metabolic_power_band2_total_distance || 0) +
+          (agg.metabolic_power_band3_total_distance || 0) +
+          (agg.metabolic_power_band4_total_distance || 0) +
+          (agg.metabolic_power_band5_total_distance || 0);
+
+        return {
+          m_per_min: agg.total_distance / minutes,
+          hsr_per_min: hsrDist / minutes,
+          acc_per_min: accCount / minutes,
+          dcc_per_min: decCount / minutes,
+          mp_per_min: mpTotal / minutes,
+        };
+      }
+
+      const byPlayer = new Map();
+      for (const r of scoped) {
+        const athlete = String(r.athlete_name || '').trim();
+        if (!athlete) continue;
+        if (!byPlayer.has(athlete)) byPlayer.set(athlete, emptyAgg());
+        addToAgg(byPlayer.get(athlete), r);
+      }
+
+      const playerRates = Array.from(byPlayer.values()).map(perMinuteRates);
+      function avgOf(key) {
+        const vals = playerRates.map(p => p[key]).filter(Number.isFinite);
+        return vals.length ? (vals.reduce((a, b) => a + b, 0) / vals.length) : NaN;
+      }
+
+      const out = {
+        m_per_min: avgOf('m_per_min'),
+        hsr_per_min: avgOf('hsr_per_min'),
+        acc_per_min: avgOf('acc_per_min'),
+        dcc_per_min: avgOf('dcc_per_min'),
+        mp_per_min: avgOf('mp_per_min'),
+      };
+
+      exerciseAvgRateCache.set(key, out);
+      return out;
+    }
+
+    function renderTrainingDesign(rowsAll) {
+      renderTrainingSlots(rowsAll);
+      renderTrainingExerciseLibrary(rowsAll);
+      renderTrainingTimeline();
+      renderTrainingPlan(rowsAll);
+    }
+
+    function renderTrainingSlots(rowsAll) {
+      const host = document.getElementById('training-design-slots');
+      if (!host) return;
+
+      host.innerHTML = '';
+
+      if (!selectedTrainingDateIso) {
+        host.innerHTML = '<div class="text-gray-500">Wähle im Zeitlauf einen Tag aus oder klicke auf „Tag planen“.</div>';
+        return;
+      }
+
+      const hasSavedPlan = !!(trainingPlansByDateIso && trainingPlansByDateIso[selectedTrainingDateIso]);
+      if (!hasSavedPlan) {
+        host.innerHTML = '<div class="text-gray-500">Für diesen Tag gibt es noch keinen Plan. Klicke auf „Tag planen“.</div>';
+        return;
+      }
+
+      const plan = trainingPlansByDateIso[selectedTrainingDateIso];
+      const slots = Array.isArray(plan?.slots) ? plan.slots : Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null);
+
+      function plannedSlotSeconds(slotValue) {
+        if (!slotValue || !slotValue.exerciseName) return NaN;
+        const series = Number(slotValue.series);
+        const dur = Number(slotValue.seriesDurationSec);
+        const pause = Number(slotValue.pauses);
+        if (!Number.isFinite(series) || series <= 0) return NaN;
+        if (!Number.isFinite(dur) || dur <= 0) return NaN;
+        const pausesBetween = Math.max(0, series - 1);
+        return Math.max(0, series) * Math.max(0, dur) + pausesBetween * Math.max(0, Number.isFinite(pause) ? pause : 0);
+      }
+
+      function fmtPlannedDuration(slotValue) {
+        if (!slotValue || !slotValue.exerciseName) return '';
+        const totalSec = plannedSlotSeconds(slotValue);
+        if (!Number.isFinite(totalSec) || totalSec < 0) return '—';
+        const m = Math.floor(totalSec / 60);
+        const s = Math.floor(totalSec % 60);
+        return `${m}:${String(s).padStart(2, '0')}`;
+      }
+
+      function fmtTotalDuration(totalSec) {
+        if (!Number.isFinite(totalSec) || totalSec < 0) return '—';
+        const s = Math.floor(totalSec);
+        const h = Math.floor(s / 3600);
+        const m = Math.floor((s % 3600) / 60);
+        const sec = Math.floor(s % 60);
+        if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        return `${m}:${String(sec).padStart(2, '0')}`;
+      }
+
+      const slotsWrap = document.createElement('div');
+      slotsWrap.className = 'flex flex-col gap-2';
+      slotsWrap.innerHTML = ``;
+
+      for (let i = 0; i < slots.length; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-2';
+
+        const badge = document.createElement('div');
+        badge.className = 'w-7 h-7 rounded-full border border-gray-300 bg-white flex items-center justify-center text-xs font-semibold text-gray-700 shrink-0';
+        badge.textContent = String(i + 1);
+
+        const box = document.createElement('div');
+        box.className = 'border rounded-md px-3 py-2 bg-white flex-1 min-w-0';
+        box.setAttribute('data-slot-idx', String(i));
+        box.setAttribute('data-drop-slot', '1');
+
+        const value = slots[i];
+        const hasValue = value && String(value.exerciseName || '').trim();
+
+        box.innerHTML = hasValue
+          ? `
+            <div class="flex items-center justify-between gap-2">
+              <div class="text-sm font-semibold text-gray-800 truncate" draggable="true" data-drag-slot="${i}">${escapeHtml(value.exerciseName)}</div>
+              <button type="button" class="phase-btn px-2 py-1 rounded-md shrink-0" data-edit-slot="${i}" title="Details planen" aria-label="Details planen">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px;">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>
+              </button>
+            </div>
+          `
+          : `<div class="text-sm text-gray-400">Übung hier ablegen</div>`;
+
+        const durationEl = document.createElement('div');
+        durationEl.className = 'shrink-0 text-xs text-gray-600 font-medium tabular-nums';
+        durationEl.style.width = '64px';
+        durationEl.style.textAlign = 'right';
+        durationEl.textContent = hasValue ? fmtPlannedDuration(value) : '';
+
+        row.appendChild(badge);
+        row.appendChild(box);
+        row.appendChild(durationEl);
+        slotsWrap.appendChild(row);
+      }
+
+      host.appendChild(slotsWrap);
+
+      if (slots.length < MAX_TRAINING_SLOTS) {
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'phase-btn px-3 py-2 rounded-md text-xs font-medium mt-2';
+        addBtn.textContent = 'Slot hinzufügen';
+        addBtn.addEventListener('click', () => {
+          if (!selectedTrainingDateIso) return;
+          ensurePlanForDate(selectedTrainingDateIso);
+          const curPlan = trainingPlansByDateIso[selectedTrainingDateIso];
+          const curSlots = Array.isArray(curPlan?.slots)
+            ? [...curPlan.slots]
+            : Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null);
+          if (curSlots.length >= MAX_TRAINING_SLOTS) return;
+          curSlots.push(null);
+          trainingPlansByDateIso[selectedTrainingDateIso] = { slots: curSlots, updatedAt: new Date().toISOString() };
+          saveTrainingPlansToStorage();
+          renderTrainingSlots(rowsAll);
+          renderTrainingTimeline();
+          renderTrainingPlan(rowsAll);
+        });
+        host.appendChild(addBtn);
+      }
+
+      // Thin vertical line + total duration under the add button area
+      const totalSec = slots
+        .map(plannedSlotSeconds)
+        .filter(Number.isFinite)
+        .reduce((a, b) => a + b, 0);
+
+      const vLine = document.createElement('div');
+      vLine.className = 'mx-auto w-px bg-gray-200 my-3';
+      vLine.style.height = '18px';
+      host.appendChild(vLine);
+
+      const totalEl = document.createElement('div');
+      totalEl.className = 'text-xs text-gray-600 font-medium text-center tabular-nums';
+      totalEl.textContent = `Geplante Gesamtzeit: ${fmtTotalDuration(totalSec)}`;
+      host.appendChild(totalEl);
+
+      // --- Drag & Drop handlers (slots) ---
+      const slotEls = host.querySelectorAll('[data-drop-slot]');
+      slotEls.forEach(el => {
+        el.addEventListener('dragover', (ev) => {
+          ev.preventDefault();
+        });
+        el.addEventListener('dragenter', () => {
+          el.classList.add('ring-2', 'ring-gray-300');
+        });
+        el.addEventListener('dragleave', () => {
+          el.classList.remove('ring-2', 'ring-gray-300');
+        });
+        el.addEventListener('drop', (ev) => {
+          ev.preventDefault();
+          el.classList.remove('ring-2', 'ring-gray-300');
+          const idx = Number(el.getAttribute('data-slot-idx'));
+          if (!Number.isFinite(idx) || idx < 0) return;
+
+          if (!selectedTrainingDateIso) return;
+          ensurePlanForDate(selectedTrainingDateIso);
+
+          const raw = ev.dataTransfer?.getData('text/plain') || '';
+          const payload = safeJsonParse(raw);
+
+          const curPlan = trainingPlansByDateIso[selectedTrainingDateIso];
+          const nextSlots = Array.isArray(curPlan?.slots)
+            ? [...curPlan.slots]
+            : Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null);
+          if (idx >= nextSlots.length) return;
+
+          if (payload && payload.type === 'exercise' && payload.name) {
+            nextSlots[idx] = { exerciseName: String(payload.name).trim(), minutes: 10 };
+          }
+
+          if (payload && payload.type === 'slot' && Number.isFinite(payload.fromIdx)) {
+            const from = Number(payload.fromIdx);
+            if (from >= 0 && from < nextSlots.length) {
+              const tmp = nextSlots[from];
+              nextSlots[from] = nextSlots[idx];
+              nextSlots[idx] = tmp;
+            }
+          }
+
+          trainingPlansByDateIso[selectedTrainingDateIso] = { slots: nextSlots, updatedAt: new Date().toISOString() };
+          saveTrainingPlansToStorage();
+          renderTrainingSlots(rowsAll);
+          renderTrainingTimeline();
+          renderTrainingPlan(rowsAll);
+        });
+      });
+
+      // Drag sources (slot items)
+      host.querySelectorAll('[data-drag-slot]').forEach(el => {
+        el.addEventListener('dragstart', (ev) => {
+          const fromIdx = Number(el.getAttribute('data-drag-slot'));
+          if (!Number.isFinite(fromIdx)) return;
+          ev.dataTransfer?.setData('text/plain', JSON.stringify({ type: 'slot', fromIdx }));
+          ev.dataTransfer?.setData('text/uri-list', '');
+        });
+      });
+
+      // Detail edit buttons
+      host.querySelectorAll('button[data-edit-slot]').forEach(btn => {
+        btn.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          const idx = Number(btn.getAttribute('data-edit-slot'));
+          if (!Number.isFinite(idx) || idx < 0) return;
+          openSlotDetailModal(selectedTrainingDateIso, idx);
+        });
+      });
+
+      // Minutes input UI removed (kept minutes internally for defaults/estimates)
+    }
+
+    function ensureSlotDetailModal() {
+      if (slotDetailModal) return;
+
+      const overlay = document.createElement('div');
+      overlay.id = 'slot-detail-modal';
+      overlay.className = 'fixed inset-0 bg-black/40 hidden items-center justify-center';
+      overlay.innerHTML = `
+        <div class="bg-white rounded-lg border border-gray-200 w-full max-w-md mx-4">
+          <div class="px-4 py-3 border-b bg-gray-50 flex items-center justify-between">
+            <div class="text-sm font-semibold text-gray-700" data-modal-title>Training im Detail planen</div>
+            <button type="button" class="phase-btn px-2 py-1 rounded-md" data-modal-close aria-label="Schließen">✕</button>
+          </div>
+          <div class="p-4 flex flex-col gap-4">
+            <div>
+              <label class="text-xs font-semibold text-gray-600">Wie viele Serien?</label>
+              <input type="number" min="1" step="1" class="mt-1 w-full border rounded-md px-3 py-2 text-sm" data-modal-series />
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-600">Wie lange dauert eine Serie? (Sekunden)</label>
+              <input type="number" min="0" step="1" class="mt-1 w-full border rounded-md px-3 py-2 text-sm" data-modal-series-duration />
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-600">Wie lange sind die Pausen zwischen den Serien? (Sekunden)</label>
+              <input type="number" min="0" step="1" class="mt-1 w-full border rounded-md px-3 py-2 text-sm" data-modal-pauses />
+            </div>
+            <div class="flex items-center justify-end gap-2 pt-2">
+              <button type="button" class="phase-btn px-3 py-2 rounded-md text-xs font-medium" data-modal-cancel>Abbrechen</button>
+              <button type="button" class="phase-btn active px-3 py-2 rounded-md text-xs font-medium" data-modal-save>Speichern</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(overlay);
+
+      const titleEl = overlay.querySelector('[data-modal-title]');
+      const seriesInput = overlay.querySelector('input[data-modal-series]');
+      const seriesDurationInput = overlay.querySelector('input[data-modal-series-duration]');
+      const pausesInput = overlay.querySelector('input[data-modal-pauses]');
+      const saveBtn = overlay.querySelector('button[data-modal-save]');
+      const cancelBtn = overlay.querySelector('button[data-modal-cancel]');
+      const closeBtn = overlay.querySelector('button[data-modal-close]');
+
+      function close() {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+        slotDetailCtx = null;
+      }
+
+      overlay.addEventListener('click', (ev) => {
+        if (ev.target === overlay) close();
+      });
+
+      closeBtn?.addEventListener('click', close);
+      cancelBtn?.addEventListener('click', close);
+
+      saveBtn?.addEventListener('click', () => {
+        if (!slotDetailCtx) return;
+        const { dateIso, slotIdx } = slotDetailCtx;
+        if (!dateIso) return;
+        ensurePlanForDate(dateIso);
+        const plan = trainingPlansByDateIso[dateIso];
+        const slots = Array.isArray(plan?.slots) ? [...plan.slots] : Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null);
+        if (slotIdx < 0 || slotIdx >= slots.length) return;
+        const cur = slots[slotIdx];
+        if (!cur || !cur.exerciseName) return;
+
+        const series = Math.max(1, Number(seriesInput?.value || 1));
+        const seriesDurationSec = Math.max(0, Number(seriesDurationInput?.value || 0));
+        const pauses = Math.max(0, Number(pausesInput?.value || 0));
+
+        slots[slotIdx] = { ...cur, series, seriesDurationSec, pauses };
+        trainingPlansByDateIso[dateIso] = { slots, updatedAt: new Date().toISOString() };
+        saveTrainingPlansToStorage();
+        renderTrainingSlots(allFakeGpsRows);
+        renderTrainingTimeline();
+        close();
+      });
+
+      document.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Escape') {
+          if (!overlay.classList.contains('hidden')) close();
+        }
+      });
+
+      slotDetailModal = { overlay, titleEl, seriesInput, seriesDurationInput, pausesInput, saveBtn, cancelBtn, closeBtn };
+    }
+
+    function openSlotDetailModal(dateIso, slotIdx) {
+      const d = String(dateIso || '').trim();
+      if (!d) return;
+      ensurePlanForDate(d);
+      const plan = trainingPlansByDateIso[d];
+      const slots = Array.isArray(plan?.slots) ? plan.slots : [];
+      const cur = slots[slotIdx];
+      if (!cur || !cur.exerciseName) return;
+
+      ensureSlotDetailModal();
+      slotDetailCtx = { dateIso: d, slotIdx };
+
+      if (slotDetailModal?.titleEl) {
+        slotDetailModal.titleEl.textContent = `Training im Detail planen – ${cur.exerciseName}`;
+      }
+
+      const series = Number.isFinite(Number(cur.series)) ? Number(cur.series) : 1;
+      const seriesDurationSec = Number.isFinite(Number(cur.seriesDurationSec)) ? Number(cur.seriesDurationSec) : 0;
+      const pauses = Number.isFinite(Number(cur.pauses)) ? Number(cur.pauses) : 0;
+      if (slotDetailModal?.seriesInput) slotDetailModal.seriesInput.value = String(series);
+      if (slotDetailModal?.seriesDurationInput) slotDetailModal.seriesDurationInput.value = String(seriesDurationSec);
+      if (slotDetailModal?.pausesInput) slotDetailModal.pausesInput.value = String(pauses);
+
+      slotDetailModal.overlay.classList.remove('hidden');
+      slotDetailModal.overlay.classList.add('flex');
+      slotDetailModal.seriesInput?.focus();
+    }
+
+    function renderTrainingExerciseLibrary(rowsAll) {
+      const host = document.getElementById('training-design-exercise-library');
+      if (!host) return;
+
+      const CATEGORY_ORDER = ['Aktivierung', 'Übungsform', 'Rondos', 'Taktik', 'Spielform'];
+      if (!CATEGORY_ORDER.includes(selectedTrainingLibraryCategory)) {
+        selectedTrainingLibraryCategory = CATEGORY_ORDER[0];
+      }
+
+      // Build a stable category per exercise
+      const exerciseCategoryCounts = new Map();
+      for (const r of (Array.isArray(rowsAll) ? rowsAll : [])) {
+        const ex = String(r.period_name || '').trim();
+        if (!ex) continue;
+        const cat = categoryFromContentTypeOrName(r.content_type, ex);
+        if (!exerciseCategoryCounts.has(ex)) exerciseCategoryCounts.set(ex, new Map());
+        const m = exerciseCategoryCounts.get(ex);
+        m.set(cat, (m.get(cat) || 0) + 1);
+      }
+
+      const grouped = new Map(CATEGORY_ORDER.map(c => [c, []]));
+      for (const [ex, counts] of exerciseCategoryCounts.entries()) {
+        let bestCat = 'Übungsform';
+        let bestCount = -1;
+        for (const c of CATEGORY_ORDER) {
+          const n = counts.get(c) || 0;
+          if (n > bestCount) {
+            bestCount = n;
+            bestCat = c;
+          }
+        }
+        grouped.get(bestCat).push(ex);
+      }
+
+      for (const c of CATEGORY_ORDER) grouped.get(c).sort((a, b) => a.localeCompare(b, 'de'));
+
+      host.innerHTML = '';
+
+      const tabs = document.createElement('div');
+      tabs.className = 'flex flex-wrap gap-2';
+
+      const TAB_LABELS = {
+        Aktivierung: 'Aktivierung',
+        'Übungsform': 'Übungsformen',
+        Rondos: 'Rondos',
+        Taktik: 'Taktik',
+        Spielform: 'Spielformen',
+      };
+
+      for (const c of CATEGORY_ORDER) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `phase-btn px-3 py-1 rounded-md text-xs font-medium ${selectedTrainingLibraryCategory === c ? 'active' : ''}`;
+        btn.textContent = TAB_LABELS[c] || c;
+        btn.addEventListener('click', () => {
+          selectedTrainingLibraryCategory = c;
+          renderTrainingExerciseLibrary(rowsAll);
+        });
+        tabs.appendChild(btn);
+      }
+
+      host.appendChild(tabs);
+
+      const divider = document.createElement('div');
+      divider.className = 'border-t my-3';
+      host.appendChild(divider);
+
+      const itemsWrap = document.createElement('div');
+      itemsWrap.className = 'flex flex-col gap-2';
+
+      const items = grouped.get(selectedTrainingLibraryCategory) || [];
+      if (!items.length) {
+        const empty = document.createElement('div');
+        empty.className = 'text-sm text-gray-500';
+        empty.textContent = 'Keine Übungen in dieser Kategorie.';
+        itemsWrap.appendChild(empty);
+      } else {
+        for (const ex of items) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'phase-btn px-3 py-1 rounded-md text-xs font-medium text-left';
+          btn.textContent = ex;
+          btn.setAttribute('draggable', 'true');
+          btn.setAttribute('data-drag-exercise', ex);
+          itemsWrap.appendChild(btn);
+        }
+      }
+
+      host.appendChild(itemsWrap);
+
+      // Drag sources (exercise buttons)
+      host.querySelectorAll('[data-drag-exercise]').forEach(el => {
+        el.addEventListener('dragstart', (ev) => {
+          const name = el.getAttribute('data-drag-exercise');
+          if (!name) return;
+          ev.dataTransfer?.setData('text/plain', JSON.stringify({ type: 'exercise', name }));
+          ev.dataTransfer?.setData('text/uri-list', '');
+        });
+      });
+    }
+
+    function renderTrainingTimeline() {
+      const host = document.getElementById('training-design-timeline');
+      if (!host) return;
+
+      const nextMatchesEl = document.getElementById('training-design-next-matches');
+
+      // Identify next 4 matches from schedule (based on base_match.match_date)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayIso = today.toISOString().slice(0, 10);
+
+      const matches = (Array.isArray(trainingScheduleRows) ? trainingScheduleRows : [])
+        .filter(e => {
+          const session = String(e?.session_name || '').trim().toLowerCase();
+          const md = String(e?.base_match?.match_date || '').trim();
+          return session === 'match' && md;
+        })
+        .map(e => ({
+          matchDate: String(e.base_match.match_date).trim(),
+          opponent: String(e.base_match?.opponent || '').trim(),
+          homeAway: String(e.base_match?.home_away || '').trim(),
+        }))
+        .filter(m => m.matchDate >= todayIso)
+        .sort((a, b) => a.matchDate.localeCompare(b.matchDate, 'en'));
+
+      const next4 = matches.slice(0, 4);
+      const nextMatchDateSet = new Set(next4.map(m => m.matchDate));
+
+      if (nextMatchesEl) {
+        nextMatchesEl.textContent = next4.length
+          ? `Nächste Spiele: ${next4.map(m => `${m.matchDate}${m.opponent ? ` vs ${m.opponent}` : ''}`).join(' · ')}`
+          : 'Nächste Spiele: —';
+      }
+
+      const start = new Date();
+      start.setHours(0, 0, 0, 0);
+      const dayMs = 24 * 60 * 60 * 1000;
+
+      const cells = [];
+      for (let i = 0; i < currentRangeDays; i++) {
+        const d = new Date(start.getTime() + i * dayMs);
+        const dateIso = d.toISOString().slice(0, 10);
+        const entries = scheduleByDateIso.get(dateIso) || [];
+        const isSelected = selectedTrainingDateIso === dateIso;
+        const isMatch = nextMatchDateSet.has(dateIso);
+        const hasSavedPlan = !!(trainingPlansByDateIso && trainingPlansByDateIso[dateIso]);
+        const showPlanButton = !isMatch && entries.length === 0 && !hasSavedPlan;
+
+        const dayLabel = d.toLocaleDateString('de-DE', { weekday: 'short' });
+        const dateLabel = d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+
+        let mainText = '';
+        if (entries.length) {
+          // Prefer match as primary display if present
+          const matchEntry = entries.find(e => String(e?.session_name || '').trim().toLowerCase() === 'match' && e?.base_match);
+          const primary = matchEntry || entries[0];
+          const session = String(primary?.session_name || '').trim();
+
+          if (String(session).trim().toLowerCase() === 'match' && primary.base_match) {
+            const opp = primary.base_match.opponent ? String(primary.base_match.opponent) : 'Match';
+            const ha = primary.base_match.home_away ? String(primary.base_match.home_away) : '';
+            mainText = `Match vs ${escapeHtml(opp)}${ha ? ` (${escapeHtml(ha)})` : ''}`;
+          } else {
+            const lab = String(primary?.label || '').trim();
+            mainText = `${escapeHtml(session || 'Training')}${lab ? ` · ${escapeHtml(lab)}` : ''}`;
+          }
+        }
+
+        if (!entries.length && hasSavedPlan) {
+          const slots = Array.isArray(trainingPlansByDateIso[dateIso]?.slots) ? trainingPlansByDateIso[dateIso].slots : [];
+          const n = slots.filter(s => s && s.exerciseName).length;
+          mainText = n > 0 ? `Training geplant (${n}/${slots.length || DEFAULT_TRAINING_SLOTS})` : 'Training geplant';
+        }
+
+        const cardBg = isMatch
+          ? 'bg-[#0A3F86] text-white'
+          : (isSelected ? 'bg-gray-100' : 'bg-white');
+        const subTextCls = isMatch ? 'text-white/80' : 'text-gray-500';
+        const mainTextCls = isMatch ? 'font-semibold text-white' : 'text-gray-700';
+
+        cells.push(`
+          <div data-date="${escapeHtml(dateIso)}" class="border rounded-md px-2 py-2 text-left w-[160px] shrink-0 ${cardBg}" title="${escapeHtml(dateIso)}" role="button" tabindex="0">
+            <div class="flex items-center justify-between">
+              <div class="text-xs ${subTextCls}">${escapeHtml(dayLabel)} · ${escapeHtml(dateLabel)}</div>
+              ${isMatch ? '<div class="text-[10px] font-semibold text-white">FIX</div>' : ''}
+            </div>
+            <div class="text-sm ${mainTextCls} mt-1" style="min-height: 1.25rem;">
+              ${mainText ? mainText : (isMatch ? '<span class="text-white/80">—</span>' : '<span class="text-gray-400">—</span>')}
+            </div>
+            ${showPlanButton ? '<button type="button" data-plan-day="' + escapeHtml(dateIso) + '" class="mt-2 phase-btn px-3 py-1 rounded-md text-xs font-medium">Tag planen</button>' : ''}
+          </div>
+        `);
+      }
+
+      host.innerHTML = `
+        <div class="overflow-x-auto" style="min-width: 0;">
+          <div class="flex gap-2" style="min-width: max-content;">
+            ${cells.join('')}
+          </div>
+        </div>
+      `;
+
+      host.querySelectorAll('[data-date]').forEach(el => {
+        el.addEventListener('click', (ev) => {
+          // If the inner "Tag planen" button is clicked, it handles selection itself.
+          const t = ev.target;
+          if (t && t instanceof HTMLElement && t.closest('button[data-plan-day]')) return;
+
+          const dateIso = el.getAttribute('data-date');
+          selectedTrainingDateIso = (selectedTrainingDateIso === dateIso) ? null : dateIso;
+          renderTrainingTimeline();
+          if (Array.isArray(allFakeGpsRows) && allFakeGpsRows.length) {
+            renderTrainingSlots(allFakeGpsRows);
+            renderTrainingExerciseLibrary(allFakeGpsRows);
+            renderTrainingPlan(allFakeGpsRows);
+          }
+        });
+
+        el.addEventListener('keydown', (ev) => {
+          if (ev.key !== 'Enter' && ev.key !== ' ') return;
+          ev.preventDefault();
+          const dateIso = el.getAttribute('data-date');
+          selectedTrainingDateIso = (selectedTrainingDateIso === dateIso) ? null : dateIso;
+          renderTrainingTimeline();
+          if (Array.isArray(allFakeGpsRows) && allFakeGpsRows.length) {
+            renderTrainingSlots(allFakeGpsRows);
+            renderTrainingExerciseLibrary(allFakeGpsRows);
+            renderTrainingPlan(allFakeGpsRows);
+          }
+        });
+      });
+
+      host.querySelectorAll('button[data-plan-day]').forEach(btn => {
+        btn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const dateIso = btn.getAttribute('data-plan-day');
+          selectedTrainingDateIso = dateIso;
+          ensurePlanForDate(dateIso);
+          renderTrainingTimeline();
+          if (Array.isArray(allFakeGpsRows) && allFakeGpsRows.length) {
+            renderTrainingSlots(allFakeGpsRows);
+            renderTrainingExerciseLibrary(allFakeGpsRows);
+            renderTrainingPlan(allFakeGpsRows);
+          }
+        });
+      });
+    }
+
+    function renderTrainingPlan(rowsAll) {
+      const host = document.getElementById('training-design-plan');
+      if (!host) return;
+
+      if (!selectedTrainingDateIso) {
+        host.innerHTML = '<div class="text-gray-500">Wähle im Zeitlauf einen Tag aus oder klicke auf „Tag planen“.</div>';
+        return;
+      }
+
+      ensurePlanForDate(selectedTrainingDateIso);
+      const plan = trainingPlansByDateIso[selectedTrainingDateIso];
+      const slots = Array.isArray(plan?.slots) ? plan.slots : Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null);
+
+      const planItems = slots
+        .map((s, idx) => ({ idx, slot: idx + 1, exerciseName: s?.exerciseName || '', minutes: s?.minutes }))
+        .filter(x => String(x.exerciseName || '').trim());
+
+      const dateInfo = selectedTrainingDateIso
+        ? `<div class="text-xs text-gray-500 mb-2">Datum: <span class="text-gray-700 font-semibold">${escapeHtml(selectedTrainingDateIso)}</span></div>`
+        : `<div class="text-xs text-gray-500 mb-2">Datum: <span class="text-gray-400">(optional auswählen im Zeitlauf)</span></div>`;
+
+      if (!planItems.length) {
+        host.innerHTML = `${dateInfo}<div class="text-gray-500">Füge links Übungen hinzu.</div>`;
+        return;
+      }
+
+      const items = planItems.map((it, idx) => {
+        const rates = computeExerciseAvgRates(it.exerciseName, rowsAll);
+        return {
+          idx,
+          slot: it.slot,
+          name: it.exerciseName,
+          minutes: Number(it.minutes),
+          rates,
+        };
+      });
+
+      const totals = {
+        minutes: 0,
+        distance_m: 0,
+        hsr_m: 0,
+        acc: 0,
+        dcc: 0,
+        mp_m: 0,
+      };
+
+      for (const it of items) {
+        const mins = Number.isFinite(it.minutes) && it.minutes > 0 ? it.minutes : 0;
+        totals.minutes += mins;
+        if (it.rates) {
+          if (Number.isFinite(it.rates.m_per_min)) totals.distance_m += it.rates.m_per_min * mins;
+          if (Number.isFinite(it.rates.hsr_per_min)) totals.hsr_m += it.rates.hsr_per_min * mins;
+          if (Number.isFinite(it.rates.acc_per_min)) totals.acc += it.rates.acc_per_min * mins;
+          if (Number.isFinite(it.rates.dcc_per_min)) totals.dcc += it.rates.dcc_per_min * mins;
+          if (Number.isFinite(it.rates.mp_per_min)) totals.mp_m += it.rates.mp_per_min * mins;
+        }
+      }
+
+      const rowsHtml = items.map(it => {
+        const rateText = it.rates
+          ? `${fmt(it.rates.m_per_min)} m/min · ${fmt(it.rates.acc_per_min)} Acc/min`
+          : '—';
+
+        return `
+          <div class="border rounded-md px-3 py-2">
+            <div class="flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-sm font-semibold text-gray-800 truncate">Slot ${it.slot}: ${escapeHtml(it.name)}</div>
+                <div class="text-xs text-gray-500">${rateText}</div>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="number" min="0" step="1" value="${Number.isFinite(it.minutes) ? it.minutes : 0}" data-idx="${it.idx}" class="w-20 border rounded-md px-2 py-1 text-sm" />
+                <div class="text-xs text-gray-500">min</div>
+                <button type="button" data-remove="${it.idx}" class="phase-btn px-3 py-1 rounded-md text-xs font-medium">Entfernen</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      host.innerHTML = `
+        ${dateInfo}
+        <div class="flex flex-col gap-2">${rowsHtml}</div>
+        <div class="border-t mt-3 pt-3">
+          <div class="text-xs text-gray-500 mb-2">Gesamt (Schätzung auf Basis Ø pro Minute aus FakeGPS)</div>
+          <div class="grid grid-cols-1 gap-2">
+            <div class="flex items-center justify-between"><div class="text-sm text-gray-600">Dauer</div><div class="text-sm font-semibold text-gray-800">${Math.round(totals.minutes)} min</div></div>
+            <div class="flex items-center justify-between"><div class="text-sm text-gray-600">Distanz</div><div class="text-sm font-semibold text-gray-800">${Math.round(totals.distance_m).toLocaleString('de-DE')} m</div></div>
+            <div class="flex items-center justify-between"><div class="text-sm text-gray-600">HSR</div><div class="text-sm font-semibold text-gray-800">${Math.round(totals.hsr_m).toLocaleString('de-DE')} m</div></div>
+            <div class="flex items-center justify-between"><div class="text-sm text-gray-600">Acc</div><div class="text-sm font-semibold text-gray-800">${Math.round(totals.acc).toLocaleString('de-DE')}</div></div>
+            <div class="flex items-center justify-between"><div class="text-sm text-gray-600">Dcc</div><div class="text-sm font-semibold text-gray-800">${Math.round(totals.dcc).toLocaleString('de-DE')}</div></div>
+            <div class="flex items-center justify-between"><div class="text-sm text-gray-600">Metabolic Power</div><div class="text-sm font-semibold text-gray-800">${Math.round(totals.mp_m).toLocaleString('de-DE')} m</div></div>
+          </div>
+        </div>
+      `;
+
+      host.querySelectorAll('input[data-idx]').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const idx = Number(inp.getAttribute('data-idx'));
+          const v = Number(inp.value);
+          const curSlots = Array.isArray(trainingPlansByDateIso[selectedTrainingDateIso]?.slots)
+            ? [...trainingPlansByDateIso[selectedTrainingDateIso].slots]
+            : Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null);
+          if (idx < 0 || idx >= curSlots.length) return;
+          if (!curSlots[idx] || !curSlots[idx].exerciseName) return;
+          curSlots[idx] = { ...curSlots[idx], minutes: Number.isFinite(v) ? v : (curSlots[idx].minutes || 10) };
+          trainingPlansByDateIso[selectedTrainingDateIso] = { slots: curSlots, updatedAt: new Date().toISOString() };
+          saveTrainingPlansToStorage();
+          renderTrainingTimeline();
+          renderTrainingSlots(rowsAll);
+          renderTrainingPlan(rowsAll);
+        });
+      });
+
+      host.querySelectorAll('button[data-remove]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-remove'));
+          const curSlots = Array.isArray(trainingPlansByDateIso[selectedTrainingDateIso]?.slots)
+            ? [...trainingPlansByDateIso[selectedTrainingDateIso].slots]
+            : Array.from({ length: DEFAULT_TRAINING_SLOTS }, () => null);
+          if (idx < 0 || idx >= curSlots.length) return;
+          curSlots[idx] = null;
+          trainingPlansByDateIso[selectedTrainingDateIso] = { slots: curSlots, updatedAt: new Date().toISOString() };
+          saveTrainingPlansToStorage();
+          renderTrainingTimeline();
+          renderTrainingSlots(rowsAll);
+          renderTrainingPlan(rowsAll);
+        });
+      });
+    }
+
+    (function initRangeButtons() {
+      const buttons = Array.from(document.querySelectorAll('.range-filter-btn'));
+      function setActive(days) {
+        currentRangeDays = days;
+        buttons.forEach(b => b.classList.toggle('active', Number(b.dataset.days) === days));
+        // Re-render if data already loaded
+        if (Array.isArray(allFakeGpsRows) && allFakeGpsRows.length) {
+          if (activePhaseId === 'btn-physisch') {
+            renderTrainingTimeline();
+            renderTrainingSlots(allFakeGpsRows);
+            renderTrainingExerciseLibrary(allFakeGpsRows);
+            renderTrainingPlan(allFakeGpsRows);
+          } else {
+            renderFromRows(allFakeGpsRows);
+          }
+        }
+      }
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const days = Number(btn.dataset.days);
+          if (Number.isFinite(days) && days > 0) setActive(days);
+        });
+      });
+      setActive(currentRangeDays);
+    })();
+
+    (function initMonitoringMetricButtons() {
+      const buttons = Array.from(document.querySelectorAll('.metric-btn'));
+      function setActive(metric) {
+        currentMonitoringMetric = metric;
+        buttons.forEach(b => b.classList.toggle('active', String(b.dataset.metric) === metric));
+        if (Array.isArray(allFakeGpsRows) && allFakeGpsRows.length) {
+          renderFromRows(allFakeGpsRows);
+        }
+      }
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const metric = String(btn.dataset.metric || '');
+          if (!metric) return;
+          setActive(metric);
+        });
+      });
+      setActive(currentMonitoringMetric);
+    })();
+
+    function fmt(num) {
+      if (num === null || num === undefined || Number.isNaN(Number(num))) return '—';
+      return Number(num).toFixed(2);
+    }
+
+    function fmt0(num) {
+      if (num === null || num === undefined || Number.isNaN(Number(num))) return '—';
+      return String(Math.round(Number(num)));
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function parseCsv(text) {
+      const rows = [];
+      const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+      if (!lines.length) return rows;
+
+      function splitCsvLine(line) {
+        const out = [];
+        let cur = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') {
+            if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+            else { inQuotes = !inQuotes; }
+            continue;
+          }
+          if (ch === ',' && !inQuotes) {
+            out.push(cur);
+            cur = '';
+            continue;
+          }
+          cur += ch;
+        }
+        out.push(cur);
+        return out;
+      }
+
+      const header = splitCsvLine(lines[0]);
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i];
+        if (!line || !line.trim()) continue;
+        const parts = splitCsvLine(line);
+        const obj = {};
+        for (let j = 0; j < header.length; j++) {
+          obj[header[j]] = parts[j] ?? '';
+        }
+        rows.push(obj);
+      }
+      return rows;
+    }
+
+    let monitoringChart = null;
+    let expandedGpsRows = new Set();
+
+    function toNumber(v) {
+      if (v === null || v === undefined) return NaN;
+      const s = String(v).trim();
+      if (!s) return NaN;
+      // handle both "1234.56" and "1.234,56" just in case
+      const normalized = s.includes(',') && !s.includes('.') ? s.replace(',', '.') : s.replace(/\s/g, '');
+      const num = Number(normalized);
+      return Number.isFinite(num) ? num : NaN;
+    }
+
+    function metricValueFromRow(row, metric) {
+      const m = String(metric || '').toLowerCase();
+      if (m === 'total_distance') {
+        return toNumber(row.total_distance);
+      }
+
+      // Speed zones: generator currently provides velocity_band1..5.
+      // Treat "Zone 6" as velocity_band6 if present; otherwise use band5 as top zone.
+      const v4 = toNumber(row.velocity_band4_total_distance);
+      const v5 = toNumber(row.velocity_band5_total_distance);
+      const v6 = toNumber(row.velocity_band6_total_distance);
+      const top = Number.isFinite(v6) ? v6 : (Number.isFinite(v5) ? v5 : NaN);
+      const z4 = Number.isFinite(v4) ? v4 : 0;
+      const z5 = Number.isFinite(v5) ? v5 : 0;
+      const z6 = Number.isFinite(v6) ? v6 : 0;
+
+      if (m === 'hsr') {
+        // Zone 4 bis 6
+        return z4 + z5 + z6;
+      }
+      if (m === 'vhsr') {
+        // Zone 5 und 6
+        return z5 + z6;
+      }
+      if (m === 'sprint') {
+        // Zone 6 (fallback to top zone if 6 doesn't exist)
+        return Number.isFinite(v6) ? z6 : top;
+      }
+      if (m === 'accdcc') {
+        // Total accel + decel event counts across zones
+        const acc = [1, 2, 3, 4, 5]
+          .map(i => toNumber(row[`acceleration_band${i}_total_effort_count`]))
+          .filter(Number.isFinite)
+          .reduce((a, b) => a + b, 0);
+        const dec = [1, 2, 3, 4, 5]
+          .map(i => toNumber(row[`deceleration_band${i}_total_effort_count`]))
+          .filter(Number.isFinite)
+          .reduce((a, b) => a + b, 0);
+        return acc + dec;
+      }
+
+      return NaN;
+    }
+
+    function metricMeta(metric) {
+      const m = String(metric || '').toLowerCase();
+      if (m === 'hsr') {
+        return { label: 'HSR (Zone 4–6)', unit: 'm', isCount: false };
+      }
+      if (m === 'vhsr') {
+        return { label: 'VHSR (Zone 5–6)', unit: 'm', isCount: false };
+      }
+      if (m === 'sprint') {
+        return { label: 'Sprintdistanz (Zone 6)', unit: 'm', isCount: false };
+      }
+      if (m === 'accdcc') {
+        return { label: 'Acc/Dcc (Events)', unit: '', isCount: true };
+      }
+      return { label: 'Gesamtlaufdistanz', unit: 'm', isCount: false };
+    }
+
+    function parseIsoDate(value) {
+      const s = String(value || '').trim();
+      if (!s) return null;
+      // Expect YYYY-MM-DD; enforce midnight for consistent parsing
+      const t = Date.parse(s.length === 10 ? `${s}T00:00:00` : s);
+      if (!Number.isFinite(t)) return null;
+      return new Date(t);
+    }
+
+    function filterRowsByRange(rows, days) {
+      if (!Array.isArray(rows) || !rows.length) return [];
+      const dated = rows
+        .map(r => {
+          const d = parseIsoDate(r.date_iso || r.date);
+          return d ? { r, d } : null;
+        })
+        .filter(Boolean);
+
+      if (!dated.length) return rows;
+
+      // Use the newest date in the dataset as reference (more stable than "today")
+      let maxDate = dated[0].d;
+      for (const it of dated) {
+        if (it.d > maxDate) maxDate = it.d;
+      }
+
+      const cutoff = new Date(maxDate);
+      cutoff.setDate(cutoff.getDate() - (days - 1));
+      cutoff.setHours(0, 0, 0, 0);
+
+      return dated.filter(it => it.d >= cutoff && it.d <= maxDate).map(it => it.r);
+    }
+
+    function renderFromRows(rows) {
+      const filtered = filterRowsByRange(rows, currentRangeDays);
+
+      if (selectedDateIso) {
+        const hasSelected = filtered.some(r => String(r.date_iso || '').trim() === selectedDateIso);
+        if (!hasSelected) selectedDateIso = null;
+      }
+
+      renderMonitoringChart(filtered);
+      renderFakeGpsAvgTable(filtered);
+      renderFakeGpsPlayerSumTable(filtered);
+      // Übungsdatenbank KPIs are independent from Last7/14/28
+      renderExerciseKpis(rows);
+    }
+
+    function renderFakeGpsAvgTable(rows) {
+      const status = document.getElementById('fakegps-status-avg');
+      const tbody = document.getElementById('fakegps-body-avg');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const count = Array.isArray(rows) ? rows.length : 0;
+      if (status) status.textContent = `${count.toLocaleString('de-DE')} Zeilen`;
+
+      // Reset expanded state when data changes
+      expandedGpsRows = new Set();
+
+      const DISPLAY_METRICS = [
+        { key: 'distance_m', fmt: fmt0 },
+        { key: 'm_per_min', fmt: fmt },
+        { key: 'acc_count', fmt: fmt0 },
+        { key: 'dec_count', fmt: fmt0 },
+        { key: 'sprint_distance_m', fmt: fmt },
+        { key: 'max_speed', fmt: fmt },
+        { key: 'metabolic_power_m', fmt: fmt },
+      ];
+
+      const BASE_KEYS = [
+        'total_duration',
+        'total_distance',
+        'max_vel',
+        'velocity_band5_total_distance',
+        'velocity_band6_total_distance',
+        'acceleration_band1_total_effort_count',
+        'acceleration_band2_total_effort_count',
+        'acceleration_band3_total_effort_count',
+        'acceleration_band4_total_effort_count',
+        'acceleration_band5_total_effort_count',
+        'deceleration_band1_total_effort_count',
+        'deceleration_band2_total_effort_count',
+        'deceleration_band3_total_effort_count',
+        'deceleration_band4_total_effort_count',
+        'deceleration_band5_total_effort_count',
+        'metabolic_power_band1_total_distance',
+        'metabolic_power_band2_total_distance',
+        'metabolic_power_band3_total_distance',
+        'metabolic_power_band4_total_distance',
+        'metabolic_power_band5_total_distance',
+      ];
+
+      const SUM_KEYS = new Set(BASE_KEYS.filter(k => k !== 'max_vel'));
+      const MAX_KEYS = new Set(['max_vel']);
+
+      function emptyAgg() {
+        const obj = {};
+        BASE_KEYS.forEach(k => (obj[k] = 0));
+        obj._n = 0;
+        obj._max = {};
+        return obj;
+      }
+
+      function addToAgg(agg, rowObj) {
+        agg._n += 1;
+        BASE_KEYS.forEach(k => {
+          const v = toNumber(rowObj[k]);
+          if (!Number.isFinite(v)) return;
+          if (SUM_KEYS.has(k)) {
+            agg[k] += v;
+            return;
+          }
+          if (MAX_KEYS.has(k)) {
+            agg._max[k] = Math.max(agg._max[k] ?? -Infinity, v);
+            return;
+          }
+          agg[k] += v;
+        });
+      }
+
+      function finalizeAgg(agg) {
+        const dur = agg.total_duration;
+        const minutes = Number.isFinite(dur) && dur > 0 ? (dur / 60.0) : NaN;
+
+        const accCount =
+          (agg.acceleration_band1_total_effort_count || 0) +
+          (agg.acceleration_band2_total_effort_count || 0) +
+          (agg.acceleration_band3_total_effort_count || 0) +
+          (agg.acceleration_band4_total_effort_count || 0) +
+          (agg.acceleration_band5_total_effort_count || 0);
+
+        const decCount =
+          (agg.deceleration_band1_total_effort_count || 0) +
+          (agg.deceleration_band2_total_effort_count || 0) +
+          (agg.deceleration_band3_total_effort_count || 0) +
+          (agg.deceleration_band4_total_effort_count || 0) +
+          (agg.deceleration_band5_total_effort_count || 0);
+
+        const mpTotal =
+          (agg.metabolic_power_band1_total_distance || 0) +
+          (agg.metabolic_power_band2_total_distance || 0) +
+          (agg.metabolic_power_band3_total_distance || 0) +
+          (agg.metabolic_power_band4_total_distance || 0) +
+          (agg.metabolic_power_band5_total_distance || 0);
+
+        const vb6 = toNumber(agg.velocity_band6_total_distance);
+        const vb5 = toNumber(agg.velocity_band5_total_distance);
+        const sprintDist = Number.isFinite(vb6) && vb6 > 0 ? vb6 : (Number.isFinite(vb5) ? vb5 : NaN);
+
+        const maxSpeed = agg._max.max_vel;
+
+        return {
+          distance_m: agg.total_distance,
+          m_per_min: Number.isFinite(minutes) && minutes > 0 ? (agg.total_distance / minutes) : NaN,
+          acc_count: accCount,
+          dec_count: decCount,
+          sprint_distance_m: sprintDist,
+          max_speed: Number.isFinite(maxSpeed) ? maxSpeed : NaN,
+          metabolic_power_m: mpTotal,
+        };
+      }
+
+      // Build hierarchy: date -> period -> player
+      const byDate = new Map();
+      for (const r of rows) {
+        const dateIso = String(r.date_iso || '').trim();
+        if (!dateIso) continue;
+        const label = String(r.label || '').trim();
+        const period = String(r.period_name || '').trim();
+        const contentType = String(r.content_type || '').trim();
+        const athlete = String(r.athlete_name || '').trim();
+        if (!period || !athlete) continue;
+
+        if (!byDate.has(dateIso)) byDate.set(dateIso, { label, periods: new Map(), players: new Map() });
+        const dateEntry = byDate.get(dateIso);
+        if (!dateEntry.label && label) dateEntry.label = label;
+
+        // per-date per-player aggregate across all periods
+        if (!dateEntry.players.has(athlete)) dateEntry.players.set(athlete, emptyAgg());
+        addToAgg(dateEntry.players.get(athlete), r);
+
+        // per-period per-player aggregate
+        if (!dateEntry.periods.has(period)) dateEntry.periods.set(period, { contentType, players: new Map() });
+        const periodEntry = dateEntry.periods.get(period);
+        if (!periodEntry.contentType && contentType) periodEntry.contentType = contentType;
+        if (!periodEntry.players.has(athlete)) periodEntry.players.set(athlete, emptyAgg());
+        addToAgg(periodEntry.players.get(athlete), r);
+      }
+
+      // Order: latest date first
+      const dates = Array.from(byDate.entries())
+        .map(([dateIso, entry]) => ({ dateIso, entry, ts: Date.parse(`${dateIso}T00:00:00`) }))
+        .sort((a, b) => (Number.isFinite(b.ts) ? b.ts : 0) - (Number.isFinite(a.ts) ? a.ts : 0));
+
+      function meanAcrossPlayers(playerAggMap) {
+        const players = Array.from(playerAggMap.values()).map(finalizeAgg);
+        if (!players.length) return null;
+        const out = {};
+        DISPLAY_METRICS.forEach(m => {
+          const vals = players.map(p => p[m.key]).filter(Number.isFinite);
+          out[m.key] = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : NaN;
+        });
+        return out;
+      }
+
+      function chevronSvg(hasChildren) {
+        return hasChildren
+          ? `<svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>`
+          : `<span class="chevron"></span>`;
+      }
+
+      function renderRow({ level, id, parentId, label, metrics, hasChildren, rowClass }) {
+        const tr = document.createElement('tr');
+        const indentStyle = `padding-left: ${level * 1.5 + 0.75}rem;`;
+        tr.dataset.parent = parentId || '';
+        tr.dataset.rowid = id;
+        tr.className = `${rowClass || ''} ${level > 0 ? 'hidden' : ''}`.trim();
+        if (hasChildren) tr.classList.add('parent-row', 'cursor-pointer');
+        if (expandedGpsRows.has(id)) tr.classList.add('expanded');
+
+        let html = '';
+        html += `<td class="py-2 text-xs whitespace-nowrap" style="${indentStyle}"><div class="flex items-center">${chevronSvg(hasChildren)}<span>${escapeHtml(label)}</span></div></td>`;
+        DISPLAY_METRICS.forEach(m => {
+          const v = metrics ? metrics[m.key] : NaN;
+          html += `<td class="px-3 py-2 text-xs text-right">${m.fmt(v)}</td>`;
+        });
+        tr.innerHTML = html;
+        tbody.appendChild(tr);
+      }
+
+      // Render tree
+      for (const d of dates) {
+        const dateId = `date---${d.dateIso}`;
+        const dateAvg = meanAcrossPlayers(d.entry.players);
+        const dateLabel = d.entry.label ? `${d.dateIso} (${d.entry.label})` : d.dateIso;
+
+        renderRow({
+          level: 0,
+          id: dateId,
+          parentId: '',
+          label: dateLabel,
+          metrics: dateAvg,
+          hasChildren: d.entry.periods.size > 0,
+          rowClass: 'top-level-row',
+        });
+
+        const periods = Array.from(d.entry.periods.entries())
+          .map(([periodName, periodEntry]) => ({
+            periodName,
+            periodEntry,
+          }));
+
+        for (const p of periods) {
+          const periodId = `period---${d.dateIso}---${p.periodName}`;
+          const periodAvg = meanAcrossPlayers(p.periodEntry.players);
+          const periodLabel = p.periodEntry.contentType ? `${p.periodName} (${p.periodEntry.contentType})` : p.periodName;
+
+          renderRow({
+            level: 1,
+            id: periodId,
+            parentId: dateId,
+            label: periodLabel,
+            metrics: periodAvg,
+            hasChildren: p.periodEntry.players.size > 0,
+            rowClass: 'bg-gray-50',
+          });
+
+          const players = Array.from(p.periodEntry.players.entries())
+            .map(([athleteName, agg]) => ({ athleteName, metrics: finalizeAgg(agg) }))
+            .sort((a, b) => a.athleteName.localeCompare(b.athleteName, 'de'));
+
+          for (const pl of players) {
+            const playerId = `player---${d.dateIso}---${p.periodName}---${pl.athleteName}`;
+            renderRow({
+              level: 2,
+              id: playerId,
+              parentId: periodId,
+              label: pl.athleteName,
+              metrics: pl.metrics,
+              hasChildren: false,
+              rowClass: '',
+            });
+          }
+        }
+      }
+
+      // Expand/collapse behavior like KPI table
+      tbody.onclick = (e) => {
+        const row = e.target.closest('tr.parent-row');
+        if (!row) return;
+        const rowId = row.dataset.rowid;
+        if (!rowId) return;
+
+        // Crossfilter: click on a DATE row selects that date for the right table
+        if (rowId.startsWith('date---')) {
+          const dateIso = rowId.slice('date---'.length);
+          selectedDateIso = (selectedDateIso === dateIso) ? null : dateIso;
+          // Re-render right table using the currently visible (range-filtered) rows
+          renderFakeGpsPlayerSumTable(rows);
+
+          // Update visual selection
+          tbody.querySelectorAll('tr.selected-date').forEach(el => el.classList.remove('selected-date', 'bg-gray-100'));
+          if (selectedDateIso) {
+            const sel = tbody.querySelector(`tr[data-rowid="${CSS.escape('date---' + selectedDateIso)}"]`);
+            if (sel) sel.classList.add('selected-date', 'bg-gray-100');
+          }
+        }
+
+        const isExpanding = !row.classList.contains('expanded');
+        if (isExpanding) {
+          row.classList.add('expanded');
+          expandedGpsRows.add(rowId);
+          tbody.querySelectorAll(`[data-parent="${CSS.escape(rowId)}"]`).forEach(child => child.classList.remove('hidden'));
+          return;
+        }
+
+        // Collapse: hide all descendants
+        row.classList.remove('expanded');
+        expandedGpsRows.delete(rowId);
+        const descendants = tbody.querySelectorAll(`[data-parent]`);
+        descendants.forEach(child => {
+          // Walk up parents to see if this is a descendant
+          let p = child.dataset.parent;
+          while (p) {
+            if (p === rowId) {
+              child.classList.add('hidden');
+              // also remove expanded state from collapsed descendants
+              if (child.classList.contains('expanded')) {
+                child.classList.remove('expanded');
+                const cid = child.dataset.rowid;
+                if (cid) expandedGpsRows.delete(cid);
+              }
+              break;
+            }
+            const parentEl = tbody.querySelector(`tr[data-rowid="${CSS.escape(p)}"]`);
+            p = parentEl ? parentEl.dataset.parent : '';
+          }
+        });
+      };
+
+      // Re-apply selection highlight after render
+      if (selectedDateIso) {
+        const sel = tbody.querySelector(`tr[data-rowid="${CSS.escape('date---' + selectedDateIso)}"]`);
+        if (sel) sel.classList.add('selected-date', 'bg-gray-100');
+      }
+
+    }
+
+    function renderFakeGpsPlayerSumTable(rows) {
+      const status = document.getElementById('fakegps-status-sum');
+      const tbody = document.getElementById('fakegps-body-sum');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const scopedRowsAll = Array.isArray(rows) ? rows : [];
+      const scopedRows = selectedDateIso
+        ? scopedRowsAll.filter(r => String(r.date_iso || '').trim() === selectedDateIso)
+        : scopedRowsAll;
+
+      const count = scopedRows.length;
+      if (status) {
+        status.textContent = selectedDateIso
+          ? `${count.toLocaleString('de-DE')} Zeilen · ${selectedDateIso}`
+          : `${count.toLocaleString('de-DE')} Zeilen`;
+      }
+
+      const DISPLAY_METRICS = [
+        { key: 'distance_m', fmt: fmt0 },
+        { key: 'm_per_min', fmt: fmt },
+        { key: 'acc_count', fmt: fmt0 },
+        { key: 'dec_count', fmt: fmt0 },
+        { key: 'sprint_distance_m', fmt: fmt },
+        { key: 'max_speed', fmt: fmt },
+        { key: 'metabolic_power_m', fmt: fmt },
+      ];
+
+      const BASE_KEYS = [
+        'total_duration',
+        'total_distance',
+        'max_vel',
+        'velocity_band5_total_distance',
+        'velocity_band6_total_distance',
+        'acceleration_band1_total_effort_count',
+        'acceleration_band2_total_effort_count',
+        'acceleration_band3_total_effort_count',
+        'acceleration_band4_total_effort_count',
+        'acceleration_band5_total_effort_count',
+        'deceleration_band1_total_effort_count',
+        'deceleration_band2_total_effort_count',
+        'deceleration_band3_total_effort_count',
+        'deceleration_band4_total_effort_count',
+        'deceleration_band5_total_effort_count',
+        'metabolic_power_band1_total_distance',
+        'metabolic_power_band2_total_distance',
+        'metabolic_power_band3_total_distance',
+        'metabolic_power_band4_total_distance',
+        'metabolic_power_band5_total_distance',
+      ];
+
+      const SUM_KEYS = new Set(BASE_KEYS.filter(k => k !== 'max_vel'));
+      const MAX_KEYS = new Set(['max_vel']);
+
+      function emptyAgg() {
+        const obj = {};
+        BASE_KEYS.forEach(k => (obj[k] = 0));
+        obj._n = 0;
+        obj._max = {};
+        return obj;
+      }
+
+      function addToAgg(agg, rowObj) {
+        agg._n += 1;
+        BASE_KEYS.forEach(k => {
+          const v = toNumber(rowObj[k]);
+          if (!Number.isFinite(v)) return;
+          if (SUM_KEYS.has(k)) {
+            agg[k] += v;
+            return;
+          }
+          if (MAX_KEYS.has(k)) {
+            agg._max[k] = Math.max(agg._max[k] ?? -Infinity, v);
+            return;
+          }
+          agg[k] += v;
+        });
+      }
+
+      function finalizeAgg(agg) {
+        const dur = agg.total_duration;
+        const minutes = Number.isFinite(dur) && dur > 0 ? (dur / 60.0) : NaN;
+
+        const accCount =
+          (agg.acceleration_band1_total_effort_count || 0) +
+          (agg.acceleration_band2_total_effort_count || 0) +
+          (agg.acceleration_band3_total_effort_count || 0) +
+          (agg.acceleration_band4_total_effort_count || 0) +
+          (agg.acceleration_band5_total_effort_count || 0);
+
+        const decCount =
+          (agg.deceleration_band1_total_effort_count || 0) +
+          (agg.deceleration_band2_total_effort_count || 0) +
+          (agg.deceleration_band3_total_effort_count || 0) +
+          (agg.deceleration_band4_total_effort_count || 0) +
+          (agg.deceleration_band5_total_effort_count || 0);
+
+        const mpTotal =
+          (agg.metabolic_power_band1_total_distance || 0) +
+          (agg.metabolic_power_band2_total_distance || 0) +
+          (agg.metabolic_power_band3_total_distance || 0) +
+          (agg.metabolic_power_band4_total_distance || 0) +
+          (agg.metabolic_power_band5_total_distance || 0);
+
+        const vb6 = toNumber(agg.velocity_band6_total_distance);
+        const vb5 = toNumber(agg.velocity_band5_total_distance);
+        const sprintDist = Number.isFinite(vb6) && vb6 > 0 ? vb6 : (Number.isFinite(vb5) ? vb5 : NaN);
+
+        const maxSpeed = agg._max.max_vel;
+
+        return {
+          distance_m: agg.total_distance,
+          m_per_min: Number.isFinite(minutes) && minutes > 0 ? (agg.total_distance / minutes) : NaN,
+          acc_count: accCount,
+          dec_count: decCount,
+          sprint_distance_m: sprintDist,
+          max_speed: Number.isFinite(maxSpeed) ? maxSpeed : NaN,
+          metabolic_power_m: mpTotal,
+        };
+      }
+
+      // Aggregate directly by player across the selected range
+      const byPlayer = new Map();
+      for (const r of scopedRows) {
+        const athlete = String(r.athlete_name || '').trim();
+        if (!athlete) continue;
+        if (!byPlayer.has(athlete)) byPlayer.set(athlete, emptyAgg());
+        addToAgg(byPlayer.get(athlete), r);
+      }
+
+      const players = Array.from(byPlayer.entries())
+        .map(([athleteName, agg]) => ({ athleteName, metrics: finalizeAgg(agg) }))
+        .sort((a, b) => a.athleteName.localeCompare(b.athleteName, 'de'));
+
+      if (status) {
+        status.textContent = selectedDateIso
+          ? `${players.length.toLocaleString('de-DE')} Spieler · ${count.toLocaleString('de-DE')} Zeilen · ${selectedDateIso}`
+          : `${players.length.toLocaleString('de-DE')} Spieler · ${count.toLocaleString('de-DE')} Zeilen`;
+      }
+
+      for (const pl of players) {
+        const tr = document.createElement('tr');
+        let html = '';
+        html += `<td class="px-3 py-2 text-xs whitespace-nowrap"><span>${escapeHtml(pl.athleteName)}</span></td>`;
+        DISPLAY_METRICS.forEach(m => {
+          const v = pl.metrics ? pl.metrics[m.key] : NaN;
+          html += `<td class="px-3 py-2 text-xs text-right">${m.fmt(v)}</td>`;
+        });
+        tr.innerHTML = html;
+        tbody.appendChild(tr);
+      }
+    }
+
+    function renderMonitoringChart(rows) {
+      const canvas = document.getElementById('monitoring-bar-chart');
+      if (!canvas) return;
+
+      const meta = metricMeta(currentMonitoringMetric);
+
+      // --- Helpers for ACWR ---
+      function buildDailyAvgPerPlayerSeries(sourceRows) {
+        const byDay = new Map();
+        for (const r of sourceRows) {
+          const dateIso = (r.date_iso || r.date || '').trim();
+          if (!dateIso) continue;
+          const label = (r.label || '').trim();
+
+          const athlete = (r.athlete_name || '').trim();
+          if (!athlete) continue;
+
+          const v = metricValueFromRow(r, currentMonitoringMetric);
+          if (!Number.isFinite(v)) continue;
+
+          if (!byDay.has(dateIso)) byDay.set(dateIso, { label, byAthlete: new Map() });
+          const entry = byDay.get(dateIso);
+          if (!entry.label && label) entry.label = label;
+          entry.byAthlete.set(athlete, (entry.byAthlete.get(athlete) || 0) + v);
+        }
+
+        return Array.from(byDay.entries())
+          .map(([dateIso, entry]) => {
+            const totals = Array.from(entry.byAthlete.values());
+            const avg = totals.length ? totals.reduce((a, b) => a + b, 0) / totals.length : 0;
+            const t = Date.parse(`${dateIso}T00:00:00`);
+            return {
+              dateIso,
+              label: entry.label || '',
+              avg,
+              sortTs: Number.isFinite(t) ? t : Number.MAX_SAFE_INTEGER,
+            };
+          })
+          .sort((a, b) => a.sortTs - b.sortTs);
+      }
+
+      function computeAcwrByDateIso(fullDailySeries, acuteDays = 7, chronicDays = 28) {
+        if (!fullDailySeries.length) return new Map();
+
+        // Build continuous date range and fill missing days with 0
+        const tsList = fullDailySeries.map(d => d.sortTs).filter(Number.isFinite).sort((a, b) => a - b);
+        if (!tsList.length) return new Map();
+
+        const minTs = tsList[0];
+        const maxTs = tsList[tsList.length - 1];
+        const valueByDate = new Map(fullDailySeries.map(d => [d.dateIso, d.avg]));
+
+        const series = [];
+        const dayMs = 24 * 60 * 60 * 1000;
+        for (let ts = minTs; ts <= maxTs; ts += dayMs) {
+          const d = new Date(ts);
+          const dateIso = d.toISOString().slice(0, 10);
+          series.push({ dateIso, value: valueByDate.get(dateIso) ?? 0 });
+        }
+
+        const ratios = new Map();
+        let acuteSum = 0;
+        let chronicSum = 0;
+
+        for (let i = 0; i < series.length; i++) {
+          const v = series[i].value;
+          acuteSum += v;
+          chronicSum += v;
+
+          if (i >= acuteDays) acuteSum -= series[i - acuteDays].value;
+          if (i >= chronicDays) chronicSum -= series[i - chronicDays].value;
+
+          // Require full chronic window to avoid nonsense early ratios
+          if (i >= chronicDays - 1) {
+            const acuteAvg = acuteSum / acuteDays;
+            const chronicAvg = chronicSum / chronicDays;
+            const ratio = chronicAvg > 0 ? (acuteAvg / chronicAvg) : null;
+            ratios.set(series[i].dateIso, ratio);
+          } else {
+            ratios.set(series[i].dateIso, null);
+          }
+        }
+
+        return ratios;
+      }
+
+      // IMPORTANT: Average per player per DAY, not per training component.
+      // Bars use the currently visible (range-filtered) rows.
+      const days = buildDailyAvgPerPlayerSeries(rows);
+
+      // ACWR is computed from the full history (allFakeGpsRows) and then aligned to the displayed days.
+      const fullDaily = buildDailyAvgPerPlayerSeries(allFakeGpsRows);
+      const acwrByDate = computeAcwrByDateIso(fullDaily, 7, 28);
+      const acwrSeries = days.map(d => {
+        const r = acwrByDate.get(d.dateIso);
+        return (r === null || typeof r === 'undefined') ? null : r;
+      });
+
+      // Commonly used ACWR “risk” thresholds in practice
+      const ACWR_LOW = 0.8;
+      const ACWR_HIGH = 1.5;
+      const ACWR_OK_COLOR = 'rgba(10, 63, 134, 0.35)';
+      const ACWR_OK_FILL = 'rgba(10, 63, 134, 0.08)';
+      const ACWR_RISK_COLOR = 'rgba(220, 38, 38, 0.85)';
+      const ACWR_RISK_FILL = 'rgba(220, 38, 38, 0.12)';
+      const ACWR_RISK_BAND = 'rgba(220, 38, 38, 0.10)';
+
+      function isAcwrRisk(v) {
+        return Number.isFinite(v) && (v < ACWR_LOW || v > ACWR_HIGH);
+      }
+
+      const acwrRiskOverlayPlugin = {
+        id: 'acwrRiskOverlay',
+        beforeDatasetsDraw(chart) {
+          // Draw a red vertical band behind the plot for risk points
+          const datasetIndex = chart.data.datasets.findIndex(d => d && d.label === 'ACWR');
+          if (datasetIndex < 0) return;
+          const meta = chart.getDatasetMeta(datasetIndex);
+          if (!meta || !meta.data || !meta.data.length) return;
+
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return;
+
+          ctx.save();
+          ctx.fillStyle = ACWR_RISK_BAND;
+
+          for (let i = 0; i < meta.data.length; i++) {
+            const v = acwrSeries[i];
+            if (!isAcwrRisk(v)) continue;
+
+            const x = meta.data[i].x;
+            if (!Number.isFinite(x)) continue;
+
+            const xPrev = i > 0 && meta.data[i - 1] ? meta.data[i - 1].x : null;
+            const xNext = i < meta.data.length - 1 && meta.data[i + 1] ? meta.data[i + 1].x : null;
+
+            const left = Number.isFinite(xPrev) ? (xPrev + x) / 2 : chartArea.left;
+            const right = Number.isFinite(xNext) ? (x + xNext) / 2 : chartArea.right;
+            const w = Math.max(0, right - left);
+            if (w <= 0) continue;
+
+            ctx.fillRect(left, chartArea.top, w, chartArea.bottom - chartArea.top);
+          }
+
+          ctx.restore();
+        },
+        afterDatasetsDraw(chart) {
+          // Draw the ACWR value above the line for risk points only
+          const datasetIndex = chart.data.datasets.findIndex(d => d && d.label === 'ACWR');
+          if (datasetIndex < 0) return;
+          const meta = chart.getDatasetMeta(datasetIndex);
+          if (!meta || !meta.data || !meta.data.length) return;
+
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return;
+
+          ctx.save();
+          ctx.fillStyle = 'rgba(220, 38, 38, 0.95)';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.font = '12px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif';
+
+          for (let i = 0; i < meta.data.length; i++) {
+            const v = acwrSeries[i];
+            if (!isAcwrRisk(v)) continue;
+
+            const el = meta.data[i];
+            const x = el.x;
+            const y = el.y;
+            if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(v)) continue;
+
+            const label = Number(v).toLocaleString('de-DE', { maximumFractionDigits: 2 });
+            const yText = Math.max(chartArea.top + 12, y - 8);
+            ctx.fillText(label, x, yText);
+          }
+
+          ctx.restore();
+        }
+      };
+
+      // Multi-line labels: [date, label]
+      const labels = days.map(d => (d.label ? [d.dateIso, d.label] : [d.dateIso]));
+      const data = days.map(d => Math.round(d.avg));
+
+      if (!labels.length) {
+        if (monitoringChart) {
+          monitoringChart.destroy();
+          monitoringChart = null;
+        }
+        return;
+      }
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      if (monitoringChart) monitoringChart.destroy();
+      monitoringChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: `Ø ${meta.label} pro Spieler${meta.unit ? ` (${meta.unit})` : ''}`,
+              data,
+              backgroundColor: 'rgba(10, 63, 134, 0.85)',
+              borderColor: 'rgba(10, 63, 134, 1)',
+              borderWidth: 1,
+              yAxisID: 'y',
+            }
+            ,
+            {
+              type: 'line',
+              label: 'ACWR',
+              data: acwrSeries,
+              yAxisID: 'y1',
+              borderColor: (c) => {
+                const v = c?.parsed?.y;
+                return isAcwrRisk(v) ? ACWR_RISK_COLOR : ACWR_OK_COLOR;
+              },
+              backgroundColor: (c) => {
+                const v = c?.parsed?.y;
+                return isAcwrRisk(v) ? ACWR_RISK_FILL : ACWR_OK_FILL;
+              },
+              segment: {
+                borderColor: (c) => {
+                  const v = c?.p1?.parsed?.y;
+                  return isAcwrRisk(v) ? ACWR_RISK_COLOR : ACWR_OK_COLOR;
+                },
+              },
+              borderWidth: 2,
+              pointRadius: 2,
+              pointBackgroundColor: (c) => {
+                const v = c?.parsed?.y;
+                return isAcwrRisk(v) ? ACWR_RISK_COLOR : ACWR_OK_COLOR;
+              },
+              pointBorderColor: (c) => {
+                const v = c?.parsed?.y;
+                return isAcwrRisk(v) ? ACWR_RISK_COLOR : ACWR_OK_COLOR;
+              },
+              tension: 0.25,
+              spanGaps: true,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => {
+                  if (ctx.dataset && ctx.dataset.label && String(ctx.dataset.label).startsWith('ACWR')) {
+                    const v = ctx.parsed.y;
+                    if (!Number.isFinite(v)) return 'ACWR: –';
+                    return `ACWR: ${Number(v).toLocaleString('de-DE', { maximumFractionDigits: 2 })}`;
+                  }
+                  const value = ctx.parsed.y;
+                  if (meta.isCount) {
+                    return `Ø Acc/Dcc: ${value.toLocaleString('de-DE')}`;
+                  }
+                  return `Ø ${meta.label}: ${value.toLocaleString('de-DE')} m`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: { display: true, text: 'Trainingseinheiten' },
+              ticks: { maxRotation: 60, minRotation: 60, autoSkip: true },
+              grid: { display: false },
+            },
+            y: {
+              beginAtZero: true,
+              grace: '12%',
+              title: { display: true, text: `Ø ${meta.label} pro Spieler${meta.unit ? ` (${meta.unit})` : ''}` },
+              ticks: {
+                callback: (v) => Number(v).toLocaleString('de-DE'),
+              }
+            },
+            y1: {
+              position: 'right',
+              beginAtZero: true,
+              grace: '20%',
+              title: { display: true, text: 'ACWR (7/28)' },
+              grid: { drawOnChartArea: false },
+              ticks: {
+                callback: (v) => Number(v).toLocaleString('de-DE', { maximumFractionDigits: 2 }),
+              },
+            }
+          }
+        }
+        ,
+        plugins: [acwrRiskOverlayPlugin]
+      });
+    }
+
+    async function loadFakeGpsTable() {
+      const status = document.getElementById('fakegps-status');
+      if (status) status.textContent = 'Lade Daten…';
+
+      const csvText = await fetch('fake_gps_training_cuts.csv', { cache: 'no-store' }).then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.text();
+      });
+
+      allFakeGpsRows = parseCsv(csvText);
+      exerciseAvgRateCache = new Map();
+      renderExerciseDb(allFakeGpsRows);
+      renderFromRows(allFakeGpsRows);
+    }
+
+    async function loadTrainingSchedule() {
+      try {
+        const json = await fetch('training_schedule.json', { cache: 'no-store' }).then(r => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.json();
+        });
+        trainingScheduleRows = Array.isArray(json) ? json : [];
+      } catch (e) {
+        trainingScheduleRows = [];
+        console.warn('training_schedule.json not loaded', e);
+      }
+
+      scheduleByDateIso = new Map();
+      for (const it of trainingScheduleRows) {
+        const dateIso = String(it?.date || it?.date_iso || '').trim();
+        if (!dateIso) continue;
+        if (!scheduleByDateIso.has(dateIso)) scheduleByDateIso.set(dateIso, []);
+        scheduleByDateIso.get(dateIso).push(it);
+      }
+
+      // Inject manual fixed match appointments (ensure they show up in the timeline)
+      for (const m of MANUAL_FIXED_MATCHES) {
+        const matchDate = String(m?.match_date || '').trim();
+        if (!matchDate) continue;
+
+        const entry = {
+          date: matchDate,
+          label: 'MD',
+          session_name: 'Match',
+          base_match: {
+            match_date: matchDate,
+            opponent: String(m?.opponent || '').trim(),
+            home_away: String(m?.home_away || '').trim(),
+          },
+          notes: 'manual_fixed',
+        };
+
+        // Avoid duplicates if schedule already has a match on that date
+        const existing = scheduleByDateIso.get(matchDate) || [];
+        const hasMatch = existing.some(e => String(e?.session_name || '').trim().toLowerCase() === 'match');
+        if (!hasMatch) {
+          if (!scheduleByDateIso.has(matchDate)) scheduleByDateIso.set(matchDate, []);
+          scheduleByDateIso.get(matchDate).push(entry);
+          trainingScheduleRows.push(entry);
+        }
+      }
+    }
+
+    (async function init() {
+      try {
+        loadTrainingPlansFromStorage();
+        await Promise.all([
+          loadFakeGpsTable(),
+          loadTrainingSchedule(),
+        ]);
+      } catch (e) {
+        const status = document.getElementById('fakegps-status');
+        if (status) status.textContent = 'Fake GPS Daten nicht gefunden';
+        console.error(e);
+      }
+    })();
+  </script>
+</body>
+</html>

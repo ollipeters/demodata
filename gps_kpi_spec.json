@@ -1,0 +1,302 @@
+[
+  {
+    "key": "date",
+    "label": "date",
+    "unit": "date",
+    "source_columns": ["date"],
+    "aggregation": "identity"
+  },
+  {
+    "key": "duration_s",
+    "label": "duration",
+    "unit": "s",
+    "source_columns": ["total_duration"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "total_distance_m",
+    "label": "total distance",
+    "unit": "m",
+    "source_columns": ["total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "meter_per_min",
+    "label": "meter pro minute",
+    "unit": "m/min",
+    "source_columns": ["meterage_per_minute"],
+    "aggregation": "weighted_mean_by_duration"
+  },
+  {
+    "key": "total_player_load",
+    "label": "totalplayerload",
+    "unit": "au",
+    "source_columns": ["total_player_load"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "peak_player_load",
+    "label": "peakplayerload",
+    "unit": "au",
+    "source_columns": ["peak_player_load"],
+    "aggregation": "max"
+  },
+  {
+    "key": "player_load_per_min",
+    "label": "playerloadperminute",
+    "unit": "au/min",
+    "source_columns": ["player_load_per_minute"],
+    "aggregation": "weighted_mean_by_duration"
+  },
+  {
+    "key": "max_speed",
+    "label": "maxSpeed",
+    "unit": "m/s_or_km/h",
+    "source_columns": ["max_vel"],
+    "aggregation": "max",
+    "notes": "StatsSports export uses max_vel; unit depends on export configuration (often m/s in GPS systems, but verify)."
+  },
+  {
+    "key": "max_effort_deceleration",
+    "label": "max_effort_deceleration",
+    "unit": "m/s^2",
+    "source_columns": ["max_effort_deceleration"],
+    "aggregation": "min",
+    "notes": "Typically negative values; more negative = harder braking."
+  },
+  {
+    "key": "deceleration_per_minute",
+    "label": "deceleration_per_minute",
+    "unit": "count/min",
+    "source_columns": ["deceleration_per_minute"],
+    "aggregation": "weighted_mean_by_duration"
+  },
+
+  {
+    "key": "distance_zone_1_m",
+    "label": "Distance in Zone 1",
+    "unit": "m",
+    "source_columns": ["velocity_band1_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "distance_zone_2_m",
+    "label": "Distance in Zone 2",
+    "unit": "m",
+    "source_columns": ["velocity_band2_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "distance_zone_3_m",
+    "label": "Distance in Zone 3",
+    "unit": "m",
+    "source_columns": ["velocity_band3_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "distance_zone_4_m",
+    "label": "Distance in Zone 4",
+    "unit": "m",
+    "source_columns": ["velocity_band4_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "distance_zone_5_m",
+    "label": "Distance in Zone 5",
+    "unit": "m",
+    "source_columns": ["velocity_band5_total_distance"],
+    "aggregation": "sum"
+  },
+
+  {
+    "key": "accel_count_zone_1",
+    "label": "Beschleunigungen Anzahl Zone 1",
+    "unit": "count",
+    "source_columns": ["acceleration_band1_total_effort_count"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "accel_count_zone_2",
+    "label": "Beschleunigungen Anzahl Zone 2",
+    "unit": "count",
+    "source_columns": ["acceleration_band2_total_effort_count"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "accel_count_zone_3",
+    "label": "Beschleunigungen Anzahl Zone 3",
+    "unit": "count",
+    "source_columns": ["acceleration_band3_total_effort_count"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "accel_count_zone_4",
+    "label": "Beschleunigungen Anzahl Zone 4",
+    "unit": "count",
+    "source_columns": ["acceleration_band4_total_effort_count"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "accel_count_zone_5",
+    "label": "Beschleunigungen Anzahl Zone 5",
+    "unit": "count",
+    "source_columns": ["acceleration_band5_total_effort_count"],
+    "aggregation": "sum"
+  },
+
+  {
+    "key": "accel_distance_zone_1_m",
+    "label": "Distanz Beschleunigungen Zone 1",
+    "unit": "m",
+    "source_columns": ["acceleration_band1_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "accel_distance_zone_2_m",
+    "label": "Distanz Beschleunigungen Zone 2",
+    "unit": "m",
+    "source_columns": ["acceleration_band2_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "accel_distance_zone_3_m",
+    "label": "Distanz Beschleunigungen Zone 3",
+    "unit": "m",
+    "source_columns": ["acceleration_band3_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "accel_distance_zone_4_m",
+    "label": "Distanz Beschleunigungen Zone 4",
+    "unit": "m",
+    "source_columns": ["acceleration_band4_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "accel_distance_zone_5_m",
+    "label": "Distanz Beschleunigungen Zone 5",
+    "unit": "m",
+    "source_columns": ["acceleration_band5_total_distance"],
+    "aggregation": "sum"
+  },
+
+  {
+    "key": "decel_count_zone_1",
+    "label": "Entschleunigungen Anzahl Zone 1",
+    "unit": "count",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived",
+    "notes": "Derived/custom field (not present in provided template). For FakeGPS we generate decel zone 1–5 explicitly. If real exports contain decel band columns, map them here."
+  },
+  {
+    "key": "decel_count_zone_2",
+    "label": "Entschleunigungen Anzahl Zone 2",
+    "unit": "count",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived"
+  },
+  {
+    "key": "decel_count_zone_3",
+    "label": "Entschleunigungen Anzahl Zone 3",
+    "unit": "count",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived"
+  },
+  {
+    "key": "decel_count_zone_4",
+    "label": "Entschleunigungen Anzahl Zone 4",
+    "unit": "count",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived"
+  },
+  {
+    "key": "decel_count_zone_5",
+    "label": "Entschleunigungen Anzahl Zone 5",
+    "unit": "count",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived"
+  },
+
+  {
+    "key": "decel_distance_zone_1_m",
+    "label": "Distanz Entschleunigungen Zone 1",
+    "unit": "m",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived",
+    "notes": "Derived/custom field (not present in provided template)."
+  },
+  {
+    "key": "decel_distance_zone_2_m",
+    "label": "Distanz Entschleunigungen Zone 2",
+    "unit": "m",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived"
+  },
+  {
+    "key": "decel_distance_zone_3_m",
+    "label": "Distanz Entschleunigungen Zone 3",
+    "unit": "m",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived"
+  },
+  {
+    "key": "decel_distance_zone_4_m",
+    "label": "Distanz Entschleunigungen Zone 4",
+    "unit": "m",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived"
+  },
+  {
+    "key": "decel_distance_zone_5_m",
+    "label": "Distanz Entschleunigungen Zone 5",
+    "unit": "m",
+    "source_columns": [],
+    "aggregation": "sum",
+    "status": "derived"
+  },
+
+  {
+    "key": "metabolic_distance_zone_1_m",
+    "label": "Metabolic Distanz Zone 1",
+    "unit": "m",
+    "source_columns": ["metabolic_power_band1_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "metabolic_distance_zone_2_m",
+    "label": "Metabolic Distanz Zone 2",
+    "unit": "m",
+    "source_columns": ["metabolic_power_band2_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "metabolic_distance_zone_3_m",
+    "label": "Metabolic Distanz Zone 3",
+    "unit": "m",
+    "source_columns": ["metabolic_power_band3_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "metabolic_distance_zone_4_m",
+    "label": "Metabolic Distanz Zone 4",
+    "unit": "m",
+    "source_columns": ["metabolic_power_band4_total_distance"],
+    "aggregation": "sum"
+  },
+  {
+    "key": "metabolic_distance_zone_5_m",
+    "label": "Metabolic Distanz Zone 5",
+    "unit": "m",
+    "source_columns": ["metabolic_power_band5_total_distance"],
+    "aggregation": "sum"
+  }
+]

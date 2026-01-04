@@ -1,0 +1,2318 @@
+[
+  {
+    "playerId": 418590,
+    "player_name": "Junior Adamu",
+    "xG_diff_per90": 1.403736482548267,
+    "minutes": 466.0
+  },
+  {
+    "playerId": 129363,
+    "player_name": "Denis Vavro",
+    "xG_diff_per90": 1.0288611082946417,
+    "minutes": 95.0
+  },
+  {
+    "playerId": 407222,
+    "player_name": "Igor Matanovic",
+    "xG_diff_per90": 1.0189667642676536,
+    "minutes": 283.0
+  },
+  {
+    "playerId": 431045,
+    "player_name": "Mohammed Amoura",
+    "xG_diff_per90": 0.9967518563720518,
+    "minutes": 154.0
+  },
+  {
+    "playerId": 115565,
+    "player_name": "Anthony Jung",
+    "xG_diff_per90": 0.9678290560918488,
+    "minutes": 315.0
+  },
+  {
+    "playerId": 320749,
+    "player_name": "Andreas Hanche-Olsen",
+    "xG_diff_per90": 0.8413835518855646,
+    "minutes": 141.0
+  },
+  {
+    "playerId": 121192,
+    "player_name": "Vincenzo Grifo",
+    "xG_diff_per90": 0.8228016971312303,
+    "minutes": 848.0
+  },
+  {
+    "playerId": 319448,
+    "player_name": "Florian Neuhaus",
+    "xG_diff_per90": 0.7440258591794069,
+    "minutes": 131.0
+  },
+  {
+    "playerId": 422719,
+    "player_name": "Guilherme Ramos",
+    "xG_diff_per90": 0.7332384051152829,
+    "minutes": 50.0
+  },
+  {
+    "playerId": 437724,
+    "player_name": "Arthur",
+    "xG_diff_per90": 0.7316069408065443,
+    "minutes": 603.0
+  },
+  {
+    "playerId": 577306,
+    "player_name": "Yannik Wagner",
+    "xG_diff_per90": 0.6910662906070333,
+    "minutes": 18.0
+  },
+  {
+    "playerId": 394981,
+    "player_name": "Immanuël Pherai",
+    "xG_diff_per90": 0.6692471212203029,
+    "minutes": 44.0
+  },
+  {
+    "playerId": 380655,
+    "player_name": "Fábio Silva",
+    "xG_diff_per90": 0.6628532971148603,
+    "minutes": 90.0
+  },
+  {
+    "playerId": 403646,
+    "player_name": "Jesper Lindstrøm",
+    "xG_diff_per90": 0.6214523945722045,
+    "minutes": 10.0
+  },
+  {
+    "playerId": 496994,
+    "player_name": "Nikolas Veratschnig",
+    "xG_diff_per90": 0.6201878505374742,
+    "minutes": 89.0
+  },
+  {
+    "playerId": 394924,
+    "player_name": "Fábio Vieira",
+    "xG_diff_per90": 0.603312744693128,
+    "minutes": 688.0
+  },
+  {
+    "playerId": 116464,
+    "player_name": "Christian Günter",
+    "xG_diff_per90": 0.5986322216958044,
+    "minutes": 572.0
+  },
+  {
+    "playerId": 306637,
+    "player_name": "Niklas Dorsch",
+    "xG_diff_per90": 0.5763390090090531,
+    "minutes": 250.0
+  },
+  {
+    "playerId": 503382,
+    "player_name": "Elias Baum",
+    "xG_diff_per90": 0.5735513704236864,
+    "minutes": 13.0
+  },
+  {
+    "playerId": 280663,
+    "player_name": "Aleix García",
+    "xG_diff_per90": 0.5596842019417597,
+    "minutes": 1316.0
+  },
+  {
+    "playerId": 370912,
+    "player_name": "Min-Jae Kim",
+    "xG_diff_per90": 0.5429421828912465,
+    "minutes": 109.0
+  },
+  {
+    "playerId": 484859,
+    "player_name": "Kristoffer Lund",
+    "xG_diff_per90": 0.5429368987100096,
+    "minutes": 196.0
+  },
+  {
+    "playerId": 111372,
+    "player_name": "Vladimír Coufal",
+    "xG_diff_per90": 0.5417783175705374,
+    "minutes": 275.0
+  },
+  {
+    "playerId": 442494,
+    "player_name": "Sirlord Conteh",
+    "xG_diff_per90": 0.5396185794811924,
+    "minutes": 99.0
+  },
+  {
+    "playerId": 234353,
+    "player_name": "Jean-Luc Dompé",
+    "xG_diff_per90": 0.5366178351989487,
+    "minutes": 888.0
+  },
+  {
+    "playerId": 329356,
+    "player_name": "Martin Terrier",
+    "xG_diff_per90": 0.5251618897661273,
+    "minutes": 302.0
+  },
+  {
+    "playerId": 352891,
+    "player_name": "Lennard Maloney",
+    "xG_diff_per90": 0.5180288341771064,
+    "minutes": 45.0
+  },
+  {
+    "playerId": 436646,
+    "player_name": "Arthur Chaves",
+    "xG_diff_per90": 0.5119524060719469,
+    "minutes": 143.0
+  },
+  {
+    "playerId": 411433,
+    "player_name": "Ezequiél Fernández",
+    "xG_diff_per90": 0.5116109217453247,
+    "minutes": 357.0
+  },
+  {
+    "playerId": 485051,
+    "player_name": "Luca Kerber",
+    "xG_diff_per90": 0.5002228138360206,
+    "minutes": 62.0
+  },
+  {
+    "playerId": 444598,
+    "player_name": "Eliesse Ben Seghir",
+    "xG_diff_per90": 0.5000515515914783,
+    "minutes": 208.0
+  },
+  {
+    "playerId": 107252,
+    "player_name": "Alejandro Grimaldo",
+    "xG_diff_per90": 0.4951859620034914,
+    "minutes": 994.0
+  },
+  {
+    "playerId": 531695,
+    "player_name": "Charles Herrmann",
+    "xG_diff_per90": 0.4879139086986866,
+    "minutes": 6.0
+  },
+  {
+    "playerId": 349125,
+    "player_name": "Nikolas Nartey",
+    "xG_diff_per90": 0.48415383164233505,
+    "minutes": 61.0
+  },
+  {
+    "playerId": 514499,
+    "player_name": "Adam Daghim",
+    "xG_diff_per90": 0.4744807246835974,
+    "minutes": 106.0
+  },
+  {
+    "playerId": 418588,
+    "player_name": "Alexander Prass",
+    "xG_diff_per90": 0.4700863559002582,
+    "minutes": 108.0
+  },
+  {
+    "playerId": 442403,
+    "player_name": "Daniel Elfadli",
+    "xG_diff_per90": 0.46627526534449687,
+    "minutes": 885.0
+  },
+  {
+    "playerId": 248010,
+    "player_name": "Konrad Laimer",
+    "xG_diff_per90": 0.4621171894063795,
+    "minutes": 216.0
+  },
+  {
+    "playerId": 492867,
+    "player_name": "Oscar Højlund",
+    "xG_diff_per90": 0.4601271842994319,
+    "minutes": 139.0
+  },
+  {
+    "playerId": 444289,
+    "player_name": "Derry Scherhant",
+    "xG_diff_per90": 0.4511807835721712,
+    "minutes": 466.0
+  },
+  {
+    "playerId": 236506,
+    "player_name": "Serhou Guirassy",
+    "xG_diff_per90": 0.43470794541137875,
+    "minutes": 237.0
+  },
+  {
+    "playerId": 434179,
+    "player_name": "Yannik Engelhardt",
+    "xG_diff_per90": 0.4325949078994703,
+    "minutes": 188.0
+  },
+  {
+    "playerId": 410364,
+    "player_name": "Armindo Sieb",
+    "xG_diff_per90": 0.42892223661495654,
+    "minutes": 54.0
+  },
+  {
+    "playerId": 549502,
+    "player_name": "Abdoulie Ceesay",
+    "xG_diff_per90": 0.40564221330820427,
+    "minutes": 21.0
+  },
+  {
+    "playerId": 569917,
+    "player_name": "Adam Kölle",
+    "xG_diff_per90": 0.4042981275739636,
+    "minutes": 61.0
+  },
+  {
+    "playerId": 439435,
+    "player_name": "Emir Sahiti",
+    "xG_diff_per90": 0.40427783970778935,
+    "minutes": 124.0
+  },
+  {
+    "playerId": 511411,
+    "player_name": "Tidiam Gomis",
+    "xG_diff_per90": 0.38973111271241306,
+    "minutes": 81.0
+  },
+  {
+    "playerId": 110132,
+    "player_name": "Dominique Heintz",
+    "xG_diff_per90": 0.38732168448811843,
+    "minutes": 32.0
+  },
+  {
+    "playerId": 403747,
+    "player_name": "Ansgar Knauff",
+    "xG_diff_per90": 0.38528198019939164,
+    "minutes": 116.0
+  },
+  {
+    "playerId": 546604,
+    "player_name": "Axel Tape",
+    "xG_diff_per90": 0.37853102555668366,
+    "minutes": 201.0
+  },
+  {
+    "playerId": 369887,
+    "player_name": "Lovro Majer",
+    "xG_diff_per90": 0.37453073219584493,
+    "minutes": 169.0
+  },
+  {
+    "playerId": 389087,
+    "player_name": "Giovanni Reyna",
+    "xG_diff_per90": 0.36220988965447787,
+    "minutes": 12.0
+  },
+  {
+    "playerId": 368176,
+    "player_name": "Amos Pieper",
+    "xG_diff_per90": 0.36131046566848585,
+    "minutes": 96.0
+  },
+  {
+    "playerId": 132943,
+    "player_name": "Yussuf Poulsen",
+    "xG_diff_per90": 0.35929605364895983,
+    "minutes": 237.0
+  },
+  {
+    "playerId": 110165,
+    "player_name": "Dominik Kohr",
+    "xG_diff_per90": 0.34024360059589714,
+    "minutes": 165.0
+  },
+  {
+    "playerId": 261021,
+    "player_name": "Nadiem Amiri",
+    "xG_diff_per90": 0.3374383042032908,
+    "minutes": 185.0
+  },
+  {
+    "playerId": 227655,
+    "player_name": "Lucas Höler",
+    "xG_diff_per90": 0.33419628349147956,
+    "minutes": 1103.0
+  },
+  {
+    "playerId": 372280,
+    "player_name": "Sacha Boey",
+    "xG_diff_per90": 0.32859270785759886,
+    "minutes": 26.0
+  },
+  {
+    "playerId": 327905,
+    "player_name": "Alexis Claude-Maurice",
+    "xG_diff_per90": 0.31843143115297995,
+    "minutes": 141.0
+  },
+  {
+    "playerId": 418584,
+    "player_name": "Daniel Svensson",
+    "xG_diff_per90": 0.3173836103093394,
+    "minutes": 195.0
+  },
+  {
+    "playerId": 361419,
+    "player_name": "Marius Bülter",
+    "xG_diff_per90": 0.31622825366505414,
+    "minutes": 153.0
+  },
+  {
+    "playerId": 444285,
+    "player_name": "Lukas Ullrich",
+    "xG_diff_per90": 0.3076100870893888,
+    "minutes": 180.0
+  },
+  {
+    "playerId": 383091,
+    "player_name": "Cenk Özkacar",
+    "xG_diff_per90": 0.29524894466179663,
+    "minutes": 150.0
+  },
+  {
+    "playerId": 302588,
+    "player_name": "Bernardo",
+    "xG_diff_per90": 0.29405911190318834,
+    "minutes": 188.0
+  },
+  {
+    "playerId": 428426,
+    "player_name": "Fisnik Asllani",
+    "xG_diff_per90": 0.28718758913444853,
+    "minutes": 213.0
+  },
+  {
+    "playerId": 467776,
+    "player_name": "Can Uzun",
+    "xG_diff_per90": 0.28132063856208206,
+    "minutes": 180.0
+  },
+  {
+    "playerId": 298145,
+    "player_name": "Phillip Tietz",
+    "xG_diff_per90": 0.2807079001292974,
+    "minutes": 34.0
+  },
+  {
+    "playerId": 118837,
+    "player_name": "Jackson Irvine",
+    "xG_diff_per90": 0.276641770519599,
+    "minutes": 27.0
+  },
+  {
+    "playerId": 415817,
+    "player_name": "William Mikelbrencis",
+    "xG_diff_per90": 0.2754745220391469,
+    "minutes": 540.0
+  },
+  {
+    "playerId": 344949,
+    "player_name": "Danel Sinani",
+    "xG_diff_per90": 0.27253988821549446,
+    "minutes": 212.0
+  },
+  {
+    "playerId": 296768,
+    "player_name": "Waldemar Anton",
+    "xG_diff_per90": 0.2655415586615844,
+    "minutes": 193.0
+  },
+  {
+    "playerId": 444269,
+    "player_name": "Denis Huseinbasic",
+    "xG_diff_per90": 0.2647779891843442,
+    "minutes": 212.0
+  },
+  {
+    "playerId": 576497,
+    "player_name": "Montrell Culbreath",
+    "xG_diff_per90": 0.26382210101070164,
+    "minutes": 21.0
+  },
+  {
+    "playerId": 486776,
+    "player_name": "Philipp Treu",
+    "xG_diff_per90": 0.25623430506706546,
+    "minutes": 919.0
+  },
+  {
+    "playerId": 244303,
+    "player_name": "Oliver Burke",
+    "xG_diff_per90": 0.248337734645079,
+    "minutes": 141.0
+  },
+  {
+    "playerId": 429336,
+    "player_name": "Keke Topp",
+    "xG_diff_per90": 0.24183391541167432,
+    "minutes": 112.0
+  },
+  {
+    "playerId": 492955,
+    "player_name": "Kosta Nedeljkovic",
+    "xG_diff_per90": 0.2416204655892229,
+    "minutes": 72.0
+  },
+  {
+    "playerId": 366868,
+    "player_name": "Woo-yeong Jeong",
+    "xG_diff_per90": 0.2409006516278633,
+    "minutes": 83.0
+  },
+  {
+    "playerId": 141556,
+    "player_name": "Julian Brandt",
+    "xG_diff_per90": 0.23916580369450585,
+    "minutes": 92.0
+  },
+  {
+    "playerId": 532577,
+    "player_name": "Johan Manzambi",
+    "xG_diff_per90": 0.2370372759821141,
+    "minutes": 1076.0
+  },
+  {
+    "playerId": 97803,
+    "player_name": "Michy Batshuayi",
+    "xG_diff_per90": 0.2319633457375491,
+    "minutes": 23.0
+  },
+  {
+    "playerId": 97351,
+    "player_name": "Jeffrey Gouweleeuw",
+    "xG_diff_per90": 0.2266534330574337,
+    "minutes": 101.0
+  },
+  {
+    "playerId": 283323,
+    "player_name": "Joshua Kimmich",
+    "xG_diff_per90": 0.2238703865724193,
+    "minutes": 185.0
+  },
+  {
+    "playerId": 400010,
+    "player_name": "Derrick Köhn",
+    "xG_diff_per90": 0.22227592468277851,
+    "minutes": 259.0
+  },
+  {
+    "playerId": 422365,
+    "player_name": "Jobe Bellingham",
+    "xG_diff_per90": 0.21547232746187378,
+    "minutes": 169.0
+  },
+  {
+    "playerId": 135092,
+    "player_name": "Mahmoud Dahoud",
+    "xG_diff_per90": 0.21401084746522134,
+    "minutes": 110.0
+  },
+  {
+    "playerId": 369861,
+    "player_name": "Alex Král",
+    "xG_diff_per90": 0.21265627219900102,
+    "minutes": 14.0
+  },
+  {
+    "playerId": 477985,
+    "player_name": "Ibrahim Maza",
+    "xG_diff_per90": 0.21187861575642553,
+    "minutes": 707.0
+  },
+  {
+    "playerId": 357091,
+    "player_name": "Deniz Undav",
+    "xG_diff_per90": 0.21143173249022232,
+    "minutes": 56.0
+  },
+  {
+    "playerId": 397645,
+    "player_name": "William Bøving",
+    "xG_diff_per90": 0.2030563877497271,
+    "minutes": 31.0
+  },
+  {
+    "playerId": 442253,
+    "player_name": "Julian Niehues",
+    "xG_diff_per90": 0.19989634659239136,
+    "minutes": 105.0
+  },
+  {
+    "playerId": 312666,
+    "player_name": "Marius Wolf",
+    "xG_diff_per90": 0.19811047642361396,
+    "minutes": 93.0
+  },
+  {
+    "playerId": 369480,
+    "player_name": "Nicolás Capaldo",
+    "xG_diff_per90": 0.19332647092719132,
+    "minutes": 1069.0
+  },
+  {
+    "playerId": 474412,
+    "player_name": "Mert Kömür",
+    "xG_diff_per90": 0.18311270454105713,
+    "minutes": 202.0
+  },
+  {
+    "playerId": 552362,
+    "player_name": "Wisdom Mike",
+    "xG_diff_per90": 0.17867181577311128,
+    "minutes": 10.0
+  },
+  {
+    "playerId": 422717,
+    "player_name": "Hiroki Ito",
+    "xG_diff_per90": 0.17867181577311123,
+    "minutes": 10.0
+  },
+  {
+    "playerId": 119501,
+    "player_name": "Serge Gnabry",
+    "xG_diff_per90": 0.1737811105678276,
+    "minutes": 113.0
+  },
+  {
+    "playerId": 450271,
+    "player_name": "Aurèle Amenda",
+    "xG_diff_per90": 0.17348231217563423,
+    "minutes": 194.0
+  },
+  {
+    "playerId": 347884,
+    "player_name": "Atakan Karazor",
+    "xG_diff_per90": 0.17053142109592345,
+    "minutes": 91.0
+  },
+  {
+    "playerId": 369979,
+    "player_name": "Christoph Baumgartner",
+    "xG_diff_per90": 0.17015359870632807,
+    "minutes": 179.0
+  },
+  {
+    "playerId": 531846,
+    "player_name": "Martijn Kaars",
+    "xG_diff_per90": 0.1695140336581025,
+    "minutes": 117.0
+  },
+  {
+    "playerId": 71757,
+    "player_name": "Christopher Trimmel",
+    "xG_diff_per90": 0.16370901094573798,
+    "minutes": 214.0
+  },
+  {
+    "playerId": 80382,
+    "player_name": "Mario Götze",
+    "xG_diff_per90": 0.15763084870611194,
+    "minutes": 28.0
+  },
+  {
+    "playerId": 238903,
+    "player_name": "Ellyes Skhiri",
+    "xG_diff_per90": 0.15763084870611158,
+    "minutes": 28.0
+  },
+  {
+    "playerId": 232262,
+    "player_name": "Kevin Diks",
+    "xG_diff_per90": 0.14953400300965072,
+    "minutes": 206.0
+  },
+  {
+    "playerId": 494147,
+    "player_name": "Ilyas Ansah",
+    "xG_diff_per90": 0.1493511179943037,
+    "minutes": 146.0
+  },
+  {
+    "playerId": 426050,
+    "player_name": "Nicolas Jackson",
+    "xG_diff_per90": 0.14038754862151545,
+    "minutes": 123.0
+  },
+  {
+    "playerId": 124597,
+    "player_name": "Niklas Stark",
+    "xG_diff_per90": 0.13332790843878103,
+    "minutes": 72.0
+  },
+  {
+    "playerId": 404832,
+    "player_name": "Piero Hincapié",
+    "xG_diff_per90": 0.13056690121708167,
+    "minutes": 95.0
+  },
+  {
+    "playerId": 418587,
+    "player_name": "Nicolas Seiwald",
+    "xG_diff_per90": 0.11860654185770242,
+    "minutes": 186.0
+  },
+  {
+    "playerId": 367534,
+    "player_name": "Philipp Sander",
+    "xG_diff_per90": 0.11714735920579496,
+    "minutes": 166.0
+  },
+  {
+    "playerId": 276205,
+    "player_name": "Robin Koch",
+    "xG_diff_per90": 0.10777605274007586,
+    "minutes": 293.0
+  },
+  {
+    "playerId": 365831,
+    "player_name": "Han-Noah Massengo",
+    "xG_diff_per90": 0.10748164074934917,
+    "minutes": 272.0
+  },
+  {
+    "playerId": 410639,
+    "player_name": "Carney Chukwuemeka",
+    "xG_diff_per90": 0.10677309832230496,
+    "minutes": 181.0
+  },
+  {
+    "playerId": 454467,
+    "player_name": "Badredine Bouanani",
+    "xG_diff_per90": 0.10657475231491158,
+    "minutes": 155.0
+  },
+  {
+    "playerId": 420405,
+    "player_name": "Senne Lynen",
+    "xG_diff_per90": 0.10565469135693097,
+    "minutes": 271.0
+  },
+  {
+    "playerId": 447584,
+    "player_name": "Joel Chima Fujita",
+    "xG_diff_per90": 0.10398508937785785,
+    "minutes": 280.0
+  },
+  {
+    "playerId": 369446,
+    "player_name": "Edmond Tapsoba",
+    "xG_diff_per90": 0.10339845964154566,
+    "minutes": 1301.0
+  },
+  {
+    "playerId": 472205,
+    "player_name": "Elias Saad",
+    "xG_diff_per90": 0.10212125405099613,
+    "minutes": 105.0
+  },
+  {
+    "playerId": 377276,
+    "player_name": "Andreas Skov Olsen",
+    "xG_diff_per90": 0.10143465721607518,
+    "minutes": 26.0
+  },
+  {
+    "playerId": 329689,
+    "player_name": "Bakery Jatta",
+    "xG_diff_per90": 0.09941795652844385,
+    "minutes": 135.0
+  },
+  {
+    "playerId": 351339,
+    "player_name": "Ermedin Demirovic",
+    "xG_diff_per90": 0.09931585671483574,
+    "minutes": 78.0
+  },
+  {
+    "playerId": 322881,
+    "player_name": "Moritz Nicolas",
+    "xG_diff_per90": 0.09768657052920306,
+    "minutes": 284.0
+  },
+  {
+    "playerId": 243534,
+    "player_name": "Nico Elvedi",
+    "xG_diff_per90": 0.09768655018625677,
+    "minutes": 284.0
+  },
+  {
+    "playerId": 363069,
+    "player_name": "Joe Scally",
+    "xG_diff_per90": 0.09768655018625395,
+    "minutes": 284.0
+  },
+  {
+    "playerId": 280191,
+    "player_name": "Michael Zetterer",
+    "xG_diff_per90": 0.09695775636750688,
+    "minutes": 198.0
+  },
+  {
+    "playerId": 450125,
+    "player_name": "Nnamdi Collins",
+    "xG_diff_per90": 0.09695775636750661,
+    "minutes": 198.0
+  },
+  {
+    "playerId": 381691,
+    "player_name": "Stefan Schimmer",
+    "xG_diff_per90": 0.09691057502285219,
+    "minutes": 51.0
+  },
+  {
+    "playerId": 361878,
+    "player_name": "Wouter Burger",
+    "xG_diff_per90": 0.09679887512324535,
+    "minutes": 237.0
+  },
+  {
+    "playerId": 485191,
+    "player_name": "Omar Haktab Traoré",
+    "xG_diff_per90": 0.09569981512917584,
+    "minutes": 201.0
+  },
+  {
+    "playerId": 367182,
+    "player_name": "Tom Krauß",
+    "xG_diff_per90": 0.09338209491297886,
+    "minutes": 157.0
+  },
+  {
+    "playerId": 119642,
+    "player_name": "Haris Tabakovic",
+    "xG_diff_per90": 0.09078785382367835,
+    "minutes": 166.0
+  },
+  {
+    "playerId": 363652,
+    "player_name": "Joakim Mæhle",
+    "xG_diff_per90": 0.0899648244115933,
+    "minutes": 8.0
+  },
+  {
+    "playerId": 115375,
+    "player_name": "Raphaël Guerreiro",
+    "xG_diff_per90": 0.08944514304423645,
+    "minutes": 98.0
+  },
+  {
+    "playerId": 320525,
+    "player_name": "Eric Smith",
+    "xG_diff_per90": 0.08770291523558668,
+    "minutes": 295.0
+  },
+  {
+    "playerId": 145304,
+    "player_name": "Nikola Vasilj",
+    "xG_diff_per90": 0.08770291523558535,
+    "minutes": 295.0
+  },
+  {
+    "playerId": 132104,
+    "player_name": "Hauke Wahl",
+    "xG_diff_per90": 0.08770291523558477,
+    "minutes": 295.0
+  },
+  {
+    "playerId": 486768,
+    "player_name": "Louis Oppie",
+    "xG_diff_per90": 0.08770290830963373,
+    "minutes": 295.0
+  },
+  {
+    "playerId": 384000,
+    "player_name": "Victor Boniface",
+    "xG_diff_per90": 0.08621042596414633,
+    "minutes": 51.0
+  },
+  {
+    "playerId": 451881,
+    "player_name": "Samuel Essende",
+    "xG_diff_per90": 0.08618994761125524,
+    "minutes": 29.0
+  },
+  {
+    "playerId": 538407,
+    "player_name": "Isaac Schmidt",
+    "xG_diff_per90": 0.08193794273458319,
+    "minutes": 54.0
+  },
+  {
+    "playerId": 278125,
+    "player_name": "Grischa Prömel",
+    "xG_diff_per90": 0.07999012174616345,
+    "minutes": 98.0
+  },
+  {
+    "playerId": 115131,
+    "player_name": "Mark Flekken",
+    "xG_diff_per90": 0.07818309453236906,
+    "minutes": 1434.0
+  },
+  {
+    "playerId": 354241,
+    "player_name": "Josha Vagnoman",
+    "xG_diff_per90": 0.07753892994618092,
+    "minutes": 186.0
+  },
+  {
+    "playerId": 141231,
+    "player_name": "Pascal Stenzel",
+    "xG_diff_per90": 0.07450815024024252,
+    "minutes": 49.0
+  },
+  {
+    "playerId": 261020,
+    "player_name": "Maximilian Mittelstädt",
+    "xG_diff_per90": 0.07438573429373198,
+    "minutes": 83.0
+  },
+  {
+    "playerId": 538807,
+    "player_name": "Conrad Harder",
+    "xG_diff_per90": 0.07418430386331211,
+    "minutes": 103.0
+  },
+  {
+    "playerId": 419945,
+    "player_name": "Merlin Röhl",
+    "xG_diff_per90": 0.07268265535327938,
+    "minutes": 68.0
+  },
+  {
+    "playerId": 296983,
+    "player_name": "Timo Hübers",
+    "xG_diff_per90": 0.06379000946729742,
+    "minutes": 51.0
+  },
+  {
+    "playerId": 455521,
+    "player_name": "Saël Kumbedi",
+    "xG_diff_per90": 0.057923142889984125,
+    "minutes": 268.0
+  },
+  {
+    "playerId": 395001,
+    "player_name": "Tim Lemperle",
+    "xG_diff_per90": 0.05648247362174809,
+    "minutes": 174.0
+  },
+  {
+    "playerId": 379783,
+    "player_name": "Yukinari Sugawara",
+    "xG_diff_per90": 0.055189263187452355,
+    "minutes": 267.0
+  },
+  {
+    "playerId": 383847,
+    "player_name": "Romano Schmid",
+    "xG_diff_per90": 0.05518926318745193,
+    "minutes": 267.0
+  },
+  {
+    "playerId": 499622,
+    "player_name": "Arkadiusz Pyrka",
+    "xG_diff_per90": 0.05450295553862042,
+    "minutes": 156.0
+  },
+  {
+    "playerId": 130899,
+    "player_name": "Yannick Gerhardt",
+    "xG_diff_per90": 0.05282141732016406,
+    "minutes": 159.0
+  },
+  {
+    "playerId": 444298,
+    "player_name": "Dzenan Pejcinovic",
+    "xG_diff_per90": 0.052821417320163586,
+    "minutes": 159.0
+  },
+  {
+    "playerId": 129983,
+    "player_name": "Niklas Süle",
+    "xG_diff_per90": 0.05184205518971637,
+    "minutes": 2.0
+  },
+  {
+    "playerId": 407661,
+    "player_name": "Elye Wahi",
+    "xG_diff_per90": 0.051346861511820725,
+    "minutes": 11.0
+  },
+  {
+    "playerId": 476921,
+    "player_name": "Grant-Leon Ranos",
+    "xG_diff_per90": 0.04969133938496001,
+    "minutes": 17.0
+  },
+  {
+    "playerId": 408357,
+    "player_name": "Eren Dinkçi",
+    "xG_diff_per90": 0.04758965450507426,
+    "minutes": 286.0
+  },
+  {
+    "playerId": 115163,
+    "player_name": "Jonas Hofmann",
+    "xG_diff_per90": 0.04662329301557075,
+    "minutes": 658.0
+  },
+  {
+    "playerId": 144493,
+    "player_name": "Manolis Saliakas",
+    "xG_diff_per90": 0.0440628052616417,
+    "minutes": 131.0
+  },
+  {
+    "playerId": 282348,
+    "player_name": "Mattias Svanberg",
+    "xG_diff_per90": 0.042513000295741364,
+    "minutes": 80.0
+  },
+  {
+    "playerId": 549133,
+    "player_name": "Patrice Covic",
+    "xG_diff_per90": 0.040085501544606446,
+    "minutes": 95.0
+  },
+  {
+    "playerId": 369687,
+    "player_name": "András Schäfer",
+    "xG_diff_per90": 0.03990619695701863,
+    "minutes": 210.0
+  },
+  {
+    "playerId": 428330,
+    "player_name": "Rômulo",
+    "xG_diff_per90": 0.03935864568611409,
+    "minutes": 164.0
+  },
+  {
+    "playerId": 254557,
+    "player_name": "Maximilian Eggestein",
+    "xG_diff_per90": 0.037246996979570506,
+    "minutes": 1439.0
+  },
+  {
+    "playerId": 110182,
+    "player_name": "Matthias Ginter",
+    "xG_diff_per90": 0.03724699697956781,
+    "minutes": 1439.0
+  },
+  {
+    "playerId": 428308,
+    "player_name": "Noah Atubolu",
+    "xG_diff_per90": 0.03724698458695992,
+    "minutes": 1439.0
+  },
+  {
+    "playerId": 108919,
+    "player_name": "Maximilian Arnold",
+    "xG_diff_per90": 0.0372435352189899,
+    "minutes": 287.0
+  },
+  {
+    "playerId": 364015,
+    "player_name": "Kamil Grabara",
+    "xG_diff_per90": 0.03724353494293782,
+    "minutes": 287.0
+  },
+  {
+    "playerId": 444280,
+    "player_name": "Aaron Zehnter",
+    "xG_diff_per90": 0.03724352336572398,
+    "minutes": 287.0
+  },
+  {
+    "playerId": 132349,
+    "player_name": "Kevin Akpoguma",
+    "xG_diff_per90": 0.03567604872384771,
+    "minutes": 16.0
+  },
+  {
+    "playerId": 104011,
+    "player_name": "Kevin Stöger",
+    "xG_diff_per90": 0.034281539635996484,
+    "minutes": 150.0
+  },
+  {
+    "playerId": 401352,
+    "player_name": "Jakub Kaminski",
+    "xG_diff_per90": 0.03268964298552982,
+    "minutes": 291.0
+  },
+  {
+    "playerId": 249897,
+    "player_name": "Marvin Schwäbe",
+    "xG_diff_per90": 0.032689642985527206,
+    "minutes": 291.0
+  },
+  {
+    "playerId": 551965,
+    "player_name": "Bazoumana Touré",
+    "xG_diff_per90": 0.031262158976774215,
+    "minutes": 257.0
+  },
+  {
+    "playerId": 383857,
+    "player_name": "Cédric Zesiger",
+    "xG_diff_per90": 0.028579153803372705,
+    "minutes": 16.0
+  },
+  {
+    "playerId": 437020,
+    "player_name": "Tom Rothe",
+    "xG_diff_per90": 0.02708678285937876,
+    "minutes": 49.0
+  },
+  {
+    "playerId": 121975,
+    "player_name": "Jonas Meffert",
+    "xG_diff_per90": 0.02493617399132331,
+    "minutes": 146.0
+  },
+  {
+    "playerId": 77440,
+    "player_name": "Oliver Baumann",
+    "xG_diff_per90": 0.02375583082677945,
+    "minutes": 283.0
+  },
+  {
+    "playerId": 81842,
+    "player_name": "Frederik Rønnow",
+    "xG_diff_per90": 0.02281977325088128,
+    "minutes": 293.0
+  },
+  {
+    "playerId": 303076,
+    "player_name": "Danilho Doekhi",
+    "xG_diff_per90": 0.022819773250880113,
+    "minutes": 293.0
+  },
+  {
+    "playerId": 110266,
+    "player_name": "Rani Khedira",
+    "xG_diff_per90": 0.02281976919478465,
+    "minutes": 293.0
+  },
+  {
+    "playerId": 427502,
+    "player_name": "Leopold Querfeld",
+    "xG_diff_per90": 0.02281976919478415,
+    "minutes": 293.0
+  },
+  {
+    "playerId": 333350,
+    "player_name": "Arne Maier",
+    "xG_diff_per90": 0.022658477832642437,
+    "minutes": 7.0
+  },
+  {
+    "playerId": 459062,
+    "player_name": "Nelson Weiper",
+    "xG_diff_per90": 0.01897112285468505,
+    "minutes": 44.0
+  },
+  {
+    "playerId": 395472,
+    "player_name": "Nathan Tella",
+    "xG_diff_per90": 0.014875260535968993,
+    "minutes": 422.0
+  },
+  {
+    "playerId": 517935,
+    "player_name": "Alejo Sarco",
+    "xG_diff_per90": 0.01340400660755708,
+    "minutes": 50.0
+  },
+  {
+    "playerId": 445470,
+    "player_name": "Kauã Santos",
+    "xG_diff_per90": 0.010818487015099612,
+    "minutes": 95.0
+  },
+  {
+    "playerId": 334039,
+    "player_name": "Lars Ritzka",
+    "xG_diff_per90": 0.006937935147208363,
+    "minutes": 89.0
+  },
+  {
+    "playerId": 320436,
+    "player_name": "Julian Ryerson",
+    "xG_diff_per90": 0.004455369734402266,
+    "minutes": 277.0
+  },
+  {
+    "playerId": 280715,
+    "player_name": "Jonas Föhrenbach",
+    "xG_diff_per90": 0.0018293596076003758,
+    "minutes": 287.0
+  },
+  {
+    "playerId": 373154,
+    "player_name": "Diant Ramaj",
+    "xG_diff_per90": 0.0018293596075988122,
+    "minutes": 287.0
+  },
+  {
+    "playerId": 361425,
+    "player_name": "Patrick Mainka",
+    "xG_diff_per90": 0.001829359607598784,
+    "minutes": 287.0
+  },
+  {
+    "playerId": 296499,
+    "player_name": "Florian Kainz",
+    "xG_diff_per90": -0.000834438392040244,
+    "minutes": 70.0
+  },
+  {
+    "playerId": 343435,
+    "player_name": "Ritsu Doan",
+    "xG_diff_per90": -0.0029554962183127326,
+    "minutes": 274.0
+  },
+  {
+    "playerId": 336028,
+    "player_name": "Gregor Kobel",
+    "xG_diff_per90": -0.009014085064235944,
+    "minutes": 290.0
+  },
+  {
+    "playerId": 371275,
+    "player_name": "Nico Schlotterbeck",
+    "xG_diff_per90": -0.009014085064236264,
+    "minutes": 290.0
+  },
+  {
+    "playerId": 134946,
+    "player_name": "Jonathan Tah",
+    "xG_diff_per90": -0.009158229473698928,
+    "minutes": 281.0
+  },
+  {
+    "playerId": 13754,
+    "player_name": "Manuel Neuer",
+    "xG_diff_per90": -0.009158229473701521,
+    "minutes": 281.0
+  },
+  {
+    "playerId": 455785,
+    "player_name": "Aljoscha Kemlein",
+    "xG_diff_per90": -0.01052918618798227,
+    "minutes": 105.0
+  },
+  {
+    "playerId": 382797,
+    "player_name": "Oladapo Afolayan",
+    "xG_diff_per90": -0.010610747030848182,
+    "minutes": 14.0
+  },
+  {
+    "playerId": 428031,
+    "player_name": "Robin Hranác",
+    "xG_diff_per90": -0.011920179750099007,
+    "minutes": 267.0
+  },
+  {
+    "playerId": 399262,
+    "player_name": "Adrian Beck",
+    "xG_diff_per90": -0.012032583336786093,
+    "minutes": 48.0
+  },
+  {
+    "playerId": 299684,
+    "player_name": "Exequiel Palacios",
+    "xG_diff_per90": -0.014108266118158205,
+    "minutes": 42.0
+  },
+  {
+    "playerId": 535020,
+    "player_name": "Fabio Baldé",
+    "xG_diff_per90": -0.014472971974281637,
+    "minutes": 267.0
+  },
+  {
+    "playerId": 94934,
+    "player_name": "Danny da Costa",
+    "xG_diff_per90": -0.015383586410127348,
+    "minutes": 287.0
+  },
+  {
+    "playerId": 509815,
+    "player_name": "Kaishu Sano",
+    "xG_diff_per90": -0.015383837796089744,
+    "minutes": 287.0
+  },
+  {
+    "playerId": 433039,
+    "player_name": "Lasse Rieß",
+    "xG_diff_per90": -0.01538397152749768,
+    "minutes": 287.0
+  },
+  {
+    "playerId": 243565,
+    "player_name": "Patrik Schick",
+    "xG_diff_per90": -0.01727564828009375,
+    "minutes": 906.0
+  },
+  {
+    "playerId": 444548,
+    "player_name": "Muhammed Damar",
+    "xG_diff_per90": -0.01729051341731626,
+    "minutes": 27.0
+  },
+  {
+    "playerId": 531093,
+    "player_name": "Lazar Jovanovic",
+    "xG_diff_per90": -0.024930122421104598,
+    "minutes": 5.0
+  },
+  {
+    "playerId": 442302,
+    "player_name": "Connor Metcalfe",
+    "xG_diff_per90": -0.02589368959573255,
+    "minutes": 115.0
+  },
+  {
+    "playerId": 550581,
+    "player_name": "Joël Schmied",
+    "xG_diff_per90": -0.02641798742384009,
+    "minutes": 93.0
+  },
+  {
+    "playerId": 400500,
+    "player_name": "Aurélio Buta",
+    "xG_diff_per90": -0.02836515807458858,
+    "minutes": 12.0
+  },
+  {
+    "playerId": 136707,
+    "player_name": "Robert Glatzel",
+    "xG_diff_per90": -0.028780270153896535,
+    "minutes": 145.0
+  },
+  {
+    "playerId": 361254,
+    "player_name": "Mathias Honsak",
+    "xG_diff_per90": -0.03102671497646509,
+    "minutes": 166.0
+  },
+  {
+    "playerId": 373964,
+    "player_name": "Vinicius Souza",
+    "xG_diff_per90": -0.03210925192258809,
+    "minutes": 59.0
+  },
+  {
+    "playerId": 427824,
+    "player_name": "Johan Bakayoko",
+    "xG_diff_per90": -0.03352962090608835,
+    "minutes": 62.0
+  },
+  {
+    "playerId": 487063,
+    "player_name": "Assan Ouédraogo",
+    "xG_diff_per90": -0.03352962090608836,
+    "minutes": 62.0
+  },
+  {
+    "playerId": 124021,
+    "player_name": "Phillipp Mwene",
+    "xG_diff_per90": -0.03435490762942998,
+    "minutes": 243.0
+  },
+  {
+    "playerId": 143600,
+    "player_name": "Lukas Klostermann",
+    "xG_diff_per90": -0.03506230494991853,
+    "minutes": 4.0
+  },
+  {
+    "playerId": 436119,
+    "player_name": "Mio Backhaus",
+    "xG_diff_per90": -0.038053170450143,
+    "minutes": 290.0
+  },
+  {
+    "playerId": 554472,
+    "player_name": "Karim Coulibaly",
+    "xG_diff_per90": -0.03805318297601118,
+    "minutes": 290.0
+  },
+  {
+    "playerId": 75217,
+    "player_name": "Andrej Kramaric",
+    "xG_diff_per90": -0.040744017833694135,
+    "minutes": 244.0
+  },
+  {
+    "playerId": 387125,
+    "player_name": "Maximilian Beier",
+    "xG_diff_per90": -0.042403988148434935,
+    "minutes": 84.0
+  },
+  {
+    "playerId": 445354,
+    "player_name": "Nathaniel Brown",
+    "xG_diff_per90": -0.042875065521097655,
+    "minutes": 284.0
+  },
+  {
+    "playerId": 510234,
+    "player_name": "Leon Avdullahu",
+    "xG_diff_per90": -0.04825034598368279,
+    "minutes": 270.0
+  },
+  {
+    "playerId": 468855,
+    "player_name": "Samuel Mbangula",
+    "xG_diff_per90": -0.048383145007793345,
+    "minutes": 84.0
+  },
+  {
+    "playerId": 425341,
+    "player_name": "Oscar Fraulo",
+    "xG_diff_per90": -0.04965281716091615,
+    "minutes": 23.0
+  },
+  {
+    "playerId": 528908,
+    "player_name": "Jan Urbich",
+    "xG_diff_per90": -0.04965281716091619,
+    "minutes": 23.0
+  },
+  {
+    "playerId": 399961,
+    "player_name": "Arthur Theate",
+    "xG_diff_per90": -0.054887711325212814,
+    "minutes": 194.0
+  },
+  {
+    "playerId": 428499,
+    "player_name": "Fabio Chiarodia",
+    "xG_diff_per90": -0.05852325437734816,
+    "minutes": 167.0
+  },
+  {
+    "playerId": 71824,
+    "player_name": "Pascal Groß",
+    "xG_diff_per90": -0.05857855571899411,
+    "minutes": 133.0
+  },
+  {
+    "playerId": 394744,
+    "player_name": "Jessic Ngankam",
+    "xG_diff_per90": -0.06053961764489625,
+    "minutes": 13.0
+  },
+  {
+    "playerId": 148484,
+    "player_name": "Luca Waldschmidt",
+    "xG_diff_per90": -0.061851088084400166,
+    "minutes": 46.0
+  },
+  {
+    "playerId": 457282,
+    "player_name": "Konstantinos Koulierakis",
+    "xG_diff_per90": -0.06264964363625992,
+    "minutes": 239.0
+  },
+  {
+    "playerId": 132896,
+    "player_name": "Daniel Heuer Fernandes",
+    "xG_diff_per90": -0.06347291792755994,
+    "minutes": 1453.0
+  },
+  {
+    "playerId": 392646,
+    "player_name": "Karim Adeyemi",
+    "xG_diff_per90": -0.06551312364854196,
+    "minutes": 116.0
+  },
+  {
+    "playerId": 489202,
+    "player_name": "Skelly Alvero",
+    "xG_diff_per90": -0.06704159457605778,
+    "minutes": 24.0
+  },
+  {
+    "playerId": 405170,
+    "player_name": "Warmed Omari",
+    "xG_diff_per90": -0.06822507320765435,
+    "minutes": 465.0
+  },
+  {
+    "playerId": 404336,
+    "player_name": "Eric Martel",
+    "xG_diff_per90": -0.06969063738851354,
+    "minutes": 277.0
+  },
+  {
+    "playerId": 438411,
+    "player_name": "Umut Tohumcu",
+    "xG_diff_per90": -0.07304304429646216,
+    "minutes": 46.0
+  },
+  {
+    "playerId": 431282,
+    "player_name": "Tom Bischof",
+    "xG_diff_per90": -0.07516394093489222,
+    "minutes": 212.0
+  },
+  {
+    "playerId": 303314,
+    "player_name": "Mathias Pereira Lage",
+    "xG_diff_per90": -0.0769114953304365,
+    "minutes": 264.0
+  },
+  {
+    "playerId": 339673,
+    "player_name": "Mads Pedersen",
+    "xG_diff_per90": -0.07867980849271376,
+    "minutes": 34.0
+  },
+  {
+    "playerId": 511603,
+    "player_name": "Andréas Hountondji",
+    "xG_diff_per90": -0.08181111921903801,
+    "minutes": 178.0
+  },
+  {
+    "playerId": 507717,
+    "player_name": "Finn Jeltsch",
+    "xG_diff_per90": -0.08371992761468919,
+    "minutes": 99.0
+  },
+  {
+    "playerId": 398372,
+    "player_name": "Chrislain Matsima",
+    "xG_diff_per90": -0.0870606715073936,
+    "minutes": 290.0
+  },
+  {
+    "playerId": 353985,
+    "player_name": "Finn Dahmen",
+    "xG_diff_per90": -0.08706067150739367,
+    "minutes": 290.0
+  },
+  {
+    "playerId": 369556,
+    "player_name": "Keven Schlotterbeck",
+    "xG_diff_per90": -0.08709680393671294,
+    "minutes": 282.0
+  },
+  {
+    "playerId": 389899,
+    "player_name": "Ransford Königsdörffer",
+    "xG_diff_per90": -0.08890474494194595,
+    "minutes": 1075.0
+  },
+  {
+    "playerId": 377280,
+    "player_name": "Jens Stage",
+    "xG_diff_per90": -0.08921603405788495,
+    "minutes": 158.0
+  },
+  {
+    "playerId": 377168,
+    "player_name": "Luis Díaz",
+    "xG_diff_per90": -0.08963333260047054,
+    "minutes": 210.0
+  },
+  {
+    "playerId": 354555,
+    "player_name": "Linton Maina",
+    "xG_diff_per90": -0.09207274054879995,
+    "minutes": 118.0
+  },
+  {
+    "playerId": 285654,
+    "player_name": "Tim Skarke",
+    "xG_diff_per90": -0.09250534502596447,
+    "minutes": 127.0
+  },
+  {
+    "playerId": 419917,
+    "player_name": "Ameen Al Dakhil",
+    "xG_diff_per90": -0.09299252027736578,
+    "minutes": 95.0
+  },
+  {
+    "playerId": 349102,
+    "player_name": "Albert Sambi Lokonga",
+    "xG_diff_per90": -0.0949849744058534,
+    "minutes": 899.0
+  },
+  {
+    "playerId": 406062,
+    "player_name": "Ísak Bergmann Jóhannesson",
+    "xG_diff_per90": -0.09916256858824854,
+    "minutes": 179.0
+  },
+  {
+    "playerId": 333227,
+    "player_name": "Marco Friedl",
+    "xG_diff_per90": -0.10433949004894016,
+    "minutes": 194.0
+  },
+  {
+    "playerId": 446529,
+    "player_name": "Robin Fellhauer",
+    "xG_diff_per90": -0.10971907936179318,
+    "minutes": 283.0
+  },
+  {
+    "playerId": 561278,
+    "player_name": "Jan Bürger",
+    "xG_diff_per90": -0.11064438367469043,
+    "minutes": 11.0
+  },
+  {
+    "playerId": 494839,
+    "player_name": "Bence Dárdai",
+    "xG_diff_per90": -0.11486230894837961,
+    "minutes": 37.0
+  },
+  {
+    "playerId": 83532,
+    "player_name": "Harry Kane",
+    "xG_diff_per90": -0.11581463844394889,
+    "minutes": 188.0
+  },
+  {
+    "playerId": 408909,
+    "player_name": "Marvin Pieringer",
+    "xG_diff_per90": -0.1165595993782488,
+    "minutes": 118.0
+  },
+  {
+    "playerId": 353565,
+    "player_name": "Jonas Wind",
+    "xG_diff_per90": -0.11701224087924401,
+    "minutes": 102.0
+  },
+  {
+    "playerId": 385080,
+    "player_name": "Marco Grüll",
+    "xG_diff_per90": -0.11750643316082969,
+    "minutes": 266.0
+  },
+  {
+    "playerId": 430019,
+    "player_name": "Jarell Quansah",
+    "xG_diff_per90": -0.11936681627294769,
+    "minutes": 942.0
+  },
+  {
+    "playerId": 402665,
+    "player_name": "Kristijan Jakic",
+    "xG_diff_per90": -0.1196625848780209,
+    "minutes": 196.0
+  },
+  {
+    "playerId": 517371,
+    "player_name": "Saïd El Mala",
+    "xG_diff_per90": -0.12292594510973241,
+    "minutes": 127.0
+  },
+  {
+    "playerId": 403479,
+    "player_name": "Jusuf Gazibegovic",
+    "xG_diff_per90": -0.12685073420314516,
+    "minutes": 22.0
+  },
+  {
+    "playerId": 67369,
+    "player_name": "Péter Gulácsi",
+    "xG_diff_per90": -0.12807743960782556,
+    "minutes": 195.0
+  },
+  {
+    "playerId": 104917,
+    "player_name": "Willi Orbán",
+    "xG_diff_per90": -0.12807743960782605,
+    "minutes": 195.0
+  },
+  {
+    "playerId": 415172,
+    "player_name": "Castello Lukeba",
+    "xG_diff_per90": -0.1280774396078262,
+    "minutes": 195.0
+  },
+  {
+    "playerId": 330538,
+    "player_name": "David Raum",
+    "xG_diff_per90": -0.12807743960782644,
+    "minutes": 195.0
+  },
+  {
+    "playerId": 502775,
+    "player_name": "Andrija Maksimovic",
+    "xG_diff_per90": -0.12943866193864864,
+    "minutes": 28.0
+  },
+  {
+    "playerId": 519100,
+    "player_name": "Aboubaka Soumahoro",
+    "xG_diff_per90": -0.14710984528989085,
+    "minutes": 153.0
+  },
+  {
+    "playerId": 144511,
+    "player_name": "Lucas Vázquez",
+    "xG_diff_per90": -0.1480443632913748,
+    "minutes": 273.0
+  },
+  {
+    "playerId": 118083,
+    "player_name": "Adam Dzwigala",
+    "xG_diff_per90": -0.1509034569366565,
+    "minutes": 110.0
+  },
+  {
+    "playerId": 401107,
+    "player_name": "Paul Nebel",
+    "xG_diff_per90": -0.1509871575793547,
+    "minutes": 269.0
+  },
+  {
+    "playerId": 392643,
+    "player_name": "Mikkel Kaufmann",
+    "xG_diff_per90": -0.1514476352207508,
+    "minutes": 81.0
+  },
+  {
+    "playerId": 328288,
+    "player_name": "Arnaud Nordin",
+    "xG_diff_per90": -0.16507151753290114,
+    "minutes": 180.0
+  },
+  {
+    "playerId": 550465,
+    "player_name": "Christian Kofane",
+    "xG_diff_per90": -0.16756645223705743,
+    "minutes": 598.0
+  },
+  {
+    "playerId": 481079,
+    "player_name": "Aleksandar Pavlovic",
+    "xG_diff_per90": -0.1684027427134456,
+    "minutes": 190.0
+  },
+  {
+    "playerId": 363037,
+    "player_name": "Jonathan Burkardt",
+    "xG_diff_per90": -0.17237601635600153,
+    "minutes": 170.0
+  },
+  {
+    "playerId": 401743,
+    "player_name": "Miro Muheim",
+    "xG_diff_per90": -0.172434871554346,
+    "minutes": 1374.0
+  },
+  {
+    "playerId": 343317,
+    "player_name": "Jeff Chabot",
+    "xG_diff_per90": -0.17671239036192815,
+    "minutes": 194.0
+  },
+  {
+    "playerId": 260770,
+    "player_name": "Alexander Nübel",
+    "xG_diff_per90": -0.17671242923242586,
+    "minutes": 194.0
+  },
+  {
+    "playerId": 433572,
+    "player_name": "Bilal El Khannouss",
+    "xG_diff_per90": -0.17671246992348522,
+    "minutes": 194.0
+  },
+  {
+    "playerId": 135454,
+    "player_name": "Karol Mets",
+    "xG_diff_per90": -0.18483657504198414,
+    "minutes": 83.0
+  },
+  {
+    "playerId": 262856,
+    "player_name": "Xaver Schlager",
+    "xG_diff_per90": -0.1860492570923929,
+    "minutes": 116.0
+  },
+  {
+    "playerId": 380644,
+    "player_name": "Rayan Philippe",
+    "xG_diff_per90": -0.1868650342963562,
+    "minutes": 965.0
+  },
+  {
+    "playerId": 533010,
+    "player_name": "Luka Vuskovic",
+    "xG_diff_per90": -0.18688000049040251,
+    "minutes": 1257.0
+  },
+  {
+    "playerId": 345160,
+    "player_name": "James Sands",
+    "xG_diff_per90": -0.1889388178252635,
+    "minutes": 268.0
+  },
+  {
+    "playerId": 438066,
+    "player_name": "Justin Njinmah",
+    "xG_diff_per90": -0.19390314094356617,
+    "minutes": 159.0
+  },
+  {
+    "playerId": 361852,
+    "player_name": "Diogo Leite",
+    "xG_diff_per90": -0.2037231370789331,
+    "minutes": 278.0
+  },
+  {
+    "playerId": 484211,
+    "player_name": "Aaron Anselmino",
+    "xG_diff_per90": -0.20443397917436773,
+    "minutes": 99.0
+  },
+  {
+    "playerId": 92051,
+    "player_name": "Marcel Sabitzer",
+    "xG_diff_per90": -0.20443397917436817,
+    "minutes": 99.0
+  },
+  {
+    "playerId": 416030,
+    "player_name": "Antonio Nusa",
+    "xG_diff_per90": -0.20519697666496337,
+    "minutes": 91.0
+  },
+  {
+    "playerId": 395374,
+    "player_name": "Sebastian Sebulonsen",
+    "xG_diff_per90": -0.20539053542933816,
+    "minutes": 242.0
+  },
+  {
+    "playerId": 431791,
+    "player_name": "Cameron Puertas",
+    "xG_diff_per90": -0.20567337177650685,
+    "minutes": 179.0
+  },
+  {
+    "playerId": 485929,
+    "player_name": "Ezechiel Banzuzi",
+    "xG_diff_per90": -0.2067296975690966,
+    "minutes": 33.0
+  },
+  {
+    "playerId": 557000,
+    "player_name": "Yan Diomande",
+    "xG_diff_per90": -0.20672970877692368,
+    "minutes": 33.0
+  },
+  {
+    "playerId": 394888,
+    "player_name": "Luca Netz",
+    "xG_diff_per90": -0.20992362887162477,
+    "minutes": 104.0
+  },
+  {
+    "playerId": 100805,
+    "player_name": "Leonardo Bittencourt",
+    "xG_diff_per90": -0.21074943799690846,
+    "minutes": 43.0
+  },
+  {
+    "playerId": 444725,
+    "player_name": "Farès Chaïbi",
+    "xG_diff_per90": -0.21251869354573125,
+    "minutes": 166.0
+  },
+  {
+    "playerId": 90982,
+    "player_name": "Nicolas Höfler",
+    "xG_diff_per90": -0.2163396656737966,
+    "minutes": 49.0
+  },
+  {
+    "playerId": 431864,
+    "player_name": "Koki Machida",
+    "xG_diff_per90": -0.2178932941687628,
+    "minutes": 45.0
+  },
+  {
+    "playerId": 302812,
+    "player_name": "Rasmus Kristensen",
+    "xG_diff_per90": -0.22105291632864307,
+    "minutes": 178.0
+  },
+  {
+    "playerId": 422737,
+    "player_name": "Ernest Poku",
+    "xG_diff_per90": -0.22196856682619587,
+    "minutes": 838.0
+  },
+  {
+    "playerId": 288892,
+    "player_name": "Ramy Bensebaini",
+    "xG_diff_per90": -0.22312328124685238,
+    "minutes": 100.0
+  },
+  {
+    "playerId": 371281,
+    "player_name": "Michael Olise",
+    "xG_diff_per90": -0.2258065246100901,
+    "minutes": 220.0
+  },
+  {
+    "playerId": 122140,
+    "player_name": "Robert Andrich",
+    "xG_diff_per90": -0.2258146606524301,
+    "minutes": 1103.0
+  },
+  {
+    "playerId": 389376,
+    "player_name": "Jan Thielmann",
+    "xG_diff_per90": -0.22694682846712422,
+    "minutes": 167.0
+  },
+  {
+    "playerId": 238699,
+    "player_name": "Marnon Busch",
+    "xG_diff_per90": -0.23370458686317608,
+    "minutes": 200.0
+  },
+  {
+    "playerId": 431275,
+    "player_name": "Jens Castrop",
+    "xG_diff_per90": -0.23448982757595438,
+    "minutes": 180.0
+  },
+  {
+    "playerId": 404193,
+    "player_name": "Fabian Rieder",
+    "xG_diff_per90": -0.2350704732330564,
+    "minutes": 147.0
+  },
+  {
+    "playerId": 397260,
+    "player_name": "Tim Siersleben",
+    "xG_diff_per90": -0.24497761268689844,
+    "minutes": 139.0
+  },
+  {
+    "playerId": 421405,
+    "player_name": "El Chadaille Bitshiabu",
+    "xG_diff_per90": -0.2466840210243629,
+    "minutes": 9.0
+  },
+  {
+    "playerId": 422909,
+    "player_name": "Ramon Hendriks",
+    "xG_diff_per90": -0.25109805899102505,
+    "minutes": 111.0
+  },
+  {
+    "playerId": 379252,
+    "player_name": "Jamie Leweling",
+    "xG_diff_per90": -0.25122061135469004,
+    "minutes": 145.0
+  },
+  {
+    "playerId": 402874,
+    "player_name": "Lorenz Assignon",
+    "xG_diff_per90": -0.2542514103704815,
+    "minutes": 8.0
+  },
+  {
+    "playerId": 395850,
+    "player_name": "Tiago Tomás",
+    "xG_diff_per90": -0.2583571630892203,
+    "minutes": 34.0
+  },
+  {
+    "playerId": 421975,
+    "player_name": "Yan Couto",
+    "xG_diff_per90": -0.25864158221398564,
+    "minutes": 107.0
+  },
+  {
+    "playerId": 353193,
+    "player_name": "Niklas Beste",
+    "xG_diff_per90": -0.2663769114294228,
+    "minutes": 866.0
+  },
+  {
+    "playerId": 356743,
+    "player_name": "Ozan Kabak",
+    "xG_diff_per90": -0.27030328107640594,
+    "minutes": 95.0
+  },
+  {
+    "playerId": 402697,
+    "player_name": "Albian Hajdari",
+    "xG_diff_per90": -0.270303281076406,
+    "minutes": 95.0
+  },
+  {
+    "playerId": 539663,
+    "player_name": "Chema Andres",
+    "xG_diff_per90": -0.2760281577241206,
+    "minutes": 116.0
+  },
+  {
+    "playerId": 130903,
+    "player_name": "Timo Werner",
+    "xG_diff_per90": -0.27754934635486195,
+    "minutes": 19.0
+  },
+  {
+    "playerId": 547622,
+    "player_name": "Cyriaque Irié",
+    "xG_diff_per90": -0.2807079001292975,
+    "minutes": 34.0
+  },
+  {
+    "playerId": 335756,
+    "player_name": "Ragnar Ache",
+    "xG_diff_per90": -0.2835385464558733,
+    "minutes": 138.0
+  },
+  {
+    "playerId": 296838,
+    "player_name": "Dimitrios Giannoulis",
+    "xG_diff_per90": -0.2890886038167176,
+    "minutes": 222.0
+  },
+  {
+    "playerId": 419942,
+    "player_name": "Thomas Keller",
+    "xG_diff_per90": -0.2928119872358022,
+    "minutes": 49.0
+  },
+  {
+    "playerId": 332120,
+    "player_name": "Jordan Torunarigha",
+    "xG_diff_per90": -0.30145744489916404,
+    "minutes": 657.0
+  },
+  {
+    "playerId": 532785,
+    "player_name": "Noahkai Banks",
+    "xG_diff_per90": -0.31371404234610417,
+    "minutes": 189.0
+  },
+  {
+    "playerId": 401079,
+    "player_name": "Jan Schöppner",
+    "xG_diff_per90": -0.3203247139103548,
+    "minutes": 216.0
+  },
+  {
+    "playerId": 460456,
+    "player_name": "Giorgi Gocholeishvili",
+    "xG_diff_per90": -0.32622237011311567,
+    "minutes": 719.0
+  },
+  {
+    "playerId": 485118,
+    "player_name": "Nicolai Remberg",
+    "xG_diff_per90": -0.3337766980228416,
+    "minutes": 1358.0
+  },
+  {
+    "playerId": 137837,
+    "player_name": "Franck Honorat",
+    "xG_diff_per90": -0.3349085956257623,
+    "minutes": 96.0
+  },
+  {
+    "playerId": 346210,
+    "player_name": "Robin Hack",
+    "xG_diff_per90": -0.33490859562576303,
+    "minutes": 96.0
+  },
+  {
+    "playerId": 401014,
+    "player_name": "Rocco Reitz",
+    "xG_diff_per90": -0.3405747826220676,
+    "minutes": 255.0
+  },
+  {
+    "playerId": 478241,
+    "player_name": "Claudio Echeverri",
+    "xG_diff_per90": -0.3424663548917532,
+    "minutes": 138.0
+  },
+  {
+    "playerId": 426239,
+    "player_name": "Andrej Ilic",
+    "xG_diff_per90": -0.34588515007228615,
+    "minutes": 285.0
+  },
+  {
+    "playerId": 508286,
+    "player_name": "Otto Stange",
+    "xG_diff_per90": -0.3494508212092739,
+    "minutes": 24.0
+  },
+  {
+    "playerId": 111212,
+    "player_name": "Emre Can",
+    "xG_diff_per90": -0.3514543214376923,
+    "minutes": 193.0
+  },
+  {
+    "playerId": 404370,
+    "player_name": "Rav van den Berg",
+    "xG_diff_per90": -0.3537974909834681,
+    "minutes": 189.0
+  },
+  {
+    "playerId": 356183,
+    "player_name": "Ridle Baku",
+    "xG_diff_per90": -0.3696979929971998,
+    "minutes": 123.0
+  },
+  {
+    "playerId": 83467,
+    "player_name": "Stefan Bell",
+    "xG_diff_per90": -0.37002960202987845,
+    "minutes": 174.0
+  },
+  {
+    "playerId": 327721,
+    "player_name": "Dayot Upamecano",
+    "xG_diff_per90": -0.37082760879306054,
+    "minutes": 132.0
+  },
+  {
+    "playerId": 380637,
+    "player_name": "Valentin Gendrey",
+    "xG_diff_per90": -0.37528725639093047,
+    "minutes": 5.0
+  },
+  {
+    "playerId": 447590,
+    "player_name": "Shuto Machino",
+    "xG_diff_per90": -0.3816709078612534,
+    "minutes": 106.0
+  },
+  {
+    "playerId": 430704,
+    "player_name": "Arijon Ibrahimovic",
+    "xG_diff_per90": -0.3964253073814884,
+    "minutes": 220.0
+  },
+  {
+    "playerId": 379190,
+    "player_name": "Felix Agu",
+    "xG_diff_per90": -0.39936366857161315,
+    "minutes": 194.0
+  },
+  {
+    "playerId": 431340,
+    "player_name": "Jeanuël Belocian",
+    "xG_diff_per90": -0.39969176313572025,
+    "minutes": 260.0
+  },
+  {
+    "playerId": 431281,
+    "player_name": "Anton Kade",
+    "xG_diff_per90": -0.4024410725305497,
+    "minutes": 187.0
+  },
+  {
+    "playerId": 557706,
+    "player_name": "Lennart Karl",
+    "xG_diff_per90": -0.4100566302167305,
+    "minutes": 157.0
+  },
+  {
+    "playerId": 399385,
+    "player_name": "Adam Hlozek",
+    "xG_diff_per90": -0.4210225668102575,
+    "minutes": 13.0
+  },
+  {
+    "playerId": 111306,
+    "player_name": "Lukas Kübler",
+    "xG_diff_per90": -0.4216551060066242,
+    "minutes": 961.0
+  },
+  {
+    "playerId": 132021,
+    "player_name": "Ihlas Bebou",
+    "xG_diff_per90": -0.42165742052844035,
+    "minutes": 14.0
+  },
+  {
+    "playerId": 443796,
+    "player_name": "Hugo Larsson",
+    "xG_diff_per90": -0.43784532586491226,
+    "minutes": 156.0
+  },
+  {
+    "playerId": 367783,
+    "player_name": "Felix Nmecha",
+    "xG_diff_per90": -0.44218499956998303,
+    "minutes": 204.0
+  },
+  {
+    "playerId": 485184,
+    "player_name": "Benedict Hollerbach",
+    "xG_diff_per90": -0.4443063070206325,
+    "minutes": 233.0
+  },
+  {
+    "playerId": 298446,
+    "player_name": "Philipp Lienhart",
+    "xG_diff_per90": -0.4558242438731882,
+    "minutes": 919.0
+  },
+  {
+    "playerId": 413272,
+    "player_name": "Josip Stanisic",
+    "xG_diff_per90": -0.4571683003496376,
+    "minutes": 188.0
+  },
+  {
+    "playerId": 115519,
+    "player_name": "Leon Goretzka",
+    "xG_diff_per90": -0.48803055379975147,
+    "minutes": 142.0
+  },
+  {
+    "playerId": 110272,
+    "player_name": "Janik Haberer",
+    "xG_diff_per90": -0.49184265005336025,
+    "minutes": 140.0
+  },
+  {
+    "playerId": 398416,
+    "player_name": "Loïc Badé",
+    "xG_diff_per90": -0.5098616191257019,
+    "minutes": 1109.0
+  },
+  {
+    "playerId": 349888,
+    "player_name": "Chris Führich",
+    "xG_diff_per90": -0.5586754145993674,
+    "minutes": 47.0
+  },
+  {
+    "playerId": 444748,
+    "player_name": "Jean-Mattéo Bahoya",
+    "xG_diff_per90": -0.5799027194112295,
+    "minutes": 150.0
+  },
+  {
+    "playerId": 291623,
+    "player_name": "Benedikt Gimber",
+    "xG_diff_per90": -0.5877899344072715,
+    "minutes": 180.0
+  },
+  {
+    "playerId": 397465,
+    "player_name": "Malik Tillman",
+    "xG_diff_per90": -0.6546801181061309,
+    "minutes": 859.0
+  },
+  {
+    "playerId": 407476,
+    "player_name": "Angelo Stiller",
+    "xG_diff_per90": -0.6608664246377915,
+    "minutes": 133.0
+  },
+  {
+    "playerId": 418589,
+    "player_name": "Patrick Wimmer",
+    "xG_diff_per90": -0.6834934858241538,
+    "minutes": 186.0
+  },
+  {
+    "playerId": 349837,
+    "player_name": "Elvis Rexhbeçaj",
+    "xG_diff_per90": -0.7021554424977092,
+    "minutes": 62.0
+  },
+  {
+    "playerId": 295158,
+    "player_name": "Budu Zivzivadze",
+    "xG_diff_per90": -0.7023184955937242,
+    "minutes": 32.0
+  },
+  {
+    "playerId": 142959,
+    "player_name": "Lee Jae-Sung",
+    "xG_diff_per90": -0.7174267048915481,
+    "minutes": 237.0
+  },
+  {
+    "playerId": 422716,
+    "player_name": "Patrick Osterhage",
+    "xG_diff_per90": -0.7199543340824492,
+    "minutes": 668.0
+  },
+  {
+    "playerId": 496923,
+    "player_name": "Max Rosenfelder",
+    "xG_diff_per90": -0.7301552707570225,
+    "minutes": 238.0
+  },
+  {
+    "playerId": 484371,
+    "player_name": "Sota Kawasaki",
+    "xG_diff_per90": -0.8423650081178494,
+    "minutes": 94.0
+  },
+  {
+    "playerId": 573881,
+    "player_name": "Kacper Potulski",
+    "xG_diff_per90": -0.8423650081178495,
+    "minutes": 94.0
+  },
+  {
+    "playerId": 428694,
+    "player_name": "Jenson Seelt",
+    "xG_diff_per90": -0.8917241142260592,
+    "minutes": 240.0
+  },
+  {
+    "playerId": 527354,
+    "player_name": "Alexander Røssing-Lelesiit",
+    "xG_diff_per90": -0.9560867168202182,
+    "minutes": 319.0
+  },
+  {
+    "playerId": 496922,
+    "player_name": "Jordy Makengo",
+    "xG_diff_per90": -1.3738744063230617,
+    "minutes": 703.0
+  },
+  {
+    "playerId": 472403,
+    "player_name": "Yuito Suzuki",
+    "xG_diff_per90": -1.4869301659126912,
+    "minutes": 667.0
+  },
+  {
+    "playerId": 69344,
+    "player_name": "Christian Eriksen",
+    "xG_diff_per90": -1.5831108307975712,
+    "minutes": 188.0
+  }
+]

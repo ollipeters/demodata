@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    /* Match other pages' navbar base positioning (top-centered) */
+    #dashboard-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      will-change: top, transform, opacity;
+    }
+
+    /* Navigation page: start centered */
+    body.nav-center #dashboard-nav {
+      top: 50%;
+      transform: translate(-50%, -50%);
+      margin-top: 0; /* neutralize mt-4 while centered */
+      transition:
+        top 650ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 650ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Navigation page: morph to top like other pages (mt-4 ≈ 1rem) */
+    body.nav-exit #dashboard-nav {
+      top: 0;
+      transform: translateX(-50%);
+      opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body.nav-center #dashboard-nav {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body class="nav-center min-h-screen overflow-hidden bg-gray-100 text-gray-800">
+  <!-- Fullscreen background image -->
+  <div class="absolute inset-0">
+    <img src="Bilder_optik/hintergrund.png" alt="" class="w-full h-full object-cover" draggable="false" />
+  </div>
+
+  <!-- Navbar (centered initially, morphs to top on click) -->
+  <nav id="dashboard-nav" class="mt-4 bg-white/80 backdrop-blur-lg rounded-full shadow-lg border border-gray-200/80">
+    <div class="px-6 py-2 flex items-center space-x-6">
+      <a data-nav-link href="dashboard.html" class="text-sm font-medium text-gray-500 hover:text-[#0A3F86] transition-colors">KPI</a>
+      <a data-nav-link href="spielanalyse.html" class="text-sm font-medium text-gray-500 hover:text-[#0A3F86] transition-colors">Spielanalyse</a>
+      <a data-nav-link href="gegneranalyse.html" class="text-sm font-medium text-gray-500 hover:text-[#0A3F86] transition-colors">Gegneranalyse</a>
+      <a data-nav-link href="steuerung.html" class="text-sm font-medium text-gray-500 hover:text-[#0A3F86] transition-colors">Steuerung</a>
+      <a data-nav-link href="datalab.html" class="text-sm font-medium text-gray-500 hover:text-[#0A3F86] transition-colors">DataLab</a>
+    </div>
+  </nav>
+
+  <script>
+    // Morph navbar to top, then navigate.
+    const links = Array.from(document.querySelectorAll('[data-nav-link]'));
+    const nav = document.getElementById('dashboard-nav');
+    let isNavigating = false;
+
+    function startNavTransition(targetHref) {
+      if (!targetHref || targetHref === '#') return;
+      if (isNavigating) return;
+      isNavigating = true;
+
+      document.body.classList.add('nav-exit');
+
+      // Prevent double clicks during transition.
+      links.forEach(a => a.style.pointerEvents = 'none');
+
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced || !nav) {
+        window.location.href = targetHref;
+        return;
+      }
+
+      const onEnd = (e) => {
+        if (e && e.target !== nav) return;
+        if (e && e.propertyName && !['top', 'transform', 'opacity'].includes(e.propertyName)) return;
+        nav.removeEventListener('transitionend', onEnd);
+        window.location.href = targetHref;
+      };
+      nav.addEventListener('transitionend', onEnd);
+
+      // Fallback in case transitionend doesn't fire.
+      window.setTimeout(() => {
+        nav.removeEventListener('transitionend', onEnd);
+        window.location.href = targetHref;
+      }, 900);
+    }
+
+    links.forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        e.preventDefault();
+        startNavTransition(href);
+      });
+    });
+  </script>
+</body>
+</html>

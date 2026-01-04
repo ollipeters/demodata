@@ -1,0 +1,91 @@
+{
+  "Gegneranalyse": {
+    "Spiel_mit_dem_Ball": {
+      "Spielaufbau": [
+        {
+          "Kennzahl": "Passfrequenz_im_Aufbau",
+          "Detail_Analyse": "Durchschnittliche Pässe vor dem Überschreiten der Mittellinie. Häufigkeit von kurzen vs. langen Pässen (Kick-and-Rush).",
+          "Taktische_Relevanz": "Bestimmt, ob man hohes Pressing (bei kurzem Aufbau) oder die Mittellinie verteidigen (bei langem Aufbau) sollte."
+        },
+        {
+          "Kennzahl": "Aufbauformation_unter_Druck",
+          "Detail_Analyse": "Wie verändert sich die Formation unter hohem Gegnerdruck? Bildung von 3er-Ketten (z.B. durch Abkippen des 6ers).",
+          "Taktische_Relevanz": "Erkenntnis, welche Pressing-Variante (Mann-orientiert vs. Raum-orientiert) am effektivsten ist, um den Aufbau zu stören."
+        },
+        {
+          "Kennzahl": "Risiko-Indikator_Torhüter",
+          "Detail_Analyse": "Quote erfolgreicher Pässe des Torhüters (unter Druck und ohne Druck). Häufigkeit von Fehlern in der Spieleröffnung.",
+          "Taktische_Relevanz": "Zeigt, ob der Torhüter ein Schwachpunkt im Aufbau ist und ob sich Pressing direkt auf ihn lohnt."
+        }
+      ],
+      "Spielkontrolle": [
+        {
+          "Kennzahl": "Progressive_Passing_Distance_PPD",
+          "Detail_Analyse": "Gesamte Distanz, die der Ball pro Minute näher zum gegnerischen Tor gebracht wird. (Progressive Pässe pro Ballbesitzphase).",
+          "Taktische_Relevanz": "Misst die Absicht: Ist der Ballbesitz nur zur Kontrolle (niedriger PPD) oder zur Raumeroberung (hoher PPD) gedacht?"
+        },
+        {
+          "Kennzahl": "Pässe_pro_Ballbesitzphase",
+          "Detail_Analyse": "Durchschnittliche Anzahl von Pässen, bevor es zum Ballverlust oder Abschluss kommt (Kontroll-Indikator).",
+          "Taktische_Relevanz": "Zeigt, ob der Gegner geduldig ist oder schnelle Angriffe bevorzugt (Einstellung des eigenen Defensivblocks)."
+        },
+        {
+          "Kennzahl": "Zentralität_des_Spiels",
+          "Detail_Analyse": "Verhältnis der Pässe im zentralen Drittel vs. den äußeren Korridoren (U-Form oder Vertikales Spiel).",
+          "Taktische_Relevanz": "Bestimmt, ob man die Mitte verdichten oder die Außenverteidiger aggressiv vorschieben muss."
+        }
+      ],
+      "Zum_Tor_Chancengenerierung": [
+        {
+          "Kennzahl": "Key_Passes_und_Expected_Assists_xA",
+          "Detail_Analyse": "Anzahl der Key Passes (Pässe vor Torschuss). xA-Wert der Top-Vorbereiter.",
+          "Taktische_Relevanz": "Identifiziert die kreativen Köpfe, die direkt neutralisiert werden müssen (Manndeckung, Pressing)."
+        },
+        {
+          "Kennzahl": "Angriffsart_und_Abschlusszone",
+          "Detail_Analyse": "Quote von Angriffen über: Konter, Positionsspiel, Standard. Häufigste Abschlusszonen (Halbräume, Zentrum 16m).",
+          "Taktische_Relevanz": "Bestimmt die wichtigste Verteidigungsstrategie (Konterabsicherung vs. Blocken der Passwege) und die Schuss-Zonen."
+        },
+        {
+          "Kennzahl": "Flanken_und_Kopfballgefahr",
+          "Detail_Analyse": "Erfolgsquote der Flanken. Identifikation kopfballstarker Zielspieler in der Box.",
+          "Taktische_Relevanz": "Bestimmt, ob die Flanken aktiv verhindert oder die Innenverteidiger gezielt auf die Zielspieler ausgerichtet werden müssen."
+        }
+      ]
+    },
+    "Spiel_gegen_den_Ball_Defensive": [
+      {
+        "Kennzahl": "PPDA_und_Pressingmuster",
+        "Detail_Analyse": "PPDA (Passes Per Defensive Action). Pressing-Linie und -Auslöser.",
+        "Taktische_Relevanz": "Gestaltung des eigenen Aufbauspiels, um den Druck gezielt zu umgehen."
+      },
+      {
+        "Kennzahl": "Umschalten_nach_Ballverlust_Gegenpressing",
+        "Detail_Analyse": "Anzahl der Spieler im unmittelbaren Gegenpressing (z.B. in den ersten 5 Sekunden).",
+        "Taktische_Relevanz": "Erkenntnis, ob man schnelles Umschaltspiel suchen oder lange Bälle spielen muss, um Gegenpressing zu überspielen."
+      },
+      {
+        "Kennzahl": "Verteidigungsformation_und_Höhe",
+        "Detail_Analyse": "Grundordnung (z.B. 4-4-2). Höhe der Abwehrkette (Distanz zum Tor).",
+        "Taktische_Relevanz": "Bestimmt die Tiefe der eigenen Angriffe (Tiefe suchen bei hoher Kette, Kombinationsspiel bei tiefer Kette)."
+      }
+    ],
+    "Standardsituationen": [
+      {
+        "Kennzahl": "Eckbälle_Offensiv",
+        "Detail_Analyse": "Varianten (kurz/lang). Genutzte Laufwege (Blocken, Einlaufen). Identifikation der Zielspieler.",
+        "Taktische_Relevanz": "Gezielte Zuteilung und Absicherung spezifischer Laufwege."
+      },
+      {
+        "Kennzahl": "Freistöße_Angriffszone",
+        "Detail_Analyse": "Bevorzugte Varianten. Ausführender und Zielzone.",
+        "Taktische_Relevanz": "Effektive Mauerstellung und Absicherung der Konterräume."
+      },
+      {
+        "Kennzahl": "Standards_Defensivstrategie",
+        "Detail_Analyse": "Nutzung von Raumdeckung vs. Manndeckung. Positionierung des Torhüters und der Absicherung.",
+        "Taktische_Relevanz": "Angriffspunkte für die eigenen Standards (z.B. Flanke in die Raumdeckungs-Lücke)."
+      }
+    ]
+  }
+}
